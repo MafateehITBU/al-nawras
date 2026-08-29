@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  --dashboard-primary: #27a8e1;
+  --dashboard-primary-hover: #1e96cb;
+  --dashboard-secondary: #faa628;
+  --dashboard-secondary-hover: #e8941a;
+  --dashboard-bg: #f4f6fe;
+  --dashboard-surface: #ffffff;
+  --dashboard-border: #e2e8f0;
+  --dashboard-text: #1a2332;
+  --dashboard-text-muted: #64748b;
+  --dashboard-success: #22c55e;
+  --dashboard-warning: #f59e0b;
+  --dashboard-error: #ef4444;
+  --dashboard-disabled: #94a3b8;
+  --dashboard-sidebar-width: 16.5rem;
+  --dashboard-sidebar-collapsed-width: 4.5rem;
+  --dashboard-header-height: 4rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-dashboard-primary: var(--dashboard-primary);
+  --color-dashboard-primary-hover: var(--dashboard-primary-hover);
+  --color-dashboard-secondary: var(--dashboard-secondary);
+  --color-dashboard-secondary-hover: var(--dashboard-secondary-hover);
+  --color-dashboard-bg: var(--dashboard-bg);
+  --color-dashboard-surface: var(--dashboard-surface);
+  --color-dashboard-border: var(--dashboard-border);
+  --color-dashboard-text: var(--dashboard-text);
+  --color-dashboard-text-muted: var(--dashboard-text-muted);
+  --color-dashboard-success: var(--dashboard-success);
+  --color-dashboard-warning: var(--dashboard-warning);
+  --color-dashboard-error: var(--dashboard-error);
+  --color-dashboard-disabled: var(--dashboard-disabled);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.focus-ring {
+  @apply outline-none focus-visible:ring-2 focus-visible:ring-dashboard-primary focus-visible:ring-offset-2;
+}
+
+dialog[open] {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  margin: 0;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
+  border: none;
+  padding: 0;
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 40%);
+}
+
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+a[href],
+label[for],
+select:not(:disabled),
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+select:disabled {
+  cursor: not-allowed;
+}
+
+.tiptap-editor {
+  min-height: 200px;
+  padding: 0.75rem;
+  outline: none;
+  color: var(--dashboard-text);
+}
+
+.tiptap-editor:empty::before {
+  content: attr(data-placeholder);
+  color: var(--dashboard-text-muted);
+  pointer-events: none;
+}
+
+.tiptap-editor h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 1rem 0 0.5rem;
+}
+
+.tiptap-editor p {
+  margin: 0.5rem 0;
+}
+
+.tiptap-editor ul {
+  list-style: disc;
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.tiptap-editor ol {
+  list-style: decimal;
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.tiptap-editor li {
+  margin: 0.25rem 0;
+}
+
+.tiptap-editor-rtl {
+  text-align: right;
+}
+
+.tiptap-editor-rtl ul,
+.tiptap-editor-rtl ol {
+  padding-left: 0;
+  padding-right: 1.5rem;
+}
+
+.leaflet-map,
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  font-family: inherit;
+  background: #ddd;
+}
+
+.leaflet-container img,
+.leaflet-container svg {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.leaflet-container img.leaflet-tile {
+  padding: 0;
+  border: none;
+  outline: none;
+  max-width: none !important;
+  max-height: none !important;
+  width: 256px !important;
+  height: 256px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.leaflet-tile-loaded {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.leaflet-tile-pane {
+  z-index: 2;
+}
+
+.leaflet-overlay-pane {
+  z-index: 4;
+}
+
+.leaflet-marker-pane {
+  z-index: 5;
+}
