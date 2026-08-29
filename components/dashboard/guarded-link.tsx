@@ -11,30 +11,45 @@ import {
 
 type GuardedLinkProps = ComponentProps<typeof Link>;
 
+function resolveHref(href: GuardedLinkProps["href"]): string {
+  if (typeof href === "string") return href;
+  if ("pathname" in href && href.pathname) return href.pathname;
+  return "";
+}
+
 export function GuardedLink({ href, onClick, ...props }: GuardedLinkProps) {
-  const { confirmLeave } = useUnsavedChangesContext();
+  const { confirmLeave, setIsDirty } = useUnsavedChangesContext();
   const router = useRouter();
 
   const handleClick = useCallback(
     async (event: MouseEvent<HTMLAnchorElement>) => {
-      onClick?.(event);
-      if (event.defaultPrevented) return;
+      const opensNewTab =
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.button === 1 ||
+        props.target === "_blank";
 
-      const targetHref = typeof href === "string" ? href : href.pathname ?? "";
-      const canLeave = await confirmLeave();
-
-      if (!canLeave) {
-        event.preventDefault();
+      if (opensNewTab) {
+        onClick?.(event);
         return;
       }
 
-      if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+      onClick?.(event);
+      if (event.defaultPrevented) return;
 
       event.preventDefault();
-      router.push(targetHref);
+
+      const canLeave = await confirmLeave();
+      if (!canLeave) return;
+
+      setIsDirty(false);
+      router.push(resolveHref(href));
     },
-    [confirmLeave, href, onClick, router],
+    [confirmLeave, href, onClick, props.target, router, setIsDirty],
   );
 
-  return <Link href={href} onClick={handleClick} {...props} />;
+  return (
+    <Link href={href} data-guarded-link onClick={handleClick} {...props} />
+  );
 }

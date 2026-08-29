@@ -21,13 +21,13 @@ export function NavbarLogo({
       className={cn("website-focus-ring block shrink-0", className)}
       aria-label={APP_NAME}
     >
-      <div className="relative h-9 w-36 sm:h-10 sm:w-40">
+      <div className="relative h-12 w-52 sm:h-14 sm:w-60 lg:h-[3.75rem] lg:w-72">
         <Image
           src={src}
           alt={APP_NAME}
           fill
           priority
-          sizes="(max-width: 640px) 9rem, 10rem"
+          sizes="(max-width: 640px) 13rem, (max-width: 1024px) 15rem, 18rem"
           className="object-contain object-start"
         />
       </div>

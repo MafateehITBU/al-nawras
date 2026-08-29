@@ -95,7 +95,6 @@ dialog[open] {
   left: 50%;
   translate: -50% -50%;
   margin: 0;
-  max-width: calc(100vw - 2rem);
   max-height: calc(100vh - 2rem);
   border: none;
   padding: 0;

@@ -11,6 +11,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { IconPicker } from "@/components/features/services/icon-picker";
 import { LocaleTabs } from "@/components/features/shared/locale-tabs";
 import { useFormGuard } from "@/components/features/shared/use-form-guard";
+import { ImageUploadField } from "@/components/features/uploads/image-upload-field";
+import { CLOUDINARY_FOLDERS, type SupportedLocale } from "@/constants";
 import { apiClient, apiClientPaginated } from "@/lib/api/client";
 import { notify } from "@/lib/utils/notify";
 import type { Service, ServiceCategory, ServiceStrategicBenefit } from "@/types";
@@ -18,7 +20,6 @@ import { Icon } from "@iconify/react";
 import { Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import type { SupportedLocale } from "@/constants";
 
 interface BenefitFormState {
   icon: string;
@@ -40,6 +41,10 @@ interface ServiceFormState {
   overviewTitleAr: string;
   overviewDescriptionEn: string;
   overviewDescriptionAr: string;
+  overviewImageUrl: string;
+  overviewImagePublicId: string;
+  strategicBenefitsImageUrl: string;
+  strategicBenefitsImagePublicId: string;
   strategicBenefits: BenefitFormState[];
 }
 
@@ -63,13 +68,57 @@ const emptyForm = (): ServiceFormState => ({
   overviewTitleAr: "",
   overviewDescriptionEn: "",
   overviewDescriptionAr: "",
-  strategicBenefits: [],
+  overviewImageUrl: "",
+  overviewImagePublicId: "",
+  strategicBenefitsImageUrl: "",
+  strategicBenefitsImagePublicId: "",
+  strategicBenefits: [emptyBenefit()],
 });
 
 type ServiceDetail = Service & {
   category: Pick<ServiceCategory, "id" | "nameEn" | "nameAr" | "slug">;
   strategicBenefits: ServiceStrategicBenefit[];
 };
+
+function validateForm(form: ServiceFormState): string | null {
+  if (!form.categoryId) return "Category is required";
+  if (!form.nameEn.trim() || !form.nameAr.trim()) return "Service name is required in both languages";
+  if (!form.heroTitleEn.trim() || !form.heroTitleAr.trim()) {
+    return "Hero title is required in both languages";
+  }
+  if (!form.heroDescriptionEn.trim() || !form.heroDescriptionAr.trim()) {
+    return "Hero description is required in both languages";
+  }
+  if (!form.overviewTitleEn.trim() || !form.overviewTitleAr.trim()) {
+    return "Overview title is required in both languages";
+  }
+  if (!form.overviewDescriptionEn.trim() || !form.overviewDescriptionAr.trim()) {
+    return "Overview description is required in both languages";
+  }
+  if (!form.overviewImageUrl || !form.overviewImagePublicId) {
+    return "Overview image is required";
+  }
+  if (!form.strategicBenefitsImageUrl || !form.strategicBenefitsImagePublicId) {
+    return "Strategic benefits image is required";
+  }
+  if (form.strategicBenefits.length === 0) {
+    return "At least one strategic benefit is required";
+  }
+
+  for (const [index, benefit] of form.strategicBenefits.entries()) {
+    if (
+      !benefit.icon.trim() ||
+      !benefit.titleEn.trim() ||
+      !benefit.titleAr.trim() ||
+      !benefit.descriptionEn.trim() ||
+      !benefit.descriptionAr.trim()
+    ) {
+      return `Strategic benefit ${index + 1} is incomplete`;
+    }
+  }
+
+  return null;
+}
 
 export function ServiceFormPage({ serviceId }: { serviceId?: string }) {
   const router = useRouter();
@@ -114,13 +163,20 @@ export function ServiceFormPage({ serviceId }: { serviceId?: string }) {
           overviewTitleAr: service.overviewTitleAr,
           overviewDescriptionEn: service.overviewDescriptionEn,
           overviewDescriptionAr: service.overviewDescriptionAr,
-          strategicBenefits: service.strategicBenefits.map((b) => ({
-            icon: b.icon,
-            titleEn: b.titleEn,
-            titleAr: b.titleAr,
-            descriptionEn: b.descriptionEn,
-            descriptionAr: b.descriptionAr,
-          })),
+          overviewImageUrl: service.overviewImageUrl,
+          overviewImagePublicId: service.overviewImagePublicId,
+          strategicBenefitsImageUrl: service.strategicBenefitsImageUrl,
+          strategicBenefitsImagePublicId: service.strategicBenefitsImagePublicId,
+          strategicBenefits:
+            service.strategicBenefits.length > 0
+              ? service.strategicBenefits.map((b) => ({
+                  icon: b.icon,
+                  titleEn: b.titleEn,
+                  titleAr: b.titleAr,
+                  descriptionEn: b.descriptionEn,
+                  descriptionAr: b.descriptionAr,
+                }))
+              : [emptyBenefit()],
         });
       } catch (error) {
         if (!cancelled) {
@@ -156,6 +212,13 @@ export function ServiceFormPage({ serviceId }: { serviceId?: string }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    const validationError = validateForm(form);
+    if (validationError) {
+      notify.error(validationError);
+      return;
+    }
+
     setSaving(true);
     try {
       const body = {
@@ -170,8 +233,12 @@ export function ServiceFormPage({ serviceId }: { serviceId?: string }) {
         overviewTitleAr: form.overviewTitleAr.trim(),
         overviewDescriptionEn: form.overviewDescriptionEn.trim(),
         overviewDescriptionAr: form.overviewDescriptionAr.trim(),
+        overviewImageUrl: form.overviewImageUrl,
+        overviewImagePublicId: form.overviewImagePublicId,
+        strategicBenefitsImageUrl: form.strategicBenefitsImageUrl,
+        strategicBenefitsImagePublicId: form.strategicBenefitsImagePublicId,
         strategicBenefits: form.strategicBenefits.map((benefit, index) => ({
-          icon: benefit.icon,
+          icon: benefit.icon.trim(),
           titleEn: benefit.titleEn.trim(),
           titleAr: benefit.titleAr.trim(),
           descriptionEn: benefit.descriptionEn.trim(),
@@ -363,8 +430,58 @@ export function ServiceFormPage({ serviceId }: { serviceId?: string }) {
 
       <Card>
         <CardContent className="space-y-4 pt-5">
+          <p className="text-sm font-medium text-dashboard-text">Service images</p>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <ImageUploadField
+              label="Overview image"
+              required
+              folder={CLOUDINARY_FOLDERS.SERVICE_IMAGES}
+              value={
+                form.overviewImageUrl
+                  ? {
+                      url: form.overviewImageUrl,
+                      publicId: form.overviewImagePublicId,
+                    }
+                  : null
+              }
+              onChange={(asset) =>
+                setForm({
+                  ...form,
+                  overviewImageUrl: asset?.url ?? "",
+                  overviewImagePublicId: asset?.publicId ?? "",
+                })
+              }
+            />
+            <ImageUploadField
+              label="Strategic benefits image"
+              required
+              folder={CLOUDINARY_FOLDERS.SERVICE_IMAGES}
+              value={
+                form.strategicBenefitsImageUrl
+                  ? {
+                      url: form.strategicBenefitsImageUrl,
+                      publicId: form.strategicBenefitsImagePublicId,
+                    }
+                  : null
+              }
+              onChange={(asset) =>
+                setForm({
+                  ...form,
+                  strategicBenefitsImageUrl: asset?.url ?? "",
+                  strategicBenefitsImagePublicId: asset?.publicId ?? "",
+                })
+              }
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="space-y-4 pt-5">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-dashboard-text">Strategic benefits</p>
+            <p className="text-sm font-medium text-dashboard-text">
+              Strategic benefits <span className="text-dashboard-error">*</span>
+            </p>
             <Button
               type="button"
               size="sm"
@@ -381,104 +498,99 @@ export function ServiceFormPage({ serviceId }: { serviceId?: string }) {
             </Button>
           </div>
 
-          {form.strategicBenefits.length === 0 ? (
-            <p className="text-sm text-dashboard-text-muted">
-              No strategic benefits yet. Add items to highlight key advantages.
-            </p>
-          ) : (
-            form.strategicBenefits.map((benefit, index) => (
-              <div
-                key={index}
-                className="space-y-3 rounded-lg border border-dashboard-border p-4"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-sm font-medium">
-                    {benefit.icon && (
-                      <Icon icon={benefit.icon} className="size-5 text-dashboard-primary" />
-                    )}
-                    Benefit {index + 1}
-                  </div>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    aria-label="Remove benefit"
-                    onClick={() =>
-                      setForm((prev) => ({
-                        ...prev,
-                        strategicBenefits: prev.strategicBenefits.filter((_, i) => i !== index),
-                      }))
-                    }
-                  >
-                    <Trash2 className="size-4 text-dashboard-error" />
-                  </Button>
+          {form.strategicBenefits.map((benefit, index) => (
+            <div
+              key={index}
+              className="space-y-3 rounded-lg border border-dashboard-border p-4"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-sm font-medium">
+                  {benefit.icon && (
+                    <Icon icon={benefit.icon} className="size-5 text-dashboard-primary" />
+                  )}
+                  Benefit {index + 1}
                 </div>
-
                 <Button
                   type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setBenefitIndex(benefitIndex === index ? null : index)}
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Remove benefit"
+                  disabled={form.strategicBenefits.length === 1}
+                  onClick={() =>
+                    setForm((prev) => ({
+                      ...prev,
+                      strategicBenefits: prev.strategicBenefits.filter((_, i) => i !== index),
+                    }))
+                  }
                 >
-                  {benefitIndex === index ? "Hide icon picker" : "Choose icon"}
+                  <Trash2 className="size-4 text-dashboard-error" />
                 </Button>
-
-                {benefitIndex === index && (
-                  <IconPicker
-                    value={benefit.icon}
-                    onChange={(icon) => updateBenefit(index, { icon })}
-                  />
-                )}
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <FormField label="Title (EN)" htmlFor={`benefit-titleEn-${index}`} required>
-                    <Input
-                      id={`benefit-titleEn-${index}`}
-                      value={benefit.titleEn}
-                      onChange={(e) => updateBenefit(index, { titleEn: e.target.value })}
-                    />
-                  </FormField>
-                  <FormField label="Title (AR)" htmlFor={`benefit-titleAr-${index}`} required>
-                    <Input
-                      id={`benefit-titleAr-${index}`}
-                      dir="rtl"
-                      value={benefit.titleAr}
-                      onChange={(e) => updateBenefit(index, { titleAr: e.target.value })}
-                    />
-                  </FormField>
-                  <FormField
-                    label="Description (EN)"
-                    htmlFor={`benefit-descEn-${index}`}
-                    required
-                  >
-                    <Textarea
-                      id={`benefit-descEn-${index}`}
-                      value={benefit.descriptionEn}
-                      onChange={(e) =>
-                        updateBenefit(index, { descriptionEn: e.target.value })
-                      }
-                      rows={2}
-                    />
-                  </FormField>
-                  <FormField
-                    label="Description (AR)"
-                    htmlFor={`benefit-descAr-${index}`}
-                    required
-                  >
-                    <Textarea
-                      id={`benefit-descAr-${index}`}
-                      dir="rtl"
-                      value={benefit.descriptionAr}
-                      onChange={(e) =>
-                        updateBenefit(index, { descriptionAr: e.target.value })
-                      }
-                      rows={2}
-                    />
-                  </FormField>
-                </div>
               </div>
-            ))
-          )}
+
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setBenefitIndex(benefitIndex === index ? null : index)}
+              >
+                {benefitIndex === index ? "Hide icon picker" : "Choose icon"}
+              </Button>
+
+              {benefitIndex === index && (
+                <IconPicker
+                  value={benefit.icon}
+                  onChange={(icon) => updateBenefit(index, { icon })}
+                />
+              )}
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <FormField label="Title (EN)" htmlFor={`benefit-titleEn-${index}`} required>
+                  <Input
+                    id={`benefit-titleEn-${index}`}
+                    value={benefit.titleEn}
+                    onChange={(e) => updateBenefit(index, { titleEn: e.target.value })}
+                  />
+                </FormField>
+                <FormField label="Title (AR)" htmlFor={`benefit-titleAr-${index}`} required>
+                  <Input
+                    id={`benefit-titleAr-${index}`}
+                    dir="rtl"
+                    value={benefit.titleAr}
+                    onChange={(e) => updateBenefit(index, { titleAr: e.target.value })}
+                  />
+                </FormField>
+                <FormField
+                  label="Description (EN)"
+                  htmlFor={`benefit-descEn-${index}`}
+                  required
+                >
+                  <Textarea
+                    id={`benefit-descEn-${index}`}
+                    value={benefit.descriptionEn}
+                    onChange={(e) =>
+                      updateBenefit(index, { descriptionEn: e.target.value })
+                    }
+                    rows={2}
+                  />
+                </FormField>
+                <FormField
+                  label="Description (AR)"
+                  htmlFor={`benefit-descAr-${index}`}
+                  required
+                >
+                  <Textarea
+                    id={`benefit-descAr-${index}`}
+                    dir="rtl"
+                    value={benefit.descriptionAr}
+                    onChange={(e) =>
+                      updateBenefit(index, { descriptionAr: e.target.value })
+                    }
+                    rows={2}
+                  />
+                </FormField>
+              </div>
+            </div>
+          ))}
         </CardContent>
       </Card>
     </form>

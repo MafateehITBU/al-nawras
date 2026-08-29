@@ -1,5 +1,7 @@
 export const APP_NAME = "Al Nawras Intellectual Property";
 
+export const APP_NAME_AR = "النورس للملكية الفكرية";
+
 export const APP_DESCRIPTION =
   "Professional intellectual property services in the Middle East.";
 
@@ -41,6 +43,7 @@ export const CLOUDINARY_FOLDERS = {
   BLOG_IMAGES: "al-nawras/blogs/images",
   BLOG_ATTACHMENTS: "al-nawras/blogs/attachments",
   WEBSITE_LOGO: "al-nawras/website/logo",
+  SERVICE_IMAGES: "al-nawras/services/images",
 } as const;
 
 export type CloudinaryFolder =

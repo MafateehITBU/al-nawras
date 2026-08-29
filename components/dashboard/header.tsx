@@ -6,7 +6,7 @@ import { LogOut, Menu, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import { GuardedLink } from "@/components/dashboard/guarded-link";
 
 export function DashboardHeader({
   title,
@@ -112,7 +112,7 @@ function ProfileMenu() {
               </p>
             )}
           </div>
-          <Link
+          <GuardedLink
             href="/admin/account"
             role="menuitem"
             className="flex items-center gap-2 px-4 py-2.5 text-sm text-dashboard-text hover:bg-dashboard-bg"
@@ -120,7 +120,7 @@ function ProfileMenu() {
           >
             <User className="size-4" />
             Profile
-          </Link>
+          </GuardedLink>
           <button
             type="button"
             role="menuitem"

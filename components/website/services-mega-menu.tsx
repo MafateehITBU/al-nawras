@@ -6,7 +6,7 @@ import type { WebsiteDictionary } from "@/lib/i18n/dictionaries";
 import type { SupportedLocale } from "@/lib/i18n/config";
 import type { PublicServicesMenuCategory } from "@/lib/services/service.service";
 import { getServiceDetailPath } from "@/lib/website/paths";
-import { splitIntoHalves } from "@/lib/website/split-columns";
+import { splitIntoColumns } from "@/lib/website/split-columns";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
@@ -61,7 +61,10 @@ export function ServicesMegaMenu({
   const activeCategory =
     categories.find((category) => category.id === activeCategoryId) ?? categories[0];
 
-  const [leftServices, rightServices] = splitIntoHalves(activeCategory?.services ?? []);
+  const [leftServices, rightServices] = splitIntoColumns(
+    activeCategory?.services ?? [],
+    5,
+  );
 
   const handleCategoryKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLButtonElement>, categoryId: string) => {
@@ -176,7 +179,7 @@ function ServiceColumn({
       {services.map((service) => (
         <li key={service.id}>
           <Link
-            href={getServiceDetailPath(service.id, locale)}
+            href={getServiceDetailPath(service.slug, locale)}
             className="website-body block text-base text-website-muted transition-colors hover:text-website-primary website-focus-ring rounded-sm"
           >
             {pickLocalizedField(service, "name", locale)}
@@ -259,7 +262,7 @@ export function MobileServicesSection({
                   {activeCategory.services.map((service) => (
                     <li key={service.id}>
                       <Link
-                        href={getServiceDetailPath(service.id, locale)}
+                        href={getServiceDetailPath(service.slug, locale)}
                         className="website-body block py-1.5 text-sm text-website-muted hover:text-website-primary website-focus-ring"
                         onClick={onNavigate}
                       >

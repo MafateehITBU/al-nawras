@@ -408,9 +408,28 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Mobile drawer: EN slides from right, AR slides from left; Escape closes; body scroll lock
 - [x] Footer 4-column layout matching UX/UI — CMS data for contact + social links
 - [x] Separate logo assets: `NavbarLogo` (`/logo-navbar.png` or CMS upload) vs `FooterLogo` (`/logo.png`)
-- [x] Placeholder routes: `/about`, `/privacy-policy`, `/terms-and-conditions`, `/services/[id]`
-- [ ] Page designs from user (Home, About, Services detail, Blog detail, Contact)
-- [ ] Service slug field in DB (currently links use service `id` in URL)
+- [x] Placeholder routes: `/about`, `/privacy-policy`, `/terms-and-conditions`
+- [x] Dynamic service detail route: `/services/[slug]`
+
+### Phase 7 — Service Details Page ✅
+
+- [x] `Service.slug` field — unique, auto-generated from `nameEn` on create/update (mirrors category slug logic)
+- [x] Migration `20260829150000_add_service_slug` backfills existing rows
+- [x] One reusable template at `app/[locale]/services/[slug]/page.tsx` — all services share the same layout
+- [x] Section components under `components/website/service/`:
+  - `ServiceHero` — shared `service-hero-bg.png` background, breadcrumb (Home link, Services non-link, current name)
+  - `ServiceOverview` — two-column layout, expertise badge, overview image with `#F4F6FE` frame, description with logical `border-s`
+  - `StrategicBenefitsSection` — dynamic benefits from DB, Iconify icons via `IconifyIcon` client wrapper
+  - `WhyChooseSection` — static bilingual content in `lib/i18n/service-page-content.ts`
+  - `RelatedServicesSection` — up to 3 same-category services, hidden when none
+- [x] Data fetching: `getPublicServicePageData(slug)` returns service (with category + benefits) + related services in two queries
+- [x] Related services: same `categoryId`, excludes current, max 3, ordered by `nameEn`
+- [x] Card excerpts via `lib/utils/text.ts` → `excerptPlainText()` (strips HTML, truncates)
+- [x] Mega menu + mobile nav links use slug via `getServiceDetailPath(service.slug, locale)`
+- [x] Dynamic SEO metadata — title from service name, description from hero description excerpt, OG image from overview image
+- [x] Sitemap includes all service slug URLs per locale
+- [x] RTL/LTR via locale layout `dir` attribute; logical CSS properties (`border-s`, `-end`, `ps`) for direction-sensitive layout
+- [ ] Page designs from user (Home, About, Blog detail, Contact)
 
 ### Phase 6 — Admin Dashboard (continued)
 ### Phase 8 — Production Preparation
@@ -460,4 +479,4 @@ npm run db:studio    # Open Prisma Studio
 | 2026-08-29 | 5 | Cloudinary file upload system — images, documents, deletion |
 | 2026-08-29 | 6 | Website information + Leaflet map picker |
 | 2026-08-29 | 7 | Header, services mega menu, mobile nav, footer — UX/UI implementation |
-| 2026-08-29 | 7 | Public website foundation — locale routing, i18n, fonts, SEO shell, placeholders |
+| 2026-08-29 | 7 | Service details page — dynamic `/services/[slug]` template, slug field, related services |

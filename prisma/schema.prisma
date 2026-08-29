@@ -176,6 +176,7 @@ model Service {
   id                    String                   @id @default(cuid())
   categoryId            String
   category              ServiceCategory          @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  slug                  String                   @unique
   nameEn                String
   nameAr                String
   heroTitleEn           String
@@ -186,6 +187,10 @@ model Service {
   overviewTitleAr       String
   overviewDescriptionEn String                   @db.Text
   overviewDescriptionAr String                   @db.Text
+  overviewImageUrl            String
+  overviewImagePublicId       String
+  strategicBenefitsImageUrl   String
+  strategicBenefitsImagePublicId String
   createdAt             DateTime                 @default(now())
   updatedAt             DateTime                 @updatedAt
   strategicBenefits     ServiceStrategicBenefit[]

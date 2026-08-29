@@ -1,8 +1,8 @@
 import type { SupportedLocale } from "@/lib/i18n/config";
 import { localizePath } from "@/lib/i18n/config";
 
-export function getServiceDetailPath(serviceId: string, locale: SupportedLocale) {
-  return localizePath(`/services/${serviceId}`, locale);
+export function getServiceDetailPath(serviceSlug: string, locale: SupportedLocale) {
+  return localizePath(`/services/${serviceSlug}`, locale);
 }
 
 export function isServicesRoute(pathname: string) {

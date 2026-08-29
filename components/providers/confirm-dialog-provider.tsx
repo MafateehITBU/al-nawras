@@ -60,7 +60,7 @@ export function ConfirmDialogProvider({ children }: { children: ReactNode }) {
       {children}
       <dialog
         ref={dialogRef}
-        className="w-full max-w-md rounded-xl border border-dashboard-border bg-dashboard-surface p-0 shadow-xl backdrop:bg-black/40"
+        className="w-[min(100vw-2rem,24rem)] rounded-xl border border-dashboard-border bg-dashboard-surface p-0 shadow-xl backdrop:bg-black/40"
         onCancel={(e) => {
           e.preventDefault();
           close(false);

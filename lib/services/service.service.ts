@@ -1,5 +1,6 @@
 import { ConflictError, NotFoundError } from "@/lib/api/errors";
 import prisma from "@/lib/db/prisma";
+import { resolveUniqueSlug, resolveUniqueSlugWithExclude } from "@/lib/utils/slug";
 import type {
   CreateServiceInput,
   ListServicesQuery,
@@ -31,6 +32,7 @@ export async function getPublicServicesMenu() {
       services: {
         select: {
           id: true,
+          slug: true,
           nameEn: true,
           nameAr: true,
         },
@@ -86,6 +88,72 @@ export async function getServiceById(id: string) {
   return service;
 }
 
+export async function getServiceBySlug(slug: string) {
+  const service = await prisma.service.findUnique({
+    where: { slug },
+    include: serviceInclude,
+  });
+  if (!service) throw new NotFoundError("Service not found");
+  return service;
+}
+
+const relatedServiceSelect = {
+  id: true,
+  slug: true,
+  nameEn: true,
+  nameAr: true,
+  heroDescriptionEn: true,
+  heroDescriptionAr: true,
+  overviewImageUrl: true,
+} as const;
+
+export type RelatedServiceSummary = Prisma.ServiceGetPayload<{
+  select: typeof relatedServiceSelect;
+}>;
+
+export async function getRelatedServices(
+  categoryId: string,
+  excludeServiceId: string,
+  limit = 3,
+) {
+  return prisma.service.findMany({
+    where: {
+      categoryId,
+      id: { not: excludeServiceId },
+    },
+    select: relatedServiceSelect,
+    orderBy: { nameEn: "asc" },
+    take: limit,
+  });
+}
+
+export async function getPublicServicePageData(slug: string) {
+  const service = await getServiceBySlug(slug);
+  const relatedServices = await getRelatedServices(service.categoryId, service.id);
+  return { service, relatedServices };
+}
+
+export async function listPublicServiceSlugs() {
+  return prisma.service.findMany({
+    select: { slug: true, updatedAt: true },
+    orderBy: { nameEn: "asc" },
+  });
+}
+
+async function resolveServiceSlug(nameEn: string, excludeId?: string) {
+  const fetchSlugs = async () => {
+    const rows = await prisma.service.findMany({ select: { slug: true } });
+    return rows.map((row) => row.slug);
+  };
+
+  if (excludeId) {
+    const existing = await prisma.service.findUnique({ where: { id: excludeId } });
+    return resolveUniqueSlugWithExclude(nameEn, fetchSlugs, existing?.slug);
+  }
+
+  return resolveUniqueSlug(nameEn, fetchSlugs);
+}
+
 async function ensureServiceCategoryExists(categoryId: string) {
   const category = await prisma.serviceCategory.findUnique({
     where: { id: categoryId },
@@ -95,10 +163,12 @@ async function ensureServiceCategoryExists(categoryId: string) {
 
 export async function createService(input: CreateServiceInput) {
   await ensureServiceCategoryExists(input.categoryId);
+  const slug = await resolveServiceSlug(input.nameEn);
 
   return prisma.service.create({
     data: {
       categoryId: input.categoryId,
+      slug,
       nameEn: input.nameEn,
       nameAr: input.nameAr,
       heroTitleEn: input.heroTitleEn,
@@ -109,10 +179,11 @@ export async function createService(input: CreateServiceInput) {
       overviewTitleAr: input.overviewTitleAr,
       overviewDescriptionEn: input.overviewDescriptionEn,
       overviewDescriptionAr: input.overviewDescriptionAr,
-      strategicBenefits:
-        input.strategicBenefits.length > 0
-          ? { create: input.strategicBenefits }
-          : undefined,
+      overviewImageUrl: input.overviewImageUrl,
+      overviewImagePublicId: input.overviewImagePublicId,
+      strategicBenefitsImageUrl: input.strategicBenefitsImageUrl,
+      strategicBenefitsImagePublicId: input.strategicBenefitsImagePublicId,
+      strategicBenefits: { create: input.strategicBenefits },
     },
     include: serviceInclude,
   });
@@ -125,23 +196,24 @@ export async function updateService(id: string, input: UpdateServiceInput) {
     await ensureServiceCategoryExists(input.categoryId);
   }
 
+  const slug = input.nameEn ? await resolveServiceSlug(input.nameEn, id) : undefined;
+
   return prisma.$transaction(async (tx) => {
     if (input.strategicBenefits) {
       await tx.serviceStrategicBenefit.deleteMany({ where: { serviceId: id } });
-      if (input.strategicBenefits.length > 0) {
-        await tx.serviceStrategicBenefit.createMany({
-          data: input.strategicBenefits.map((benefit) => ({
-            ...benefit,
-            serviceId: id,
-          })),
-        });
-      }
+      await tx.serviceStrategicBenefit.createMany({
+        data: input.strategicBenefits.map((benefit) => ({
+          ...benefit,
+          serviceId: id,
+        })),
+      });
     }
 
     return tx.service.update({
       where: { id },
       data: {
         ...(input.categoryId !== undefined && { categoryId: input.categoryId }),
+        ...(slug !== undefined && { slug }),
         ...(input.nameEn !== undefined && { nameEn: input.nameEn }),
         ...(input.nameAr !== undefined && { nameAr: input.nameAr }),
         ...(input.heroTitleEn !== undefined && { heroTitleEn: input.heroTitleEn }),
@@ -163,6 +235,18 @@ export async function updateService(id: string, input: UpdateServiceInput) {
         }),
         ...(input.overviewDescriptionAr !== undefined && {
           overviewDescriptionAr: input.overviewDescriptionAr,
+        }),
+        ...(input.overviewImageUrl !== undefined && {
+          overviewImageUrl: input.overviewImageUrl,
+        }),
+        ...(input.overviewImagePublicId !== undefined && {
+          overviewImagePublicId: input.overviewImagePublicId,
+        }),
+        ...(input.strategicBenefitsImageUrl !== undefined && {
+          strategicBenefitsImageUrl: input.strategicBenefitsImageUrl,
+        }),
+        ...(input.strategicBenefitsImagePublicId !== undefined && {
+          strategicBenefitsImagePublicId: input.strategicBenefitsImagePublicId,
         }),
       },
       include: serviceInclude,

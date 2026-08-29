@@ -133,10 +133,24 @@ export const createServiceSchema = z.object({
   overviewTitleAr: z.string().trim().min(1),
   overviewDescriptionEn: z.string().trim().min(1),
   overviewDescriptionAr: z.string().trim().min(1),
-  strategicBenefits: z.array(strategicBenefitSchema).default([]),
+  overviewImageUrl: requiredUrlSchema,
+  overviewImagePublicId: z.string().trim().min(1),
+  strategicBenefitsImageUrl: requiredUrlSchema,
+  strategicBenefitsImagePublicId: z.string().trim().min(1),
+  strategicBenefits: z
+    .array(strategicBenefitSchema)
+    .min(1, "At least one strategic benefit is required"),
 });
 
-export const updateServiceSchema = createServiceSchema.partial();
+export const updateServiceSchema = createServiceSchema
+  .partial()
+  .refine(
+    (data) => data.strategicBenefits === undefined || data.strategicBenefits.length >= 1,
+    {
+      message: "At least one strategic benefit is required",
+      path: ["strategicBenefits"],
+    },
+  );
 
 export const listServicesQuerySchema = paginationQuerySchema.extend({
   categoryId: z.string().trim().optional(),

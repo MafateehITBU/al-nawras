@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
+import { GuardedLink } from "@/components/dashboard/guarded-link";
 import { cn } from "@/lib/utils";
 import { APP_NAME } from "@/constants";
+import Image from "next/image";
 
 const FALLBACK_LOGO = "/logo.png";
 
@@ -24,7 +24,7 @@ export function Logo({
   const src = logoUrl?.trim() || FALLBACK_LOGO;
 
   return (
-    <Link
+    <GuardedLink
       href={href}
       className={cn("focus-ring block w-full min-w-0", className)}
       aria-label={`${APP_NAME} dashboard home`}
@@ -42,6 +42,6 @@ export function Logo({
           )}
         />
       </div>
-    </Link>
+    </GuardedLink>
   );
 }

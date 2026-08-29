@@ -47,7 +47,7 @@ export function WebsiteHeader({
       onMouseLeave={() => setMegaMenuOpen(false)}
     >
       <div className="website-container relative">
-        <div className="flex h-[4.25rem] items-center gap-4">
+        <div className="flex h-20 items-center gap-4">
           <NavbarLogo logoUrl={logoUrl} href={homeHref} />
 
           <nav
