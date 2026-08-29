@@ -1,0 +1,106 @@
+.website-root {
+  background-color: var(--website-surface);
+  color: var(--website-text);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.website-heading {
+  font-family: var(--font-heading), system-ui, sans-serif;
+}
+
+.website-body {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.website-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: none;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .website-container {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .website-container {
+    padding-inline: 5rem;
+  }
+}
+
+.website-focus-ring {
+  outline: none;
+}
+
+.website-focus-ring:focus-visible {
+  outline: 2px solid var(--website-primary);
+  outline-offset: 2px;
+}
+
+.website-primary-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.website-primary-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 65%
+  );
+  transform: translateX(100%) skewX(-15deg);
+  transition: transform 0.65s ease;
+  pointer-events: none;
+}
+
+.website-primary-btn:hover::before {
+  transform: translateX(-100%) skewX(-15deg);
+}
+
+[dir="rtl"] .website-primary-btn::before {
+  transform: translateX(-100%) skewX(-15deg);
+}
+
+[dir="rtl"] .website-primary-btn:hover::before {
+  transform: translateX(100%) skewX(-15deg);
+}
+
+@keyframes mobile-panel-in-from-end {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes mobile-panel-in-from-start {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-mobile-panel-in-from-end {
+  animation: mobile-panel-in-from-end 0.28s ease-out;
+}
+
+.animate-mobile-panel-in-from-start {
+  animation: mobile-panel-in-from-start 0.28s ease-out;
+}
+
+[dir="rtl"] .website-ltr-icon {
+  transform: scaleX(-1);
+}

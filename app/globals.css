@@ -1,8 +1,26 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+@import "./website.css";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Public website brand tokens */
+  --website-primary: #27a8e1;
+  --website-primary-hover: #1e96cb;
+  --website-secondary: #faa628;
+  --website-secondary-hover: #e8941a;
+  --website-text: #1b1c1c;
+  --website-muted: #bdc8d0;
+  --website-surface: #fdfdfd;
+  --website-bg: #f4f6fe;
+  --website-footer: #2d3035;
+  --website-border: #e2e8f0;
+  --website-success: #22c55e;
+  --website-warning: #f59e0b;
+  --website-error: #ef4444;
+  --website-disabled: #94a3b8;
 
   --dashboard-primary: #27a8e1;
   --dashboard-primary-hover: #1e96cb;
@@ -41,6 +59,24 @@
   --color-dashboard-warning: var(--dashboard-warning);
   --color-dashboard-error: var(--dashboard-error);
   --color-dashboard-disabled: var(--dashboard-disabled);
+
+  --color-website-primary: var(--website-primary);
+  --color-website-primary-hover: var(--website-primary-hover);
+  --color-website-secondary: var(--website-secondary);
+  --color-website-secondary-hover: var(--website-secondary-hover);
+  --color-website-text: var(--website-text);
+  --color-website-muted: var(--website-muted);
+  --color-website-surface: var(--website-surface);
+  --color-website-bg: var(--website-bg);
+  --color-website-footer: var(--website-footer);
+  --color-website-border: var(--website-border);
+  --color-website-success: var(--website-success);
+  --color-website-warning: var(--website-warning);
+  --color-website-error: var(--website-error);
+  --color-website-disabled: var(--website-disabled);
+
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
 }
 
 body {

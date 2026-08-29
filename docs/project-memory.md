@@ -4,7 +4,7 @@
 > Read this document before starting any new task. Update it after significant changes.
 
 **Last updated:** 2026-08-29  
-**Current phase:** Phase 6 — Admin Dashboard ✅
+**Current phase:** Phase 7 — Public Website (header/footer) 🚧
 
 ---
 
@@ -48,10 +48,12 @@ All public website, admin dashboard, and API logic live in one Next.js project. 
 
 ```
 app/
-├── (website)/          # Public site — route group, no URL prefix
+├── [locale]/           # Public site — /en/*, /ar/* (Phase 7)
 ├── admin/              # Admin dashboard — /admin/*
 ├── api/                # API routes — /api/*
 ├── layout.tsx          # Root layout
+├── sitemap.ts          # Public sitemap
+├── robots.ts           # Crawler rules
 └── globals.css
 ```
 
@@ -386,8 +388,31 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 
 ## 8. Pending Features
 
+### Phase 7 — Public Website (Foundation) ✅
+
+- [x] Locale-based routing: `/en`, `/ar` via `app/[locale]/`
+- [x] Middleware locale redirect + admin auth in one `middleware.ts`
+- [x] Bilingual dictionaries (`lib/i18n/dictionaries.ts`) + `pickLocalizedField()` for DB content
+- [x] Self-hosted fonts (Hanken Grotesk + Inter) — no Google Fonts on public site
+- [x] Website design tokens (`app/globals.css`, `app/website.css`, `constants/website-theme.ts`)
+- [x] SEO helper (`lib/seo/metadata.ts`) + `sitemap.ts` + `robots.ts`
+- [x] Placeholder pages for Home, Services, Blog, Contact — awaiting UX/UI designs
+
+### Phase 7 — Header, Mega Menu, Mobile Nav & Footer ✅
+
+- [x] Sticky header with subtle opacity (`bg-website-surface/95`)
+- [x] Centered desktop nav: Home, About Us, Services (mega menu), Contact Us, AR/EN switcher
+- [x] Active nav underline + primary color via `lib/website/paths.ts`
+- [x] `PrimaryButton` with direction-aware glass hover animation (`app/website.css`)
+- [x] Data-driven Services mega menu (`getPublicServicesMenu()` in `service.service.ts`)
+- [x] Mobile drawer: EN slides from right, AR slides from left; Escape closes; body scroll lock
+- [x] Footer 4-column layout matching UX/UI — CMS data for contact + social links
+- [x] Separate logo assets: `NavbarLogo` (`/logo-navbar.png` or CMS upload) vs `FooterLogo` (`/logo.png`)
+- [x] Placeholder routes: `/about`, `/privacy-policy`, `/terms-and-conditions`, `/services/[id]`
+- [ ] Page designs from user (Home, About, Services detail, Blog detail, Contact)
+- [ ] Service slug field in DB (currently links use service `id` in URL)
+
 ### Phase 6 — Admin Dashboard (continued)
-### Phase 7 — Public Website
 ### Phase 8 — Production Preparation
 
 ---
@@ -434,4 +459,5 @@ npm run db:studio    # Open Prisma Studio
 | 2026-08-29 | 4 | Content APIs — website, blogs, services, contact enquiries |
 | 2026-08-29 | 5 | Cloudinary file upload system — images, documents, deletion |
 | 2026-08-29 | 6 | Website information + Leaflet map picker |
-| 2026-08-29 | 6 | Full dashboard modules — stats, admins, blogs, services, enquiries, uploads |
+| 2026-08-29 | 7 | Header, services mega menu, mobile nav, footer — UX/UI implementation |
+| 2026-08-29 | 7 | Public website foundation — locale routing, i18n, fonts, SEO shell, placeholders |

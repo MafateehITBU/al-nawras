@@ -16,6 +16,30 @@ const serviceInclude = {
   },
 } as const;
 
+export type PublicServicesMenuCategory = Awaited<
+  ReturnType<typeof getPublicServicesMenu>
+>[number];
+
+export async function getPublicServicesMenu() {
+  return prisma.serviceCategory.findMany({
+    orderBy: { nameEn: "asc" },
+    select: {
+      id: true,
+      nameEn: true,
+      nameAr: true,
+      slug: true,
+      services: {
+        select: {
+          id: true,
+          nameEn: true,
+          nameAr: true,
+        },
+        orderBy: { nameEn: "asc" },
+      },
+    },
+  });
+}
+
 export async function listServices(query: ListServicesQuery) {
   const { page, limit, search, sortBy, sortOrder, categoryId } = query;
   const skip = (page - 1) * limit;
