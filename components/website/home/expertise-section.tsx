@@ -40,9 +40,9 @@ export function ExpertiseSection({ locale }: { locale: SupportedLocale }) {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[608px] overflow-visible lg:mx-0">
+          <div className="relative mx-auto w-full max-w-[608px] overflow-visible ps-[79px] sm:ps-[105px] lg:mx-0 lg:ps-0">
             <div className="relative overflow-visible">
-              <div className="relative h-[min(400px,70vw)] w-full overflow-hidden rounded-2xl sm:h-[481px] lg:h-[581px]">
+              <div className="relative h-[min(280px,58vw)] w-full overflow-hidden rounded-2xl sm:h-[400px] lg:h-[581px]">
                 <Image
                   src="/images/home-expertise.png"
                   alt={expertise.imageAlt}
