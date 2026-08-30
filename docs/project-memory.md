@@ -429,7 +429,19 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Dynamic SEO metadata — title from service name, description from hero description excerpt, OG image from overview image
 - [x] Sitemap includes all service slug URLs per locale
 - [x] RTL/LTR via locale layout `dir` attribute; logical CSS properties (`border-s`, `-end`, `ps`) for direction-sensitive layout
-- [ ] Page designs from user (Home, About, Blog detail, Contact)
+- [ ] Page designs from user (Home, Blog detail, Contact)
+
+### Phase 7 — About Us Page ✅
+
+- [x] Static bilingual page at `app/[locale]/about/page.tsx` — no backend/API
+- [x] Content in `lib/i18n/about-page-content.ts` (hero, 8 expertise cards, firm expertise points, SEO)
+- [x] Sections under `components/website/about/`:
+  - `AboutHero` — `about-hero-bg.png`, `PageBreadcrumb`, two-line title (white + secondary)
+  - `AboutExpertise` — centered primary label with decorative lines, 3-column card grid (8 cards)
+  - `ExpertiseCard` — `#F4F6FE` bg, `#BDC8D0` border, hover primary border + upward shift, Iconify icons
+  - `FirmExpertise` — `#F4F6FE` section bg, `about.png`, direction-aware label line, 3 check points, `PrimaryButton` → contact
+- [x] Reused: `PageBreadcrumb`, `PrimaryButton`, `IconifyIcon`, `website-container`, locale layout RTL/LTR
+- [x] SEO via `buildWebsiteMetadata()` with localized title/description
 
 ### Phase 6 — Admin Dashboard (continued)
 ### Phase 8 — Production Preparation
@@ -479,4 +491,4 @@ npm run db:studio    # Open Prisma Studio
 | 2026-08-29 | 5 | Cloudinary file upload system — images, documents, deletion |
 | 2026-08-29 | 6 | Website information + Leaflet map picker |
 | 2026-08-29 | 7 | Header, services mega menu, mobile nav, footer — UX/UI implementation |
-| 2026-08-29 | 7 | Service details page — dynamic `/services/[slug]` template, slug field, related services |
+| 2026-08-29 | 7 | About Us page — static bilingual template with expertise cards and firm expertise section |
