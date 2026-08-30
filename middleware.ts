@@ -1,12 +1,14 @@
-import { auth } from "@/lib/auth/config";
-import type { SessionAdmin } from "@/lib/authorization/permissions";
-import { DEFAULT_LOCALE } from "@/constants";
-import { isSupportedLocale } from "@/lib/i18n/config";
+import { edgeAuthConfig } from "@/lib/auth/edge-config";
+import NextAuth from "next-auth";
 import { NextResponse, type NextRequest } from "next/server";
 
+const DEFAULT_LOCALE = "en";
+const SUPPORTED_LOCALES = new Set(["en", "ar"]);
 const PUBLIC_FILE = /\.(?!html)[^.]+$/;
 
-function isAuthenticated(session: { admin?: SessionAdmin } | null): boolean {
+const { auth } = NextAuth(edgeAuthConfig);
+
+function isAuthenticated(session: { admin?: { isActive?: boolean } } | null) {
   return Boolean(session?.admin?.isActive);
 }
 
@@ -24,7 +26,7 @@ function handleLocaleRedirect(request: NextRequest) {
 
   const firstSegment = pathname.split("/").filter(Boolean)[0];
 
-  if (firstSegment && isSupportedLocale(firstSegment)) {
+  if (firstSegment && SUPPORTED_LOCALES.has(firstSegment)) {
     return null;
   }
 

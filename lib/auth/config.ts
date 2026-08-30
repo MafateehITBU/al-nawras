@@ -1,24 +1,15 @@
 import { getEnv } from "@/lib/env";
 import prisma from "@/lib/db/prisma";
+import { edgeAuthConfig } from "@/lib/auth/edge-config";
 import { verifyPassword } from "@/lib/auth/password";
-import {
-  toAdminPublic,
-  type SessionAdmin,
-} from "@/lib/authorization/permissions";
+import { toAdminPublic } from "@/lib/authorization/permissions";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { loginSchema } from "@/lib/validations/auth";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...edgeAuthConfig,
   secret: getEnv().AUTH_SECRET,
-  trustHost: true,
-  session: {
-    strategy: "jwt",
-    maxAge: 60 * 60 * 8,
-  },
-  pages: {
-    signIn: "/admin/login",
-  },
   providers: [
     Credentials({
       name: "credentials",
@@ -55,24 +46,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    jwt: async ({ token, user, trigger, session }) => {
-      if (user?.admin) {
-        token.admin = user.admin as SessionAdmin;
-      }
-
-      if (trigger === "update" && session?.admin) {
-        token.admin = session.admin as SessionAdmin;
-      }
-
-      return token;
-    },
-    session: async ({ session, token }) => {
-      if (token.admin) {
-        session.admin = token.admin as SessionAdmin;
-      }
-
-      return session;
-    },
-  },
 });

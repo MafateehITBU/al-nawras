@@ -9,6 +9,7 @@ export default defineConfig({
   },
   engine: "classic",
   datasource: {
-    url: env("DATABASE_URL"),
+    // Migrations must use Neon's direct (non-pooled) URL.
+    url: env("DIRECT_URL"),
   },
 });
