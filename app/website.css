@@ -58,21 +58,21 @@
     rgba(255, 255, 255, 0.35) 50%,
     transparent 65%
   );
-  transform: translateX(100%) skewX(-15deg);
+  transform: translateX(-100%) skewX(-15deg);
   transition: transform 0.65s ease;
   pointer-events: none;
 }
 
 .website-primary-btn:hover::before {
-  transform: translateX(-100%) skewX(-15deg);
+  transform: translateX(100%) skewX(-15deg);
 }
 
 [dir="rtl"] .website-primary-btn::before {
-  transform: translateX(-100%) skewX(-15deg);
+  transform: translateX(100%) skewX(15deg);
 }
 
 [dir="rtl"] .website-primary-btn:hover::before {
-  transform: translateX(100%) skewX(-15deg);
+  transform: translateX(-100%) skewX(15deg);
 }
 
 @keyframes mobile-panel-in-from-end {
@@ -103,4 +103,86 @@
 
 [dir="rtl"] .website-ltr-icon {
   transform: scaleX(-1);
+}
+
+/* Secondary button — subtle traveling border highlight */
+.website-secondary-btn {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--website-surface);
+  border: 1px solid rgba(39, 168, 225, 0.35);
+  transition: border-color 0.3s ease;
+}
+
+.website-secondary-btn:hover {
+  border-color: transparent;
+}
+
+.website-secondary-btn::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset: -200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 300deg,
+    var(--website-primary) 300deg 360deg
+  );
+  animation: secondary-border-travel 4s ease-in-out infinite;
+}
+
+.website-secondary-btn::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 1px;
+  border-radius: inherit;
+  background: var(--website-surface);
+}
+
+@keyframes secondary-border-travel {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+}
+
+[dir="rtl"] .website-secondary-btn::before {
+  animation-direction: reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .website-secondary-btn::before {
+    animation: none;
+  }
+
+  .website-primary-btn::before {
+    transition: none;
+  }
+}
+
+/* Expertise floating badge — subtle elevation */
+@keyframes expertise-badge-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-expertise-badge-float {
+  animation: expertise-badge-float 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-expertise-badge-float {
+    animation: none;
+  }
 }

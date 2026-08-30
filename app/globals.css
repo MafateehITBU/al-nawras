@@ -17,6 +17,10 @@
   --website-bg: #f4f6fe;
   --website-footer: #2d3035;
   --website-border: #e2e8f0;
+  --website-hero-description: #60697b;
+  --website-card-dark: #383b3f;
+  --website-card-dark-border: rgba(253, 253, 253, 0.1);
+  --website-icon-bg: rgba(39, 168, 225, 0.1);
   --website-success: #22c55e;
   --website-warning: #f59e0b;
   --website-error: #ef4444;
@@ -70,6 +74,10 @@
   --color-website-bg: var(--website-bg);
   --color-website-footer: var(--website-footer);
   --color-website-border: var(--website-border);
+  --color-website-hero-description: var(--website-hero-description);
+  --color-website-card-dark: var(--website-card-dark);
+  --color-website-card-dark-border: var(--website-card-dark-border);
+  --color-website-icon-bg: var(--website-icon-bg);
   --color-website-success: var(--website-success);
   --color-website-warning: var(--website-warning);
   --color-website-error: var(--website-error);

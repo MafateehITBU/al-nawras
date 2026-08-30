@@ -4,5 +4,6 @@ export { WebsiteFooter } from "@/components/website/website-footer";
 export { NavbarLogo } from "@/components/website/navbar-logo";
 export { FooterLogo } from "@/components/website/footer-logo";
 export { PrimaryButton } from "@/components/website/primary-button";
+export { SecondaryButton } from "@/components/website/secondary-button";
 export { LocaleSwitcher } from "@/components/website/locale-switcher";
 export { PagePlaceholder } from "@/components/website/page-placeholder";

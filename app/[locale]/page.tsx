@@ -1,6 +1,6 @@
-import { PagePlaceholder } from "@/components/website/page-placeholder";
+import { HomePage } from "@/components/website/home/home-page";
 import { isSupportedLocale } from "@/lib/i18n/config";
-import { getDictionary } from "@/lib/i18n/dictionaries";
+import { getHomePageContent } from "@/lib/i18n/home-page-content";
 import { buildWebsiteMetadata } from "@/lib/seo/metadata";
 import { notFound } from "next/navigation";
 
@@ -11,17 +11,19 @@ export async function generateMetadata({
 }) {
   const { locale: localeParam } = await params;
   if (!isSupportedLocale(localeParam)) return {};
-  const dictionary = getDictionary(localeParam);
+
+  const content = getHomePageContent(localeParam);
   return buildWebsiteMetadata({
     locale: localeParam,
-    title: dictionary.nav.home,
+    title: content.seo.title,
+    description: content.seo.description,
     path: "/",
   });
 }
 
-export default async function HomePage({ params }: PageProps<"/[locale]">) {
+export default async function HomeRoute({ params }: PageProps<"/[locale]">) {
   const { locale: localeParam } = await params;
   if (!isSupportedLocale(localeParam)) notFound();
-  const dictionary = getDictionary(localeParam);
-  return <PagePlaceholder locale={localeParam} title={dictionary.nav.home} />;
+
+  return <HomePage locale={localeParam} />;
 }

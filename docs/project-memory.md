@@ -3,8 +3,8 @@
 > **Source of truth** for architecture decisions, implementation status, and technical context.
 > Read this document before starting any new task. Update it after significant changes.
 
-**Last updated:** 2026-08-29  
-**Current phase:** Phase 7 — Public Website (header/footer) 🚧
+**Last updated:** 2026-08-30  
+**Current phase:** Phase 7 — Public Website (Blog detail + Contact remaining)
 
 ---
 
@@ -396,7 +396,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Self-hosted fonts (Hanken Grotesk + Inter) — no Google Fonts on public site
 - [x] Website design tokens (`app/globals.css`, `app/website.css`, `constants/website-theme.ts`)
 - [x] SEO helper (`lib/seo/metadata.ts`) + `sitemap.ts` + `robots.ts`
-- [x] Placeholder pages for Home, Services, Blog, Contact — awaiting UX/UI designs
+- [x] Placeholder pages remaining: Blog listing/detail, Contact — Home, About, and Service details are built
 
 ### Phase 7 — Header, Mega Menu, Mobile Nav & Footer ✅
 
@@ -429,7 +429,26 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Dynamic SEO metadata — title from service name, description from hero description excerpt, OG image from overview image
 - [x] Sitemap includes all service slug URLs per locale
 - [x] RTL/LTR via locale layout `dir` attribute; logical CSS properties (`border-s`, `-end`, `ps`) for direction-sensitive layout
-- [ ] Page designs from user (Home, Blog detail, Contact)
+- [ ] Page designs from user (Blog detail, Contact)
+
+### Phase 7 — Home Page ✅
+
+- [x] Static bilingual page at `app/[locale]/page.tsx` — no backend/API
+- [x] Content in `lib/i18n/home-page-content.ts` (hero, who we are, core services, edge, approach, expertise, SEO)
+- [x] Shared section styles in `home-section-styles.ts`:
+  - Desktop sections fill `lg:h-[calc(100dvh-5rem)]` below the `h-20` header; mobile scrolls the page naturally (no nested scroll)
+  - Shared intro size `homeDescriptionSizeClassName` (`text-base` / `sm:text-[1.0625rem]`) on Hero, Al Nawras Edge, and Expertise descriptions
+- [x] Sections under `components/website/home/`:
+  - `HomeHero` — `home-hero-bg.png` + `home-hero-image.png`; two-line title (line 2 primary, own line, `lg:whitespace-nowrap`); hero image hidden below `lg`, desktop `object-contain object-end` edge-to-edge; stats titles `lg:whitespace-nowrap`; direction-aware image (AR: `rtl:scale-x-[-1]`)
+  - `WhoWeAreSection` + `CoreValues` / `CoreValueItem` — larger titles/body; core-value icons on `bg-website-secondary` orange boxes; `#F4F6FE` panel with logical `border-s` accent
+  - `CoreServicesSection` + `CoreServiceCard` + `CoreServicesCarousel` — dark `#2D3035` section; cards **363×376px**, no border radius; mobile auto-advancing carousel every 5s (RTL-aware); desktop 3-column grid (`hidden lg:block`)
+  - `AlNawrasEdgeSection` + `EdgeItem` — title highlight **italic, not bold**; no dividers; numbering not bold; EN description hard-breaks after “practical” via `<br />` (tight paragraph spacing); Arabic breaks after “الفهم العملي”
+  - `OurApproachSection` + `ApproachStep` — desktop timeline line `#27A8E133`; step numbers `1–4` (no leading zero); steps 1 & 3 (`position: "above"`) keep description on the line with `bg-website-bg` so titles are not clipped; section uses `lg:min-h-[calc(100dvh-5rem)]` without inner overflow scroll
+  - `ExpertiseSection` + `ExpertiseFloatingBadge` — image **608×581px**; orange badge ~**210×110px** (desktop), half on / half off the image via logical `-start`; title highlight italic; badge text centered in the box with `text-start` + `dir` for EN/AR; float animation `3s` (`animate-expertise-badge-float` in `website.css`); section `overflow-visible` so the badge is not clipped
+- [x] `SecondaryButton` — reusable ghost button with CSS conic-gradient border travel animation (`website-secondary-btn`)
+- [x] Design tokens added: `--website-hero-description`, `--website-card-dark`, `--website-card-dark-border`, `--website-icon-bg`
+- [x] Reused: `PrimaryButton`, `SecondaryButton`, `IconifyIcon`, `website-container`, locale layout RTL/LTR
+- [x] SEO via `buildWebsiteMetadata()` with localized title/description
 
 ### Phase 7 — About Us Page ✅
 
@@ -453,8 +472,8 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - Super admin seed password is a development default — change before production
 - Social link URLs seeded as empty strings — to be filled via dashboard
 - Next.js 16 deprecates `middleware.ts` in favor of `proxy` — migrate when stable
-- Admin login UI is a placeholder — full form in Phase 6
 - Nominatim geocoding has usage limits — search is debounced; reverse geocode is best-effort on pin move
+- Contact and Blog detail public pages are still placeholders
 
 ---
 
@@ -491,4 +510,6 @@ npm run db:studio    # Open Prisma Studio
 | 2026-08-29 | 5 | Cloudinary file upload system — images, documents, deletion |
 | 2026-08-29 | 6 | Website information + Leaflet map picker |
 | 2026-08-29 | 7 | Header, services mega menu, mobile nav, footer — UX/UI implementation |
+| 2026-08-30 | 7 | Home page — static bilingual template with hero, core services, approach timeline, expertise badge |
+| 2026-08-30 | 7 | Home page refinements — viewport sections, core-services carousel, expertise badge overlap, shared description size, Edge line break |
 | 2026-08-29 | 7 | About Us page — static bilingual template with expertise cards and firm expertise section |
