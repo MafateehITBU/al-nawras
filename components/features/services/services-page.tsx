@@ -5,7 +5,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { Pagination } from "@/components/ui/pagination";
+import {
+  ListFilterField,
+  ListFiltersCard,
+  ListSearchField,
+} from "@/components/features/shared/list-filters-card";
 import { SearchToolbar } from "@/components/features/shared/search-toolbar";
+import { Select } from "@/components/ui/select";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { useDeleteConfirm } from "@/components/providers/confirm-dialog-provider";
 import { PAGINATION } from "@/constants";
@@ -23,10 +29,21 @@ type ServiceListItem = Service & {
 export function ServicesPage() {
   const confirmDelete = useDeleteConfirm();
   const [data, setData] = useState<PaginatedResult<ServiceListItem> | null>(null);
+  const [categories, setCategories] = useState<ServiceCategory[]>([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [page, setPage] = useState<number>(PAGINATION.DEFAULT_PAGE);
+
+  useEffect(() => {
+    setCategoriesLoading(true);
+    void apiClientPaginated<ServiceCategory>("/api/admin/service-categories?limit=100")
+      .then((result) => setCategories(result.items))
+      .catch(() => notify.error("Failed to load service categories"))
+      .finally(() => setCategoriesLoading(false));
+  }, []);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -36,6 +53,7 @@ export function ServicesPage() {
         limit: String(PAGINATION.DEFAULT_LIMIT),
       });
       if (search) params.set("search", search);
+      if (categoryFilter) params.set("categoryId", categoryFilter);
       const result = await apiClientPaginated<ServiceListItem>(
         `/api/admin/services?${params}`,
       );
@@ -45,7 +63,7 @@ export function ServicesPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, search]);
+  }, [page, search, categoryFilter]);
 
   useEffect(() => {
     void load();
@@ -79,8 +97,32 @@ export function ServicesPage() {
         }
       />
 
-      <Card className="mb-6">
-        <CardContent className="pt-5">
+      <ListFiltersCard>
+        <ListFilterField
+          label="Filter by category"
+          htmlFor="serviceCategoryFilter"
+          className="w-full sm:w-64"
+        >
+          <Select
+            id="serviceCategoryFilter"
+            value={categoryFilter}
+            disabled={categoriesLoading}
+            onChange={(e) => {
+              setPage(1);
+              setCategoryFilter(e.target.value);
+            }}
+          >
+            <option value="">
+              {categoriesLoading ? "Loading categories…" : "All service categories"}
+            </option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.nameEn}
+              </option>
+            ))}
+          </Select>
+        </ListFilterField>
+        <ListSearchField>
           <SearchToolbar
             value={searchInput}
             onChange={setSearchInput}
@@ -90,8 +132,8 @@ export function ServicesPage() {
             }}
             placeholder="Search services…"
           />
-        </CardContent>
-      </Card>
+        </ListSearchField>
+      </ListFiltersCard>
 
       <Card>
         <CardContent className="pt-5">

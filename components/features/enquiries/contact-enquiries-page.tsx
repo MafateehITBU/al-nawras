@@ -8,6 +8,11 @@ import { FormField } from "@/components/ui/form-field";
 import { Modal, ModalFooter } from "@/components/ui/modal";
 import { PageHeader } from "@/components/ui/page-header";
 import { Pagination } from "@/components/ui/pagination";
+import {
+  ListFilterField,
+  ListFiltersCard,
+  ListSearchField,
+} from "@/components/features/shared/list-filters-card";
 import { SearchToolbar } from "@/components/features/shared/search-toolbar";
 import { Select } from "@/components/ui/select";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
@@ -46,10 +51,20 @@ export function ContactEnquiriesPage() {
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<EnquiryStatus | "">("");
+  const [serviceFilter, setServiceFilter] = useState("");
+  const [services, setServices] = useState<Pick<Service, "id" | "nameEn">[]>([]);
   const [page, setPage] = useState<number>(PAGINATION.DEFAULT_PAGE);
   const [selected, setSelected] = useState<EnquiryListItem | null>(null);
   const [detailStatus, setDetailStatus] = useState<EnquiryStatus>(EnquiryStatus.NEW);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    void apiClientPaginated<Service>("/api/admin/services?limit=100")
+      .then((result) =>
+        setServices(result.items.map(({ id, nameEn }) => ({ id, nameEn }))),
+      )
+      .catch(() => notify.error("Failed to load services"));
+  }, []);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -60,6 +75,7 @@ export function ContactEnquiriesPage() {
       });
       if (search) params.set("search", search);
       if (statusFilter) params.set("status", statusFilter);
+      if (serviceFilter) params.set("serviceId", serviceFilter);
       const result = await apiClientPaginated<EnquiryListItem>(
         `/api/admin/contact-enquiries?${params}`,
       );
@@ -69,7 +85,7 @@ export function ContactEnquiriesPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, search, statusFilter]);
+  }, [page, search, statusFilter, serviceFilter]);
 
   useEffect(() => {
     void load();
@@ -124,38 +140,53 @@ export function ContactEnquiriesPage() {
         description="View and manage messages submitted through the contact form."
       />
 
-      <Card className="mb-6">
-        <CardContent className="flex flex-col gap-4 pt-5 sm:flex-row sm:items-end">
-          <div className="flex-1">
-            <SearchToolbar
-              value={searchInput}
-              onChange={setSearchInput}
-              onSearch={() => {
-                setPage(1);
-                setSearch(searchInput.trim());
-              }}
-              placeholder="Search by name, email, company…"
-            />
-          </div>
-          <FormField label="Status" htmlFor="statusFilter" className="w-full sm:w-44">
-            <Select
-              id="statusFilter"
-              value={statusFilter}
-              onChange={(e) => {
-                setPage(1);
-                setStatusFilter(e.target.value as EnquiryStatus | "");
-              }}
-            >
-              <option value="">All statuses</option>
-              {Object.values(EnquiryStatus).map((status) => (
-                <option key={status} value={status}>
-                  {STATUS_LABELS[status]}
-                </option>
-              ))}
-            </Select>
-          </FormField>
-        </CardContent>
-      </Card>
+      <ListFiltersCard>
+        <ListSearchField>
+          <SearchToolbar
+            value={searchInput}
+            onChange={setSearchInput}
+            onSearch={() => {
+              setPage(1);
+              setSearch(searchInput.trim());
+            }}
+            placeholder="Search by name, email, company…"
+          />
+        </ListSearchField>
+        <ListFilterField label="Status" htmlFor="statusFilter">
+          <Select
+            id="statusFilter"
+            value={statusFilter}
+            onChange={(e) => {
+              setPage(1);
+              setStatusFilter(e.target.value as EnquiryStatus | "");
+            }}
+          >
+            <option value="">All statuses</option>
+            {Object.values(EnquiryStatus).map((status) => (
+              <option key={status} value={status}>
+                {STATUS_LABELS[status]}
+              </option>
+            ))}
+          </Select>
+        </ListFilterField>
+        <ListFilterField label="Service" htmlFor="serviceFilter" className="sm:w-52">
+          <Select
+            id="serviceFilter"
+            value={serviceFilter}
+            onChange={(e) => {
+              setPage(1);
+              setServiceFilter(e.target.value);
+            }}
+          >
+            <option value="">All services</option>
+            {services.map((service) => (
+              <option key={service.id} value={service.id}>
+                {service.nameEn}
+              </option>
+            ))}
+          </Select>
+        </ListFilterField>
+      </ListFiltersCard>
 
       <Card>
         <CardContent className="pt-5">

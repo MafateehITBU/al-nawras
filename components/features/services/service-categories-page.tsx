@@ -9,6 +9,10 @@ import { Modal, ModalFooter } from "@/components/ui/modal";
 import { PageHeader } from "@/components/ui/page-header";
 import { Pagination } from "@/components/ui/pagination";
 import { LocaleTabs } from "@/components/features/shared/locale-tabs";
+import {
+  ListFiltersCard,
+  ListSearchField,
+} from "@/components/features/shared/list-filters-card";
 import { SearchToolbar } from "@/components/features/shared/search-toolbar";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { useDeleteConfirm } from "@/components/providers/confirm-dialog-provider";
@@ -143,8 +147,8 @@ export function ServiceCategoriesPage() {
         }
       />
 
-      <Card className="mb-6">
-        <CardContent className="pt-5">
+      <ListFiltersCard>
+        <ListSearchField>
           <SearchToolbar
             value={searchInput}
             onChange={setSearchInput}
@@ -154,8 +158,8 @@ export function ServiceCategoriesPage() {
             }}
             placeholder="Search categories…"
           />
-        </CardContent>
-      </Card>
+        </ListSearchField>
+      </ListFiltersCard>
 
       <Card>
         <CardContent className="pt-5">

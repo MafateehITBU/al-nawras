@@ -10,6 +10,11 @@ import { Input } from "@/components/ui/input";
 import { Modal, ModalFooter } from "@/components/ui/modal";
 import { PageHeader } from "@/components/ui/page-header";
 import { Pagination } from "@/components/ui/pagination";
+import {
+  ListFilterField,
+  ListFiltersCard,
+  ListSearchField,
+} from "@/components/features/shared/list-filters-card";
 import { SearchToolbar } from "@/components/features/shared/search-toolbar";
 import { ImageUploadField } from "@/components/features/uploads/image-upload-field";
 import { Badge } from "@/components/ui/badge";
@@ -57,6 +62,8 @@ export function AdminsPage() {
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
+  const [roleFilter, setRoleFilter] = useState<AdminRole | "">("");
+  const [activeFilter, setActiveFilter] = useState<"" | "true" | "false">("");
   const [page, setPage] = useState<number>(PAGINATION.DEFAULT_PAGE);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<AdminPublic | null>(null);
@@ -73,6 +80,8 @@ export function AdminsPage() {
         limit: String(PAGINATION.DEFAULT_LIMIT),
       });
       if (search) params.set("search", search);
+      if (roleFilter) params.set("role", roleFilter);
+      if (activeFilter) params.set("isActive", activeFilter);
       const result = await apiClientPaginated<AdminPublic>(
         `/api/admin/admins?${params}`,
       );
@@ -82,7 +91,7 @@ export function AdminsPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, search]);
+  }, [page, search, roleFilter, activeFilter]);
 
   useEffect(() => {
     void load();
@@ -200,8 +209,8 @@ export function AdminsPage() {
         }
       />
 
-      <Card className="mb-6">
-        <CardContent className="pt-5">
+      <ListFiltersCard>
+        <ListSearchField>
           <SearchToolbar
             value={searchInput}
             onChange={setSearchInput}
@@ -211,8 +220,36 @@ export function AdminsPage() {
             }}
             placeholder="Search by name, email, or phone…"
           />
-        </CardContent>
-      </Card>
+        </ListSearchField>
+        <ListFilterField label="Role" htmlFor="adminRoleFilter">
+          <Select
+            id="adminRoleFilter"
+            value={roleFilter}
+            onChange={(e) => {
+              setPage(1);
+              setRoleFilter(e.target.value as AdminRole | "");
+            }}
+          >
+            <option value="">All roles</option>
+            <option value={AdminRole.ADMIN}>Admin</option>
+            <option value={AdminRole.SUPER_ADMIN}>Super admin</option>
+          </Select>
+        </ListFilterField>
+        <ListFilterField label="Status" htmlFor="adminActiveFilter">
+          <Select
+            id="adminActiveFilter"
+            value={activeFilter}
+            onChange={(e) => {
+              setPage(1);
+              setActiveFilter(e.target.value as "" | "true" | "false");
+            }}
+          >
+            <option value="">All statuses</option>
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </Select>
+        </ListFilterField>
+      </ListFiltersCard>
 
       <Card>
         <CardContent className="pt-5">

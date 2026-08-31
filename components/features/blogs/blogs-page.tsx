@@ -5,7 +5,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { Pagination } from "@/components/ui/pagination";
+import {
+  ListFilterField,
+  ListFiltersCard,
+  ListSearchField,
+} from "@/components/features/shared/list-filters-card";
 import { SearchToolbar } from "@/components/features/shared/search-toolbar";
+import { Select } from "@/components/ui/select";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { useDeleteConfirm } from "@/components/providers/confirm-dialog-provider";
 import { PAGINATION } from "@/constants";
@@ -23,10 +29,18 @@ type BlogListItem = Blog & {
 export function BlogsPage() {
   const confirmDelete = useDeleteConfirm();
   const [data, setData] = useState<PaginatedResult<BlogListItem> | null>(null);
+  const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [page, setPage] = useState<number>(PAGINATION.DEFAULT_PAGE);
+
+  useEffect(() => {
+    void apiClientPaginated<BlogCategory>("/api/admin/blog-categories?limit=100")
+      .then((result) => setCategories(result.items))
+      .catch(() => notify.error("Failed to load categories"));
+  }, []);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -36,6 +50,7 @@ export function BlogsPage() {
         limit: String(PAGINATION.DEFAULT_LIMIT),
       });
       if (search) params.set("search", search);
+      if (categoryFilter) params.set("categoryId", categoryFilter);
       const result = await apiClientPaginated<BlogListItem>(
         `/api/admin/blogs?${params}`,
       );
@@ -45,7 +60,7 @@ export function BlogsPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, search]);
+  }, [page, search, categoryFilter]);
 
   useEffect(() => {
     void load();
@@ -79,8 +94,8 @@ export function BlogsPage() {
         }
       />
 
-      <Card className="mb-6">
-        <CardContent className="pt-5">
+      <ListFiltersCard>
+        <ListSearchField>
           <SearchToolbar
             value={searchInput}
             onChange={setSearchInput}
@@ -90,8 +105,25 @@ export function BlogsPage() {
             }}
             placeholder="Search blogs…"
           />
-        </CardContent>
-      </Card>
+        </ListSearchField>
+        <ListFilterField label="Category" htmlFor="blogCategoryFilter">
+          <Select
+            id="blogCategoryFilter"
+            value={categoryFilter}
+            onChange={(e) => {
+              setPage(1);
+              setCategoryFilter(e.target.value);
+            }}
+          >
+            <option value="">All categories</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.nameEn}
+              </option>
+            ))}
+          </Select>
+        </ListFilterField>
+      </ListFiltersCard>
 
       <Card>
         <CardContent className="pt-5">
