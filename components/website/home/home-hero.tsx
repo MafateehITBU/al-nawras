@@ -3,6 +3,7 @@ import { HeroStats } from "@/components/website/home/hero-stats";
 import { homeBodyClassName, homeDescriptionSizeClassName } from "@/components/website/home/home-section-styles";
 import { getHomePageContent } from "@/lib/i18n/home-page-content";
 import type { SupportedLocale } from "@/lib/i18n/config";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 export function HomeHero({ locale }: { locale: SupportedLocale }) {
@@ -10,7 +11,7 @@ export function HomeHero({ locale }: { locale: SupportedLocale }) {
 
   return (
     <section
-      className="relative flex min-h-[calc(100dvh-5rem)] flex-col bg-website-surface lg:h-[calc(100dvh-5rem)] lg:overflow-hidden"
+      className="relative flex min-h-[calc(100dvh-5rem)] flex-col bg-website-surface lg:min-h-[calc(100dvh-5rem)]"
       aria-labelledby="home-hero-title"
     >
       <div
@@ -25,8 +26,20 @@ export function HomeHero({ locale }: { locale: SupportedLocale }) {
             id="home-hero-title"
             className="website-heading max-w-2xl text-[1.65rem] font-bold leading-[1.15] sm:text-3xl lg:max-w-none lg:text-[2.65rem] xl:text-[2.85rem]"
           >
-            <span className="block text-website-text lg:whitespace-nowrap">{hero.titleLine1}</span>
-            <span className="relative mt-2 inline-block text-website-primary sm:mt-2.5 lg:whitespace-nowrap">
+            <span
+              className={cn(
+                "block text-website-text",
+                locale === "en" && "lg:whitespace-nowrap",
+              )}
+            >
+              {hero.titleLine1}
+            </span>
+            <span
+              className={cn(
+                "relative mt-2 inline-block text-website-primary sm:mt-2.5",
+                locale === "en" && "lg:whitespace-nowrap",
+              )}
+            >
               {hero.titleLine2}
               <span
                 className="absolute -bottom-1 start-0 h-1 w-10 rounded-full bg-website-secondary sm:w-14"
@@ -40,7 +53,7 @@ export function HomeHero({ locale }: { locale: SupportedLocale }) {
           </p>
 
           <HeroButtons locale={locale} />
-          <HeroStats stats={hero.stats} />
+          <HeroStats stats={hero.stats} locale={locale} />
         </div>
 
         <div className="relative z-10 hidden aspect-[4/3] w-full max-w-md px-4 sm:max-w-lg sm:px-6 lg:mx-0 lg:block lg:aspect-auto lg:h-[calc(100dvh-5rem)] lg:max-w-none lg:px-0 lg:pb-0">

@@ -3,7 +3,7 @@
 > **Source of truth** for architecture decisions, implementation status, and technical context.
 > Read this document before starting any new task. Update it after significant changes.
 
-**Last updated:** 2026-08-30  
+**Last updated:** 2026-08-31  
 **Current phase:** Phase 7 — Public Website (Blog detail + Contact remaining)
 
 ---
@@ -136,6 +136,7 @@ Upload limits (see `constants/index.ts`):
 - Session stores `admin` object (public fields only, no passwordHash)
 - JWT callback avoids DB calls (Edge middleware compatible)
 - API routes validate session against DB via `validateSessionAdmin()`
+- **Admin page protection** in `app/admin/(dashboard)/layout.tsx` (server `auth()` + redirect), not Edge middleware — keeps middleware under Vercel Hobby 1 MB limit
 
 ### 3.10 Authorization
 
@@ -309,7 +310,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Phone number validation (libphonenumber-js, E.164 format)
 - [x] Admin service layer with business rules
 - [x] Admin CRUD API (list, create, read, update, delete)
-- [x] Middleware protecting `/admin/*` and `/api/admin/*` routes
+- [x] Middleware protecting `/api/admin/*` routes; `/admin/*` pages protected in dashboard layout
 - [x] `/api/admin/me` current admin endpoint
 
 ### Phase 4 — Content APIs ✅
@@ -380,9 +381,19 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 
 - [x] Centered modal dialogs (`dialog[open]` CSS in `globals.css`)
 - [x] Sort order hidden from all admin forms (backend defaults preserved)
-- [x] Shared: `LocaleTabs`, `SearchToolbar`, `RichTextEditor` (TipTap), `IconPicker` (Iconify)
+- [x] Shared: `LocaleTabs`, `SearchToolbar`, `RichTextEditor` (TipTap), `IconPicker` (Iconify), `ListFiltersCard` (search + dropdown filter toolbar)
 - [x] Upload fields used in admin profile, blog featured image & attachments
 - [x] Dependencies: `@tiptap/react`, `@tiptap/starter-kit`, `@iconify/react`
+
+#### Phase 6 — Dashboard List Filters ✅
+
+- [x] Shared filter toolbar: `components/features/shared/list-filters-card.tsx` (`ListFiltersCard`, `ListSearchField`, `ListFilterField`)
+- [x] **Services** (`/admin/services`): search + **Filter by category** dropdown — categories loaded with `sortOrder=asc` (oldest → newest)
+- [x] **Blogs** (`/admin/blogs`): search + category filter
+- [x] **Admins** (`/admin/admins`): search + role + active/inactive filters
+- [x] **Contact enquiries** (`/admin/contact-enquiries`): search + status + service filters
+- [x] Category list pages use the same filter toolbar layout (search only)
+- [x] Backend query params already supported filters; UI wired to existing list API schemas
 
 ---
 
@@ -391,7 +402,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 ### Phase 7 — Public Website (Foundation) ✅
 
 - [x] Locale-based routing: `/en`, `/ar` via `app/[locale]/`
-- [x] Middleware locale redirect + admin auth in one `middleware.ts`
+- [x] Middleware locale redirect only (`middleware.ts`) — no Auth.js in Edge bundle
 - [x] Bilingual dictionaries (`lib/i18n/dictionaries.ts`) + `pickLocalizedField()` for DB content
 - [x] Self-hosted fonts (Hanken Grotesk + Inter) — no Google Fonts on public site
 - [x] Website design tokens (`app/globals.css`, `app/website.css`, `constants/website-theme.ts`)
@@ -405,6 +416,10 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Active nav underline + primary color via `lib/website/paths.ts`
 - [x] `PrimaryButton` with direction-aware glass hover animation (`app/website.css`)
 - [x] Data-driven Services mega menu (`getPublicServicesMenu()` in `service.service.ts`)
+  - Categories and services ordered by **`createdAt` asc** (oldest → newest)
+  - Desktop layout: category column + **3 service columns**, **5 services per column** (`splitIntoThreeColumns()` in `lib/website/split-columns.ts`)
+  - Typography: **`text-sm` (~14px)**, color **`#686C70`**, centered service links, tighter column spacing (`px-8`)
+  - Category chevron: `lucide:chevron-right` with **`rtl:rotate-180`** for Arabic (no `website-ltr-icon` double-transform)
 - [x] Mobile drawer: EN slides from right, AR slides from left; Escape closes; body scroll lock
 - [x] Footer 4-column layout matching UX/UI — CMS data for contact + social links
 - [x] Separate logo assets: `NavbarLogo` (`/logo-navbar.png` or CMS upload) vs `FooterLogo` (`/logo.png`)
@@ -436,15 +451,16 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Static bilingual page at `app/[locale]/page.tsx` — no backend/API
 - [x] Content in `lib/i18n/home-page-content.ts` (hero, who we are, core services, edge, approach, expertise, SEO)
 - [x] Shared section styles in `home-section-styles.ts`:
-  - Desktop sections fill `lg:h-[calc(100dvh-5rem)]` below the `h-20` header; mobile scrolls the page naturally (no nested scroll)
+  - Desktop sections use **`lg:min-h-[calc(100dvh-5rem)]`** (no fixed height / no nested scroll)
+  - Inner wrapper is plain `website-container` — **no `lg:overflow-y-auto`** (fixes per-section scrollbars on Arabic)
   - Shared intro size `homeDescriptionSizeClassName` (`text-base` / `sm:text-[1.0625rem]`) on Hero, Al Nawras Edge, and Expertise descriptions
 - [x] Sections under `components/website/home/`:
-  - `HomeHero` — `home-hero-bg.png` + `home-hero-image.png`; two-line title (line 2 primary, own line, `lg:whitespace-nowrap`); hero image hidden below `lg`, desktop `object-contain object-end` edge-to-edge; stats titles `lg:whitespace-nowrap`; direction-aware image (AR: `rtl:scale-x-[-1]`)
+  - `HomeHero` — `home-hero-bg.png` + `home-hero-image.png`; two-line title (line 2 primary, own line); **`lg:whitespace-nowrap` only for EN** (Arabic wraps); hero image hidden below `lg`, desktop `object-contain object-end` edge-to-edge; stats titles nowrap on EN only; direction-aware image (AR: `rtl:scale-x-[-1]`)
   - `WhoWeAreSection` + `CoreValues` / `CoreValueItem` — larger titles/body; core-value icons on `bg-website-secondary` orange boxes; `#F4F6FE` panel with logical `border-s` accent
   - `CoreServicesSection` + `CoreServiceCard` + `CoreServicesCarousel` — dark `#2D3035` section; cards **363×376px**, no border radius; mobile auto-advancing carousel every 5s (RTL-aware); desktop 3-column grid (`hidden lg:block`)
   - `AlNawrasEdgeSection` + `EdgeItem` — title highlight **italic, not bold**; no dividers; numbering not bold; EN description hard-breaks after “practical” via `<br />` (tight paragraph spacing); Arabic breaks after “الفهم العملي”
   - `OurApproachSection` + `ApproachStep` — desktop timeline line `#27A8E133`; step numbers `1–4` (no leading zero); steps 1 & 3 (`position: "above"`) keep description on the line with `bg-website-bg` so titles are not clipped; section uses `lg:min-h-[calc(100dvh-5rem)]` without inner overflow scroll
-  - `ExpertiseSection` + `ExpertiseFloatingBadge` — image **608×581px**; orange badge ~**210×110px** (desktop), half on / half off the image via logical `-start`; title highlight italic; badge text centered in the box with `text-start` + `dir` for EN/AR; float animation `3s` (`animate-expertise-badge-float` in `website.css`); section `overflow-visible` so the badge is not clipped
+  - `ExpertiseSection` + `ExpertiseFloatingBadge` — image **608×581px**; orange badge ~**210×110px** (desktop), half on / half off the image via logical `-start`; title highlight italic; badge text centered in the box with `text-start` + `dir` for EN/AR; float animation `3s` (`animate-expertise-badge-float` in `website.css`); uses shared viewport section classes (`overflow-visible` on section)
 - [x] `SecondaryButton` — reusable ghost button with CSS conic-gradient border travel animation (`website-secondary-btn`)
 - [x] Design tokens added: `--website-hero-description`, `--website-card-dark`, `--website-card-dark-border`, `--website-icon-bg`
 - [x] Reused: `PrimaryButton`, `SecondaryButton`, `IconifyIcon`, `website-container`, locale layout RTL/LTR
@@ -463,7 +479,15 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] SEO via `buildWebsiteMetadata()` with localized title/description
 
 ### Phase 6 — Admin Dashboard (continued)
-### Phase 8 — Production Preparation
+
+### Phase 8 — Production & Deployment
+
+- [x] **Vercel** production URL: `https://al-nawras-zeta.vercel.app` (Neon PostgreSQL + Cloudinary env vars)
+- [x] Build command: `prisma generate && prisma migrate deploy && next build`
+- [x] **ISR / revalidation:** `export const revalidate = 60` on `app/[locale]/layout.tsx` and `app/[locale]/services/[slug]/page.tsx` so CMS changes appear on the public site within ~60s
+- [x] Edge middleware slimmed to **locale redirect only** — admin auth in dashboard layout (Hobby plan 1 MB Edge limit)
+- [x] Git push → Vercel auto-deploy: production branch **`main`** (Settings → Environments → Production → Branch Tracking); GitHub App integration (repo webhooks list may stay empty — normal)
+- [ ] Optional: on-demand revalidation when admin saves content (instead of 60s delay)
 
 ---
 
@@ -474,6 +498,8 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - Next.js 16 deprecates `middleware.ts` in favor of `proxy` — migrate when stable
 - Nominatim geocoding has usage limits — search is debounced; reverse geocode is best-effort on pin move
 - Contact and Blog detail public pages are still placeholders
+- Vercel Hobby: Git push may not trigger deploy if GitHub ↔ Vercel webhook is stale — reconnect Git in project settings or run `npx vercel deploy --prod`
+- Super admin seed password exposed in docs — rotate before production
 
 ---
 
@@ -513,3 +539,7 @@ npm run db:studio    # Open Prisma Studio
 | 2026-08-30 | 7 | Home page — static bilingual template with hero, core services, approach timeline, expertise badge |
 | 2026-08-30 | 7 | Home page refinements — viewport sections, core-services carousel, expertise badge overlap, shared description size, Edge line break |
 | 2026-08-29 | 7 | About Us page — static bilingual template with expertise cards and firm expertise section |
+| 2026-08-31 | 6 | Dashboard list filters — shared toolbar; services category filter (oldest-first), blogs/admins/enquiries filters |
+| 2026-08-31 | 7 | Services mega menu — 14px / `#686C70`, 3×5 columns, `createdAt` ordering, RTL chevron |
+| 2026-08-31 | 7 | Home page — remove nested section scroll (Arabic); EN-only `whitespace-nowrap` on hero/stats |
+| 2026-08-31 | 8 | Production deploy — ISR revalidate 60s, locale-only Edge middleware, Vercel + Neon |

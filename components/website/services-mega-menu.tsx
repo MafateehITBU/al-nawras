@@ -6,10 +6,13 @@ import type { WebsiteDictionary } from "@/lib/i18n/dictionaries";
 import type { SupportedLocale } from "@/lib/i18n/config";
 import type { PublicServicesMenuCategory } from "@/lib/services/service.service";
 import { getServiceDetailPath } from "@/lib/website/paths";
-import { splitIntoColumns } from "@/lib/website/split-columns";
+import { splitIntoThreeColumns } from "@/lib/website/split-columns";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+
+const MEGA_MENU_TEXT_CLASS = "text-[#686C70]";
+const SERVICES_PER_COLUMN = 5;
 
 export function ServicesMegaMenu({
   locale,
@@ -61,9 +64,9 @@ export function ServicesMegaMenu({
   const activeCategory =
     categories.find((category) => category.id === activeCategoryId) ?? categories[0];
 
-  const [leftServices, rightServices] = splitIntoColumns(
+  const [firstServices, secondServices, thirdServices] = splitIntoThreeColumns(
     activeCategory?.services ?? [],
-    5,
+    SERVICES_PER_COLUMN,
   );
 
   const handleCategoryKeyDown = useCallback(
@@ -92,7 +95,7 @@ export function ServicesMegaMenu({
             {dictionary.actions.noServiceCategories}
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-4 lg:inline-grid lg:grid-cols-[minmax(11rem,13rem)_auto_auto] lg:items-start lg:gap-x-6">
+          <div className="grid grid-cols-1 gap-4 lg:inline-grid lg:grid-cols-[minmax(11rem,13rem)_auto_auto_auto] lg:items-start lg:gap-x-6">
             <div className="lg:border-e lg:border-website-border lg:pe-4">
               <ul className="space-y-0.5" role="list">
                 {categories.map((category) => {
@@ -105,9 +108,8 @@ export function ServicesMegaMenu({
                         type="button"
                         className={cn(
                           "website-body flex w-full items-center justify-between gap-2 rounded-sm px-2 py-2 text-start text-sm transition-colors website-focus-ring",
-                          isActive
-                            ? "font-semibold text-website-text"
-                            : "text-website-muted hover:text-website-text",
+                          MEGA_MENU_TEXT_CLASS,
+                          isActive ? "font-semibold" : "font-normal hover:opacity-80",
                         )}
                         aria-current={isActive ? "true" : undefined}
                         onMouseEnter={() => setActiveCategoryId(category.id)}
@@ -119,8 +121,8 @@ export function ServicesMegaMenu({
                         <Icon
                           icon="lucide:chevron-right"
                           className={cn(
-                            "size-3.5 shrink-0 text-website-muted rtl:rotate-180",
-                            isActive && "text-website-text",
+                            "size-3.5 shrink-0 rtl:rotate-180",
+                            MEGA_MENU_TEXT_CLASS,
                           )}
                           aria-hidden
                         />
@@ -133,16 +135,23 @@ export function ServicesMegaMenu({
 
             <ServiceColumn
               locale={locale}
-              services={leftServices}
+              services={firstServices}
               emptyMessage={dictionary.actions.noServicesInCategory}
-              className="lg:border-e lg:border-website-border lg:px-4"
+              className="lg:border-e lg:border-website-border lg:px-8"
             />
 
             <ServiceColumn
               locale={locale}
-              services={rightServices}
+              services={secondServices}
               emptyMessage={null}
-              className="lg:px-4"
+              className="lg:border-e lg:border-website-border lg:px-8"
+            />
+
+            <ServiceColumn
+              locale={locale}
+              services={thirdServices}
+              emptyMessage={null}
+              className="lg:px-8"
             />
           </div>
         )}
@@ -183,7 +192,10 @@ function ServiceColumn({
         <li key={service.id} className="w-full text-center">
           <Link
             href={getServiceDetailPath(service.slug, locale)}
-            className="website-body inline-block text-sm text-website-muted transition-colors hover:text-website-primary website-focus-ring rounded-sm"
+            className={cn(
+              "website-body inline-block text-sm transition-colors hover:text-website-primary website-focus-ring rounded-sm",
+              MEGA_MENU_TEXT_CLASS,
+            )}
           >
             {pickLocalizedField(service, "name", locale)}
           </Link>

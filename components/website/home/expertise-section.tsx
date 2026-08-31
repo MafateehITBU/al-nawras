@@ -6,6 +6,7 @@ import {
 import {
   homeDescriptionSizeClassName,
   homeTextClassName,
+  homeViewportSectionClassName,
   homeViewportSectionContentClassName,
 } from "@/components/website/home/home-section-styles";
 import { getHomePageContent } from "@/lib/i18n/home-page-content";
@@ -17,10 +18,10 @@ export function ExpertiseSection({ locale }: { locale: SupportedLocale }) {
 
   return (
     <section
-      className="flex flex-col justify-center overflow-visible bg-website-surface py-10 sm:py-12 lg:h-[calc(100dvh-5rem)] lg:overflow-visible lg:py-12"
+      className={`overflow-visible bg-website-surface ${homeViewportSectionClassName}`}
       aria-labelledby="expertise-title"
     >
-      <div className={`${homeViewportSectionContentClassName} overflow-visible lg:overflow-x-visible`}>
+      <div className={homeViewportSectionContentClassName}>
         <div className="grid items-center gap-10 overflow-visible lg:grid-cols-2 lg:gap-12 xl:gap-16">
           <div>
             <h2

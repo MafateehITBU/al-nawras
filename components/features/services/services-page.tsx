@@ -39,7 +39,9 @@ export function ServicesPage() {
 
   useEffect(() => {
     setCategoriesLoading(true);
-    void apiClientPaginated<ServiceCategory>("/api/admin/service-categories?limit=100")
+    void apiClientPaginated<ServiceCategory>(
+      "/api/admin/service-categories?limit=100&sortOrder=asc",
+    )
       .then((result) => setCategories(result.items))
       .catch(() => notify.error("Failed to load service categories"))
       .finally(() => setCategoriesLoading(false));

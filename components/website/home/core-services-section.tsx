@@ -16,7 +16,7 @@ export function CoreServicesSection({ locale }: { locale: SupportedLocale }) {
       className={`bg-website-footer ${homeViewportSectionClassName}`}
       aria-labelledby="core-services-title"
     >
-      <div className={`${homeViewportSectionContentClassName} flex min-h-0 flex-1 flex-col justify-center`}>
+      <div className={homeViewportSectionContentClassName}>
         <div className="mx-auto max-w-3xl shrink-0 text-center">
           <span
             className={`${homeLabelClassName(locale)} text-sm text-website-primary sm:text-base`}

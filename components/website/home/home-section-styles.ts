@@ -12,13 +12,12 @@ export const homeTextClassName =
 /** Vertical padding for Home page content sections (legacy / non-viewport sections). */
 export const homeSectionClassName = "py-14 sm:py-16 lg:py-20";
 
-/** Full viewport section — desktop fills space below the h-20 header; mobile scrolls naturally. */
+/** Full viewport section — desktop fills at least the space below the h-20 header. */
 export const homeViewportSectionClassName =
-  "flex flex-col justify-center py-10 sm:py-12 lg:h-[calc(100dvh-5rem)] lg:overflow-hidden lg:py-12";
+  "flex flex-col justify-center py-10 sm:py-12 lg:min-h-[calc(100dvh-5rem)] lg:py-12";
 
-/** Inner wrapper — nested scroll only on desktop when content exceeds the viewport. */
-export const homeViewportSectionContentClassName =
-  "website-container w-full lg:max-h-full lg:overflow-y-auto";
+/** Inner wrapper — no nested scroll; page scrolls naturally. */
+export const homeViewportSectionContentClassName = "website-container w-full";
 
 /** Small uppercase-style section label. */
 export function homeLabelClassName(locale: "en" | "ar") {

@@ -133,7 +133,7 @@ export function ServiceFormPage({ serviceId }: { serviceId?: string }) {
 
   useEffect(() => {
     void apiClientPaginated<ServiceCategory>(
-      "/api/admin/service-categories?limit=100",
+      "/api/admin/service-categories?limit=100&sortOrder=asc",
     ).then((result) => setCategories(result.items));
   }, []);
 
