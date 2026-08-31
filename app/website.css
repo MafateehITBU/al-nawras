@@ -185,4 +185,36 @@
   .animate-expertise-badge-float {
     animation: none;
   }
+
+  .mega-menu-content-in {
+    animation: none;
+  }
+
+  .mega-menu-service-link:hover .mega-menu-service-arrow {
+    transform: none;
+  }
+}
+
+/* Services mega menu — soft entrance + link hover */
+@keyframes mega-menu-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mega-menu-content-in {
+  animation: mega-menu-content-in 0.28s ease-out;
+}
+
+.mega-menu-service-link:hover .mega-menu-service-arrow {
+  transform: translateX(2px);
+}
+
+[dir="rtl"] .mega-menu-service-link:hover .mega-menu-service-arrow {
+  transform: translateX(-2px) rotate(180deg);
 }

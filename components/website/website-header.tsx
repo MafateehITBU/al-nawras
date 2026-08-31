@@ -43,7 +43,10 @@ export function WebsiteHeader({
 
   return (
     <header
-      className="relative sticky top-0 z-50 border-b border-website-border/70 bg-website-surface/95 backdrop-blur-[2px]"
+      className={cn(
+        "relative sticky top-0 z-50 bg-website-surface backdrop-blur-[2px]",
+        megaMenuOpen ? "shadow-none" : "border-b border-website-border/70",
+      )}
       onMouseLeave={() => setMegaMenuOpen(false)}
     >
       <div className="website-container relative">
