@@ -6,6 +6,8 @@ import { getPublicServicePageData } from "@/lib/services/service.service";
 import { excerptPlainText } from "@/lib/utils/text";
 import { notFound } from "next/navigation";
 
+export const revalidate = 60;
+
 export async function generateMetadata({
   params,
 }: {

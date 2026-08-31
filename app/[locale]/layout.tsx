@@ -14,6 +14,9 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+/** Re-fetch footer, header menu, and other CMS data from the database periodically. */
+export const revalidate = 60;
+
 export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
 }
