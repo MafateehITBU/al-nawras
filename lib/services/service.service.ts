@@ -23,7 +23,7 @@ export type PublicServicesMenuCategory = Awaited<
 
 export async function getPublicServicesMenu() {
   return prisma.serviceCategory.findMany({
-    orderBy: { nameEn: "asc" },
+    orderBy: { createdAt: "asc" },
     select: {
       id: true,
       nameEn: true,
@@ -36,7 +36,7 @@ export async function getPublicServicesMenu() {
           nameEn: true,
           nameAr: true,
         },
-        orderBy: { nameEn: "asc" },
+        orderBy: { createdAt: "asc" },
       },
     },
   });

@@ -92,9 +92,9 @@ export function ServicesMegaMenu({
             {dictionary.actions.noServiceCategories}
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(12rem,16rem)_1fr_1fr] lg:gap-0">
-            <div className="lg:border-e lg:border-website-border lg:pe-6">
-              <ul className="space-y-1" role="list">
+          <div className="grid grid-cols-1 gap-4 lg:inline-grid lg:grid-cols-[minmax(11rem,13rem)_auto_auto] lg:items-start lg:gap-x-6">
+            <div className="lg:border-e lg:border-website-border lg:pe-4">
+              <ul className="space-y-0.5" role="list">
                 {categories.map((category) => {
                   const isActive = category.id === activeCategory?.id;
                   const name = pickLocalizedField(category, "name", locale);
@@ -104,7 +104,7 @@ export function ServicesMegaMenu({
                       <button
                         type="button"
                         className={cn(
-                          "website-body flex w-full items-center justify-between gap-3 rounded-sm px-2 py-2.5 text-start text-base transition-colors website-focus-ring",
+                          "website-body flex w-full items-center justify-between gap-2 rounded-sm px-2 py-2 text-start text-sm transition-colors website-focus-ring",
                           isActive
                             ? "font-semibold text-website-text"
                             : "text-website-muted hover:text-website-text",
@@ -119,7 +119,7 @@ export function ServicesMegaMenu({
                         <Icon
                           icon="lucide:chevron-right"
                           className={cn(
-                            "size-4 shrink-0 text-website-muted website-ltr-icon rtl:rotate-180",
+                            "size-3.5 shrink-0 text-website-muted rtl:rotate-180",
                             isActive && "text-website-text",
                           )}
                           aria-hidden
@@ -135,14 +135,14 @@ export function ServicesMegaMenu({
               locale={locale}
               services={leftServices}
               emptyMessage={dictionary.actions.noServicesInCategory}
-              className="lg:border-e lg:border-website-border lg:px-6"
+              className="lg:border-e lg:border-website-border lg:px-4"
             />
 
             <ServiceColumn
               locale={locale}
               services={rightServices}
               emptyMessage={null}
-              className="lg:ps-6"
+              className="lg:px-4"
             />
           </div>
         )}
@@ -175,12 +175,15 @@ function ServiceColumn({
   }
 
   return (
-    <ul className={cn("space-y-3", className)} role="list">
+    <ul
+      className={cn("flex flex-col items-center space-y-2", className)}
+      role="list"
+    >
       {services.map((service) => (
-        <li key={service.id}>
+        <li key={service.id} className="w-full text-center">
           <Link
             href={getServiceDetailPath(service.slug, locale)}
-            className="website-body block text-base text-website-muted transition-colors hover:text-website-primary website-focus-ring rounded-sm"
+            className="website-body inline-block text-sm text-website-muted transition-colors hover:text-website-primary website-focus-ring rounded-sm"
           >
             {pickLocalizedField(service, "name", locale)}
           </Link>
