@@ -4,6 +4,7 @@ import { CoreServicesSection } from "@/components/website/home/core-services-sec
 import { ExpertiseSection } from "@/components/website/home/expertise-section";
 import { HomeHero } from "@/components/website/home/home-hero";
 import { OurApproachSection } from "@/components/website/home/our-approach-section";
+import { OurPartnersSection } from "@/components/website/home/our-partners-section";
 import { WhoWeAreSection } from "@/components/website/home/who-we-are-section";
 import type { SupportedLocale } from "@/lib/i18n/config";
 
@@ -24,6 +25,9 @@ export function HomePage({ locale }: { locale: SupportedLocale }) {
       </AnimateIn>
       <AnimateIn variant="up">
         <OurApproachSection locale={locale} />
+      </AnimateIn>
+      <AnimateIn variant="up">
+        <OurPartnersSection locale={locale} />
       </AnimateIn>
       <AnimateIn variant="scale">
         <ExpertiseSection locale={locale} />

@@ -35,6 +35,13 @@ export interface HomeApproachStep {
   position: "above" | "on-line";
 }
 
+export interface HomePartner {
+  id: string;
+  name: string;
+  logoUrl: string | null;
+  websiteUrl?: string | null;
+}
+
 export interface HomePageContent {
   seo: {
     title: string;
@@ -68,6 +75,14 @@ export interface HomePageContent {
     titleHighlight: string;
     description: string;
     items: HomeEdgeItem[];
+  };
+  partners: {
+    label: string;
+    titleBefore: string;
+    titleHighlight: string;
+    description: string;
+    placeholderLabel: string;
+    items: HomePartner[];
   };
   approach: {
     label: string;
@@ -199,6 +214,15 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
             "We manage every matter carefully, monitoring deadlines and procedures to maintain effective protection.",
         },
       ],
+    },
+    partners: {
+      label: "OUR PARTNERS",
+      titleBefore: "Trusted ",
+      titleHighlight: "Collaborations.",
+      description:
+        "We work alongside respected organisations and institutions that share our commitment to protecting intellectual property and supporting innovation across markets.",
+      placeholderLabel: "Partner logo",
+      items: [],
     },
     approach: {
       label: "OUR APPROACH",
@@ -364,6 +388,15 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
             "نتعامل مع كل طلب وملف ومستند بعناية، مع متابعة المواعيد والإجراءات والتفاصيل التي تضمن استمرارية حماية حقوقك.",
         },
       ],
+    },
+    partners: {
+      label: "شركاؤنا",
+      titleBefore: "شراكات ",
+      titleHighlight: "موثوقة.",
+      description:
+        "نعمل إلى جانب مؤسسات ومنظمات تتقاسم معنا التزام حماية الملكية الفكرية ودعم الابتكار في مختلف الأسواق.",
+      placeholderLabel: "شعار الشريك",
+      items: [],
     },
     approach: {
       label: "منهجية العمل",

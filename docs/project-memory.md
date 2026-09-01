@@ -3,8 +3,8 @@
 > **Source of truth** for architecture decisions, implementation status, and technical context.
 > Read this document before starting any new task. Update it after significant changes.
 
-**Last updated:** 2026-09-01 (blog UI refinements, attachment download, navbar logo fix)
-**Current phase:** Phase 7 — Public Website (Contact remaining)
+**Last updated:** 2026-09-01 (Contact page, home partners section)
+**Current phase:** Phase 7 — Public Website
 
 ---
 
@@ -411,7 +411,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Self-hosted fonts (Hanken Grotesk + Inter) — no Google Fonts on public site
 - [x] Website design tokens (`app/globals.css`, `app/website.css`, `constants/website-theme.ts`)
 - [x] SEO helper (`lib/seo/metadata.ts`) + `sitemap.ts` + `robots.ts`
-- [x] Placeholder pages remaining: Blog listing/detail, Contact — Home, About, and Service details are built
+- [x] Placeholder pages remaining: none for Phase 7 core routes — Home, About, Services, Blog, Contact, Terms built
 
 ### Phase 7 — Header, Mega Menu, Mobile Nav & Footer ✅
 
@@ -464,7 +464,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Dynamic SEO metadata — title from service name, description from hero description excerpt, OG image from overview image
 - [x] Sitemap includes all service slug URLs per locale
 - [x] RTL/LTR via locale layout `dir` attribute; logical CSS properties (`border-s`, `-end`, `ps`) for direction-sensitive layout
-- [ ] Page designs from user (Blog detail, Contact)
+- [ ] Page designs from user (remaining optional polish)
 
 ### Phase 7 — Home Page ✅
 
@@ -513,6 +513,27 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] **Migration:** `20260901100000_add_blog_attachment_name`
 - [x] Components under `components/website/blog/`
 
+### Phase 7 — Contact Us Page ✅
+
+- [x] **Route:** `/[locale]/contact` — SSG with `revalidate = 60`
+- [x] **Hero:** `about-hero-bg.png`, `PageBreadcrumb`, title (secondary/orange), description — copy in `lib/i18n/contact-page-content.ts`
+- [x] **Form (client):** underline inputs (`border-b-2`, token `--website-input-divider` / `#BEC8D0`); 2-col grid desktop, 1-col mobile; fields match `createContactEnquirySchema`
+- [x] **Submit:** `POST /api/contact-enquiries` via `apiClient`; `PrimarySubmitButton` (reuses primary button glass hover); Sonner toasts via `WebsiteToaster` in shell
+- [x] **Enquiry type:** `listPublicContactServices()` — service names localized EN/AR
+- [x] **Country:** searchable dropdown from `lib/data/countries.ts` (`libphonenumber-js` country codes + `Intl.DisplayNames`)
+- [x] **Phone:** client + server validation via `phoneSchema` / `isValidPhoneNumber`
+- [x] **Contact info:** first address, all phones, settings email from `getWebsiteContent()`; `ContactInfoItem` blocks
+- [x] **Map:** first `WebsiteMapLocation` (sortOrder); Leaflet + `/api/map-tiles` (dynamic import, client-only); hidden if no location; “View on map” → Google Maps
+- [x] **Layout:** form column wider (`1.2fr` / `0.8fr`); stacks on mobile (form then info); RTL via locale `dir`
+- [x] **SEO:** localized title/description via `buildWebsiteMetadata`
+- [x] Components under `components/website/contact/`
+
+### Phase 7 — Home Partners Section ✅
+
+- [x] **Placement:** after Our Approach
+- [x] **Design:** infinite marquee logo strip (`PartnersMarquee`); placeholder slots until `partners.items` populated in `home-page-content.ts`
+- [x] Pause on hover; RTL animation direction; reduced-motion fallback (wrapped grid)
+
 - [x] Static bilingual page at `app/[locale]/about/page.tsx` — no backend/API
 - [x] Content in `lib/i18n/about-page-content.ts` (hero, 8 expertise cards, firm expertise points, SEO)
 - [x] Sections under `components/website/about/`:
@@ -542,7 +563,6 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - Social link URLs seeded as empty strings — to be filled via dashboard
 - Next.js 16 deprecates `middleware.ts` in favor of `proxy` — migrate when stable
 - Nominatim geocoding has usage limits — search is debounced; reverse geocode is best-effort on pin move
-- Contact public page is still a placeholder
 - Vercel Hobby: Git push may not trigger deploy if GitHub ↔ Vercel webhook is stale — reconnect Git in project settings or run `npx vercel deploy --prod`
 - Super admin seed password exposed in docs — rotate before production
 

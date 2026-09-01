@@ -419,6 +419,34 @@
   }
 }
 
+/* Partners marquee — infinite logo strip */
+@keyframes partners-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.partners-marquee__track--animate {
+  animation: partners-marquee-scroll 45s linear infinite;
+}
+
+.partners-marquee:hover .partners-marquee__track--animate {
+  animation-play-state: paused;
+}
+
+[dir="rtl"] .partners-marquee__track--animate {
+  animation-direction: reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-marquee__track--animate {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .website-reveal,
   .website-reveal-up,

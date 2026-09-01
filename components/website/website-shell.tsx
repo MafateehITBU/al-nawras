@@ -1,6 +1,7 @@
 import { WebsiteFooter } from "@/components/website/website-footer";
 import { WebsiteHeader } from "@/components/website/website-header";
 import { WebsiteNavigationProvider } from "@/components/website/website-navigation-provider";
+import { WebsiteToaster } from "@/components/website/website-toaster";
 import type { WebsiteDictionary } from "@/lib/i18n/dictionaries";
 import type { SupportedLocale } from "@/lib/i18n/config";
 import type { PublicServicesMenuCategory } from "@/lib/services/service.service";
@@ -23,6 +24,7 @@ export function WebsiteShell({
 }) {
   return (
     <WebsiteNavigationProvider logoUrl={website.settings.logoUrl}>
+      <WebsiteToaster />
       <div className="flex min-h-dvh flex-1 flex-col overflow-x-clip bg-website-surface text-website-text">
         <WebsiteHeader
           locale={locale}

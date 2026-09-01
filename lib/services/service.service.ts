@@ -143,6 +143,17 @@ export async function listPublicServiceSlugs() {
   });
 }
 
+export async function listPublicContactServices() {
+  return prisma.service.findMany({
+    select: {
+      id: true,
+      nameEn: true,
+      nameAr: true,
+    },
+    orderBy: { nameEn: "asc" },
+  });
+}
+
 const categoryServiceSelect = {
   id: true,
   slug: true,
