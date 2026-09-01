@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { forwardRef, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
+import { forwardRef, type TextareaHTMLAttributes } from "react";
 
 const underlineClassName =
   "website-body w-full border-0 border-b-2 border-website-input-divider bg-transparent px-0 py-2 text-base text-website-text placeholder:text-website-muted transition-colors focus:border-website-primary focus:outline-none website-focus-ring rounded-none";
@@ -9,17 +9,6 @@ export const ContactUnderlineInput = forwardRef<
   React.InputHTMLAttributes<HTMLInputElement>
 >(function ContactUnderlineInput({ className, ...props }, ref) {
   return <input ref={ref} className={cn(underlineClassName, className)} {...props} />;
-});
-
-export const ContactUnderlineSelect = forwardRef<
-  HTMLSelectElement,
-  SelectHTMLAttributes<HTMLSelectElement>
->(function ContactUnderlineSelect({ className, children, ...props }, ref) {
-  return (
-    <select ref={ref} className={cn(underlineClassName, "cursor-pointer", className)} {...props}>
-      {children}
-    </select>
-  );
 });
 
 export const ContactUnderlineTextarea = forwardRef<

@@ -44,7 +44,6 @@ export interface ContactPageContent {
     officeLocation: string;
     phone: string;
     email: string;
-    mapUnavailable: string;
     viewOnMap: string;
   };
 }
@@ -97,7 +96,6 @@ const contactPageContent: Record<SupportedLocale, ContactPageContent> = {
       officeLocation: "Office Location",
       phone: "Phone",
       email: "Email",
-      mapUnavailable: "Map location is not available at the moment.",
       viewOnMap: "View on map",
     },
   },
@@ -147,7 +145,6 @@ const contactPageContent: Record<SupportedLocale, ContactPageContent> = {
       officeLocation: "موقع المكتب",
       phone: "الهاتف",
       email: "البريد الإلكتروني",
-      mapUnavailable: "الخريطة غير متاحة حالياً.",
       viewOnMap: "عرض على الخريطة",
     },
   },

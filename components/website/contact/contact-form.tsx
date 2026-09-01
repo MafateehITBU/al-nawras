@@ -2,7 +2,7 @@
 
 import { Icon } from "@iconify/react";
 import { ContactCountrySelect } from "@/components/website/contact/contact-country-select";
-import { ContactServiceSelect } from "@/components/website/contact/contact-service-select";
+import { ContactSearchableSelect } from "@/components/website/contact/contact-searchable-select";
 import {
   ContactFormField,
   ContactUnderlineInput,
@@ -236,7 +236,7 @@ export function ContactForm({
             required
             error={errors.serviceId}
           >
-            <ContactServiceSelect
+            <ContactSearchableSelect
               value={values.serviceId}
               onChange={(serviceId) => updateField("serviceId", serviceId)}
               options={serviceOptions.map((service) => ({

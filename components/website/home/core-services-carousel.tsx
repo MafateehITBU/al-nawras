@@ -106,7 +106,7 @@ export function CoreServicesCarousel({
                 role="group"
                 aria-roledescription="slide"
               >
-                <div className="w-full min-w-0">
+                <div className="mx-auto w-full min-w-0 max-w-[290px] sm:max-w-[328px] lg:mx-0 lg:max-w-none">
                   <CoreServiceCard service={service} locale={locale} />
                 </div>
               </div>
