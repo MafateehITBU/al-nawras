@@ -1,4 +1,5 @@
 import { ExpertiseCard } from "@/components/website/about/expertise-card";
+import { AnimateIn } from "@/components/website/animate-in";
 import { aboutSectionClassName } from "@/components/website/about/about-section-styles";
 import { getAboutPageContent } from "@/lib/i18n/about-page-content";
 import type { SupportedLocale } from "@/lib/i18n/config";
@@ -36,16 +37,18 @@ export function AboutExpertise({ locale }: { locale: SupportedLocale }) {
           </p>
         </div>
 
-        <ul
-          className="mt-10 grid justify-items-center gap-6 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8"
-          role="list"
-        >
-          {expertise.cards.map((card) => (
-            <li key={card.title} className="w-full max-w-[421px]">
-              <ExpertiseCard card={card} />
-            </li>
-          ))}
-        </ul>
+        <AnimateIn stagger staggerVariant="scale">
+          <ul
+            className="mt-10 grid justify-items-center gap-6 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8"
+            role="list"
+          >
+            {expertise.cards.map((card) => (
+              <li key={card.title} className="w-full max-w-[421px]">
+                <ExpertiseCard card={card} />
+              </li>
+            ))}
+          </ul>
+        </AnimateIn>
       </div>
     </section>
   );

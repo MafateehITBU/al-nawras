@@ -1,4 +1,5 @@
 import { ApproachStep, ApproachStepMobile, APPROACH_LINE_COLOR } from "@/components/website/home/approach-step";
+import { AnimateIn } from "@/components/website/animate-in";
 import { homeLabelClassName } from "@/components/website/home/home-section-styles";
 import { getHomePageContent } from "@/lib/i18n/home-page-content";
 import type { SupportedLocale } from "@/lib/i18n/config";
@@ -27,12 +28,11 @@ export function OurApproachSection({ locale }: { locale: SupportedLocale }) {
           </p>
         </div>
 
-        {/* Mobile / tablet vertical timeline */}
-        <div className="mt-10 lg:hidden">
+        <AnimateIn stagger staggerVariant="up" className="mt-10 lg:hidden">
           {approach.steps.map((step) => (
             <ApproachStepMobile key={step.number} step={step} locale={locale} />
           ))}
-        </div>
+        </AnimateIn>
 
         {/* Desktop alternating timeline */}
         <div className="relative mt-10 hidden lg:mt-12 lg:block">
@@ -41,11 +41,11 @@ export function OurApproachSection({ locale }: { locale: SupportedLocale }) {
             style={{ backgroundColor: APPROACH_LINE_COLOR }}
             aria-hidden="true"
           />
-          <div className="relative grid grid-cols-4 items-stretch gap-6 xl:gap-8">
+          <AnimateIn stagger staggerVariant="up" className="relative grid grid-cols-4 items-stretch gap-6 xl:gap-8">
             {approach.steps.map((step) => (
               <ApproachStep key={step.number} step={step} locale={locale} />
             ))}
-          </div>
+          </AnimateIn>
         </div>
       </div>
     </section>

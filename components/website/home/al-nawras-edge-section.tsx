@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { EdgeItem } from "@/components/website/home/edge-item";
+import { AnimateIn } from "@/components/website/animate-in";
 import {
   homeBodyClassName,
   homeDescriptionSizeClassName,
@@ -37,16 +38,18 @@ export function AlNawrasEdgeSection({ locale }: { locale: SupportedLocale }) {
         </div>
 
         <div className="mt-8 bg-website-bg sm:mt-10">
-          <ul
-            className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8"
-            role="list"
-          >
-            {alNawrasEdge.items.map((item) => (
-              <li key={item.number} className="h-full">
-                <EdgeItem item={item} locale={locale} />
-              </li>
-            ))}
-          </ul>
+          <AnimateIn stagger staggerVariant="up">
+            <ul
+              className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8"
+              role="list"
+            >
+              {alNawrasEdge.items.map((item) => (
+                <li key={item.number} className="h-full">
+                  <EdgeItem item={item} locale={locale} />
+                </li>
+              ))}
+            </ul>
+          </AnimateIn>
         </div>
       </div>
     </section>

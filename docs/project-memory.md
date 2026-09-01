@@ -3,7 +3,7 @@
 > **Source of truth** for architecture decisions, implementation status, and technical context.
 > Read this document before starting any new task. Update it after significant changes.
 
-**Last updated:** 2026-08-31  
+**Last updated:** 2026-08-31 (mega menu, mobile nav, scroll animations, navigation loader)
 **Current phase:** Phase 7 — Public Website (Blog detail + Contact remaining)
 
 ---
@@ -65,7 +65,9 @@ lib/
 ├── auth/               # Authentication (Phase 3)
 ├── authorization/      # Permission system (Phase 3)
 ├── db/                 # Prisma client singleton
+├── i18n/               # Locale config, dictionaries, static page content
 ├── services/           # Business logic layer
+├── website/            # Public site helpers (paths, split-columns, internal-link)
 ├── validations/        # Zod schemas
 ├── utils/              # Shared utilities
 └── env.ts              # Environment variable validation (lazy)
@@ -411,20 +413,35 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 
 ### Phase 7 — Header, Mega Menu, Mobile Nav & Footer ✅
 
-- [x] Sticky header with subtle opacity (`bg-website-surface/95`)
+- [x] Sticky header — removes bottom border while mega menu is open for seamless panel attach
 - [x] Centered desktop nav: Home, About Us, Services (mega menu), Contact Us, AR/EN switcher
 - [x] Active nav underline + primary color via `lib/website/paths.ts`
 - [x] `PrimaryButton` with direction-aware glass hover animation (`app/website.css`)
 - [x] Data-driven Services mega menu (`getPublicServicesMenu()` in `service.service.ts`)
   - Categories and services ordered by **`createdAt` asc** (oldest → newest)
-  - Desktop layout: category column + **3 service columns**, **5 services per column** (`splitIntoThreeColumns()` in `lib/website/split-columns.ts`)
-  - Typography: **`text-sm` (~14px)**, color **`#686C70`**, centered service links, tighter column spacing (`px-8`)
-  - Category chevron: `lucide:chevron-right` with **`rtl:rotate-180`** for Arabic (no `website-ltr-icon` double-transform)
+  - **Full-width dropdown** flush with header (`absolute inset-x-0 top-full`), **`rounded-b-xl` only**, light gray **`border-t border-website-border`**
+  - Layout: category sidebar (sparkle icons, hover/focus switches active category) + **3 service columns × 5 rows** (`splitIntoThreeColumns()` in `lib/website/split-columns.ts`)
+  - Typography: **`text-sm` (~14px)**, color **`#686C70`**; service links with hover arrow (`mega-menu-service-link`, `mega-menu-content-in` animation)
+  - Panel open animation: `mega-menu-panel-in` (slide down + fade)
+- [x] **Mobile Services menu:** expandable Services row → each **category is its own accordion**; services list opens **directly under the tapped category** (not at bottom of all categories); chevron + `mobile-submenu-in` animation
 - [x] Mobile drawer: EN slides from right, AR slides from left; Escape closes; body scroll lock
 - [x] Footer 4-column layout matching UX/UI — CMS data for contact + social links
 - [x] Separate logo assets: `NavbarLogo` (`/logo-navbar.png` or CMS upload) vs `FooterLogo` (`/logo.png`)
 - [x] Placeholder routes: `/about`, `/privacy-policy`, `/terms-and-conditions`
 - [x] Dynamic service detail route: `/services/[slug]`
+
+### Phase 7 — Scroll Animations & Page Navigation Loading ✅
+
+- [x] **`AnimateIn`** client component (`components/website/animate-in.tsx`) — Intersection Observer scroll reveals; variants: `up`, `down`, `left`, `right` (left/right map to vertical motion), `scale`, `fade`; optional `stagger` + `staggerVariant` (`up` | `scale` | `left`) for card grids
+- [x] Applied to Home, About, and Service detail page sections; card grids (core services, expertise, edge items, approach steps, related services, why-choose) use staggered child animation
+- [x] **Vertical-only motion** + **`overflow-x: clip`** on `.website-root`, shell, and `main` — prevents horizontal scroll from reveal animations
+- [x] Respects `prefers-reduced-motion`
+- [x] **Navigation loading overlay** (replaces page fade/slide transitions):
+  - `WebsiteNavigationProvider` intercepts internal website link clicks (`lib/website/internal-link.ts`)
+  - Shows **`WebsiteNavigationLoader`** — full-screen centered CMS/navbar logo + CSS spinner (`website-nav-loader-spinner`)
+  - Hides when `pathname` changes; 15s safety timeout; body scroll locked while visible
+  - No View Transitions API / no page enter-exit animation on route change
+- [x] CSS in `app/website.css`: reveal variants, stagger keyframes, nav loader spinner
 
 ### Phase 7 — Service Details Page ✅
 
@@ -542,4 +559,8 @@ npm run db:studio    # Open Prisma Studio
 | 2026-08-31 | 6 | Dashboard list filters — shared toolbar; services category filter (oldest-first), blogs/admins/enquiries filters |
 | 2026-08-31 | 7 | Services mega menu — 14px / `#686C70`, 3×5 columns, `createdAt` ordering, RTL chevron |
 | 2026-08-31 | 7 | Home page — remove nested section scroll (Arabic); EN-only `whitespace-nowrap` on hero/stats |
+| 2026-08-31 | 7 | Mega menu redesign — full-width header dropdown, `rounded-b-xl`, border-top, category sidebar + service grid |
+| 2026-08-31 | 7 | Mobile services menu — per-category accordion (services inline under category) |
+| 2026-08-31 | 7 | Scroll animations — `AnimateIn` on public pages; vertical-only reveals; stagger on card grids |
+| 2026-08-31 | 7 | Navigation loading — logo + spinner overlay on internal link click (`WebsiteNavigationProvider`); no page transition animation |
 | 2026-08-31 | 8 | Production deploy — ISR revalidate 60s, locale-only Edge middleware, Vercel + Neon |

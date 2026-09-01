@@ -1,3 +1,4 @@
+import { AnimateIn } from "@/components/website/animate-in";
 import { RelatedServicesSection } from "@/components/website/service/related-services-section";
 import { ServiceHero } from "@/components/website/service/service-hero";
 import { ServiceOverview } from "@/components/website/service/service-overview";
@@ -19,11 +20,21 @@ export function ServiceDetailsPage({
 
   return (
     <>
-      <ServiceHero locale={locale} service={service} />
-      <ServiceOverview locale={locale} service={service} />
-      <StrategicBenefitsSection locale={locale} service={service} />
-      <WhyChooseSection locale={locale} />
-      <RelatedServicesSection locale={locale} services={relatedServices} />
+      <AnimateIn immediate variant="fade">
+        <ServiceHero locale={locale} service={service} />
+      </AnimateIn>
+      <AnimateIn variant="up">
+        <ServiceOverview locale={locale} service={service} />
+      </AnimateIn>
+      <AnimateIn variant="up">
+        <StrategicBenefitsSection locale={locale} service={service} />
+      </AnimateIn>
+      <AnimateIn variant="scale">
+        <WhyChooseSection locale={locale} />
+      </AnimateIn>
+      <AnimateIn variant="up">
+        <RelatedServicesSection locale={locale} services={relatedServices} />
+      </AnimateIn>
     </>
   );
 }

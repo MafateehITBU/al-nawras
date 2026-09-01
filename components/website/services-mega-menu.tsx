@@ -96,7 +96,7 @@ export function ServicesMegaMenu({
       id={panelId}
       role="region"
       aria-label={dictionary.nav.services}
-      className="absolute inset-x-0 top-full z-40 w-full rounded-none rounded-b-xl border border-t-0 border-website-border bg-website-surface shadow-md"
+      className="mega-menu-panel-in absolute inset-x-0 top-full z-40 w-full rounded-none rounded-b-xl border border-t border-website-border bg-website-surface shadow-md"
     >
       <div className="website-container py-5 lg:py-6">
         {categories.length === 0 ? (
@@ -256,77 +256,98 @@ export function MobileServicesSection({
   onNavigate: () => void;
 }) {
   const sectionId = useId();
-  const [expanded, setExpanded] = useState(false);
-  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(
-    categories[0]?.id ?? null,
-  );
+  const [servicesExpanded, setServicesExpanded] = useState(false);
+  const [expandedCategoryId, setExpandedCategoryId] = useState<string | null>(null);
 
-  const activeCategory =
-    categories.find((category) => category.id === activeCategoryId) ?? categories[0];
+  const toggleCategory = (categoryId: string) => {
+    setExpandedCategoryId((current) => (current === categoryId ? null : categoryId));
+  };
 
   return (
     <li>
       <button
         type="button"
         className="website-body flex w-full items-center justify-between py-2.5 text-sm font-medium text-website-text website-focus-ring"
-        aria-expanded={expanded}
+        aria-expanded={servicesExpanded}
         aria-controls={sectionId}
-        onClick={() => setExpanded((open) => !open)}
+        onClick={() => setServicesExpanded((open) => !open)}
       >
         {dictionary.nav.services}
         <Icon
           icon="lucide:chevron-down"
-          className={cn("size-4 transition-transform", expanded && "rotate-180")}
+          className={cn("size-4 transition-transform", servicesExpanded && "rotate-180")}
           aria-hidden
         />
       </button>
 
-      {expanded && (
+      {servicesExpanded && (
         <div id={sectionId} className="pb-2 ps-3">
           {categories.length === 0 ? (
             <p className="website-body py-2 text-sm text-website-muted">
               {dictionary.actions.noServiceCategories}
             </p>
           ) : (
-            <>
-              <ul className="space-y-1 border-s-2 border-website-border ps-3" role="list">
-                {categories.map((category) => {
-                  const isActive = category.id === activeCategory?.id;
-                  return (
-                    <li key={category.id}>
-                      <button
-                        type="button"
-                        className={cn(
-                          "website-body w-full py-2 text-start text-sm website-focus-ring",
-                          isActive
-                            ? "font-semibold text-website-primary"
-                            : "text-website-muted",
-                        )}
-                        onClick={() => setActiveCategoryId(category.id)}
-                      >
-                        {pickLocalizedField(category, "name", locale)}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
+            <ul className="space-y-0.5 border-s-2 border-website-border ps-3" role="list">
+              {categories.map((category) => {
+                const isExpanded = expandedCategoryId === category.id;
+                const categorySubmenuId = `${sectionId}-category-${category.id}`;
 
-              {activeCategory && activeCategory.services.length > 0 && (
-                <ul className="mt-2 space-y-2 ps-3" role="list">
-                  {activeCategory.services.map((service) => (
-                    <li key={service.id}>
-                      <Link
-                        href={getServiceDetailPath(service.slug, locale)}
-                        className="website-body block py-1.5 text-sm text-website-muted hover:text-website-primary website-focus-ring"
-                        onClick={onNavigate}
+                return (
+                  <li key={category.id}>
+                    <button
+                      type="button"
+                      className={cn(
+                        "website-body flex w-full items-center justify-between gap-2 py-2 text-start text-sm website-focus-ring",
+                        isExpanded
+                          ? "font-semibold text-website-primary"
+                          : "text-website-muted",
+                      )}
+                      aria-expanded={isExpanded}
+                      aria-controls={categorySubmenuId}
+                      onClick={() => toggleCategory(category.id)}
+                    >
+                      <span>{pickLocalizedField(category, "name", locale)}</span>
+                      <Icon
+                        icon="lucide:chevron-down"
+                        className={cn(
+                          "size-3.5 shrink-0 transition-transform duration-200",
+                          isExpanded && "rotate-180",
+                        )}
+                        aria-hidden
+                      />
+                    </button>
+
+                    {isExpanded && (
+                      <ul
+                        id={categorySubmenuId}
+                        className="mobile-submenu-in space-y-1 pb-2 ps-3"
+                        role="list"
                       >
-                        {pickLocalizedField(service, "name", locale)}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </>
+                        {category.services.length === 0 ? (
+                          <li>
+                            <span className="website-body block py-1.5 text-sm text-website-muted">
+                              {dictionary.actions.noServicesInCategory}
+                            </span>
+                          </li>
+                        ) : (
+                          category.services.map((service) => (
+                            <li key={service.id}>
+                              <Link
+                                href={getServiceDetailPath(service.slug, locale)}
+                                className="website-body block py-1.5 text-sm text-website-muted hover:text-website-primary website-focus-ring"
+                                onClick={onNavigate}
+                              >
+                                {pickLocalizedField(service, "name", locale)}
+                              </Link>
+                            </li>
+                          ))
+                        )}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           )}
         </div>
       )}

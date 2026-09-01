@@ -1,5 +1,6 @@
 import { CoreServiceCard } from "@/components/website/home/core-service-card";
 import { CoreServicesCarousel } from "@/components/website/home/core-services-carousel";
+import { AnimateIn } from "@/components/website/animate-in";
 import {
   homeLabelClassName,
   homeViewportSectionClassName,
@@ -39,16 +40,18 @@ export function CoreServicesSection({ locale }: { locale: SupportedLocale }) {
         </div>
 
         <div className="mt-6 hidden w-full sm:mt-7 lg:mt-8 lg:block">
-          <ul
-            className="grid grid-cols-3 items-center justify-items-center gap-6"
-            role="list"
-          >
-            {coreServices.cards.map((service) => (
-              <li key={service.title} className="flex justify-center">
-                <CoreServiceCard service={service} />
-              </li>
-            ))}
-          </ul>
+          <AnimateIn stagger staggerVariant="scale">
+            <ul
+              className="grid grid-cols-3 items-center justify-items-center gap-6"
+              role="list"
+            >
+              {coreServices.cards.map((service) => (
+                <li key={service.title} className="flex justify-center">
+                  <CoreServiceCard service={service} />
+                </li>
+              ))}
+            </ul>
+          </AnimateIn>
         </div>
       </div>
     </section>
