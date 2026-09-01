@@ -106,7 +106,11 @@ export const listBlogsQuerySchema = paginationQuerySchema.extend({
   categoryId: z.string().trim().optional(),
 });
 
-export const createServiceCategorySchema = bilingualNameSchema;
+export const createServiceCategorySchema = bilingualNameSchema.extend({
+  icon: z.string().trim().min(1, "Icon is required").max(200),
+  descriptionEn: z.string().trim().min(1, "English description is required"),
+  descriptionAr: z.string().trim().min(1, "Arabic description is required"),
+});
 
 export const updateServiceCategorySchema = createServiceCategorySchema.partial();
 

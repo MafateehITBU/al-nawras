@@ -161,13 +161,16 @@ model Blog {
 // ─── Service Categories & Services ───────────────────────────────────────────
 
 model ServiceCategory {
-  id        String    @id @default(cuid())
-  nameEn    String
-  nameAr    String
-  slug      String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  services  Service[]
+  id            String    @id @default(cuid())
+  nameEn        String
+  nameAr        String
+  slug          String    @unique
+  icon          String
+  descriptionEn String    @db.Text
+  descriptionAr String    @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  services      Service[]
 
   @@map("service_categories")
 }

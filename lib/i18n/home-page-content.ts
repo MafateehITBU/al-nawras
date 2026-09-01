@@ -13,6 +13,8 @@ export interface HomeCoreValue {
 }
 
 export interface HomeCoreService {
+  id: string;
+  slug: string;
   icon: string;
   title: string;
   description: string;
@@ -60,7 +62,6 @@ export interface HomePageContent {
     label: string;
     title: string;
     description: string;
-    cards: HomeCoreService[];
   };
   alNawrasEdge: {
     titleBefore: string;
@@ -162,26 +163,6 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
       title: "Specialised Intellectual Property Services",
       description:
         "We provide integrated services for protecting and managing intellectual property rights, from registration and legal advice to ongoing monitoring, enforcement, and related legal matters.",
-      cards: [
-        {
-          icon: "mdi:certificate-outline",
-          title: "Patents",
-          description:
-            "We help innovators protect their inventions through specialised advice and precise legal procedures, from preparing and filing patent applications to monitoring and maintaining their rights.",
-        },
-        {
-          icon: "mdi:shield-check-outline",
-          title: "Trademarks",
-          description:
-            "We protect trademarks throughout their lifecycle, from searching and registration to monitoring, renewals, and addressing potential infringements—helping preserve your brand's identity and commercial value.",
-        },
-        {
-          icon: "mdi:scale-balance",
-          title: "Legal Advisory",
-          description:
-            "We provide specialised legal advice on intellectual property and related matters, helping rights holders and businesses make informed decisions and reduce legal risks.",
-        },
-      ],
     },
     alNawrasEdge: {
       titleBefore: "The Al Nawras ",
@@ -347,26 +328,6 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
       title: "خدمات متخصصة في الملكية الفكرية",
       description:
         "نقدم خدمات متكاملة لحماية حقوق الملكية الفكرية وإدارتها، بدءًا من التسجيل والاستشارات، وصولًا إلى المتابعة والإنفاذ والتعامل مع المسائل القانونية المرتبطة بها.",
-      cards: [
-        {
-          icon: "mdi:certificate-outline",
-          title: "براءات الاختراع",
-          description:
-            "نساعد أصحاب الابتكارات على حماية اختراعاتهم من خلال استشارات متخصصة وإجراءات دقيقة تمتد من إعداد طلبات البراءات وتقديمها إلى متابعتها والحفاظ على حقوقها.",
-        },
-        {
-          icon: "mdi:shield-check-outline",
-          title: "العلامات التجارية",
-          description:
-            "نحمي العلامات التجارية في مختلف مراحلها، من البحث والتسجيل إلى المراقبة والتجديد والتعامل مع التعديات، بما يساعد على الحفاظ على هوية العلامة وقيمتها التجارية.",
-        },
-        {
-          icon: "mdi:scale-balance",
-          title: "الاستشارات القانونية",
-          description:
-            "نقدم استشارات قانونية متخصصة في الملكية الفكرية والمسائل المرتبطة بها، لمساعدة أصحاب الحقوق والشركات على اتخاذ قرارات واضحة ومدروسة، وتقليل المخاطر القانونية.",
-        },
-      ],
     },
     alNawrasEdge: {
       titleBefore: "ما الذي يميز ",

@@ -1,4 +1,3 @@
-import { CoreServiceCard } from "@/components/website/home/core-service-card";
 import { CoreServicesCarousel } from "@/components/website/home/core-services-carousel";
 import { AnimateIn } from "@/components/website/animate-in";
 import {
@@ -6,11 +5,21 @@ import {
   homeViewportSectionClassName,
   homeViewportSectionContentClassName,
 } from "@/components/website/home/home-section-styles";
-import { getHomePageContent } from "@/lib/i18n/home-page-content";
+import { pickLocalizedField } from "@/lib/i18n/content";
+import { getHomePageContent, type HomeCoreService } from "@/lib/i18n/home-page-content";
 import type { SupportedLocale } from "@/lib/i18n/config";
+import { getPublicServicesMenu } from "@/lib/services/service.service";
 
-export function CoreServicesSection({ locale }: { locale: SupportedLocale }) {
+export async function CoreServicesSection({ locale }: { locale: SupportedLocale }) {
   const { coreServices } = getHomePageContent(locale);
+  const categories = await getPublicServicesMenu();
+  const cards: HomeCoreService[] = categories.map((category) => ({
+    id: category.id,
+    slug: category.slug,
+    icon: category.icon,
+    title: pickLocalizedField(category, "name", locale),
+    description: pickLocalizedField(category, "description", locale),
+  }));
 
   return (
     <section
@@ -35,24 +44,13 @@ export function CoreServicesSection({ locale }: { locale: SupportedLocale }) {
           </p>
         </div>
 
-        <div className="mt-6 sm:mt-7 lg:hidden">
-          <CoreServicesCarousel cards={coreServices.cards} locale={locale} />
-        </div>
-
-        <div className="mt-6 hidden w-full sm:mt-7 lg:mt-8 lg:block">
-          <AnimateIn stagger staggerVariant="scale">
-            <ul
-              className="grid grid-cols-3 items-center justify-items-center gap-6"
-              role="list"
-            >
-              {coreServices.cards.map((service) => (
-                <li key={service.title} className="flex justify-center">
-                  <CoreServiceCard service={service} />
-                </li>
-              ))}
-            </ul>
-          </AnimateIn>
-        </div>
+        {cards.length > 0 ? (
+          <div className="mt-6 w-full sm:mt-7 lg:mt-8">
+            <AnimateIn variant="scale">
+              <CoreServicesCarousel cards={cards} locale={locale} />
+            </AnimateIn>
+          </div>
+        ) : null}
       </div>
     </section>
   );

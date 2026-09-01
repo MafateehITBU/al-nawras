@@ -5,9 +5,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Modal, ModalFooter } from "@/components/ui/modal";
 import { PageHeader } from "@/components/ui/page-header";
 import { Pagination } from "@/components/ui/pagination";
+import { IconPicker } from "@/components/features/services/icon-picker";
 import { LocaleTabs } from "@/components/features/shared/locale-tabs";
 import {
   ListFiltersCard,
@@ -20,17 +22,24 @@ import { PAGINATION, type SupportedLocale } from "@/constants";
 import { apiClient, apiClientPaginated } from "@/lib/api/client";
 import { notify } from "@/lib/utils/notify";
 import type { PaginatedResult, ServiceCategory } from "@/types";
+import { Icon } from "@iconify/react";
 import { FolderTree, Pencil, Plus, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
 interface CategoryFormState {
   nameEn: string;
   nameAr: string;
+  icon: string;
+  descriptionEn: string;
+  descriptionAr: string;
 }
 
 const emptyForm = (): CategoryFormState => ({
   nameEn: "",
   nameAr: "",
+  icon: "mdi:briefcase-outline",
+  descriptionEn: "",
+  descriptionAr: "",
 });
 
 export function ServiceCategoriesPage() {
@@ -81,6 +90,9 @@ export function ServiceCategoriesPage() {
     setForm({
       nameEn: category.nameEn,
       nameAr: category.nameAr,
+      icon: category.icon,
+      descriptionEn: category.descriptionEn,
+      descriptionAr: category.descriptionAr,
     });
     setLocale("en");
     setModalOpen(true);
@@ -93,11 +105,27 @@ export function ServiceCategoriesPage() {
   }
 
   async function handleSubmit() {
+    if (!form.icon.trim()) {
+      notify.error("Choose an icon");
+      return;
+    }
+    if (!form.nameEn.trim() || !form.nameAr.trim()) {
+      notify.error("Name is required in both languages");
+      return;
+    }
+    if (!form.descriptionEn.trim() || !form.descriptionAr.trim()) {
+      notify.error("Description is required in both languages");
+      return;
+    }
+
     setSaving(true);
     try {
       const body = {
         nameEn: form.nameEn.trim(),
         nameAr: form.nameAr.trim(),
+        icon: form.icon.trim(),
+        descriptionEn: form.descriptionEn.trim(),
+        descriptionAr: form.descriptionAr.trim(),
       };
 
       if (editing) {
@@ -138,7 +166,7 @@ export function ServiceCategoriesPage() {
     <>
       <PageHeader
         title="Service Categories"
-        description="Organize services into categories."
+        description="Organize services into categories. Name, icon, and description are used on the home page Core Services cards."
         actions={
           <Button onClick={openCreate}>
             <Plus className="size-4" />
@@ -178,6 +206,7 @@ export function ServiceCategoriesPage() {
               <Table>
                 <THead>
                   <TR>
+                    <TH className="w-14">Icon</TH>
                     <TH>Name (EN)</TH>
                     <TH>Name (AR)</TH>
                     <TH>Slug</TH>
@@ -187,6 +216,11 @@ export function ServiceCategoriesPage() {
                 <TBody>
                   {data.items.map((category) => (
                     <TR key={category.id}>
+                      <TD>
+                        <span className="flex size-9 items-center justify-center rounded-lg bg-dashboard-bg text-dashboard-primary">
+                          <Icon icon={category.icon} className="size-5" aria-hidden />
+                        </span>
+                      </TD>
                       <TD>{category.nameEn}</TD>
                       <TD dir="rtl">{category.nameAr}</TD>
                       <TD className="text-dashboard-text-muted">{category.slug}</TD>
@@ -230,6 +264,8 @@ export function ServiceCategoriesPage() {
         open={modalOpen}
         onClose={closeModal}
         title={editing ? "Edit category" : "Add category"}
+        description="Name, icon, and description appear on the home page Core Services cards."
+        size="lg"
         footer={
           <ModalFooter
             onCancel={closeModal}
@@ -240,24 +276,51 @@ export function ServiceCategoriesPage() {
         }
       >
         <div className="space-y-4">
+          <FormField label="Icon" htmlFor="svcCatIcon" required>
+            <IconPicker
+              value={form.icon}
+              onChange={(icon) => setForm({ ...form, icon })}
+            />
+          </FormField>
           <LocaleTabs active={locale} onChange={setLocale} />
           {locale === "en" ? (
-            <FormField label="Name (English)" htmlFor="svcCatNameEn" required>
-              <Input
-                id="svcCatNameEn"
-                value={form.nameEn}
-                onChange={(e) => setForm({ ...form, nameEn: e.target.value })}
-              />
-            </FormField>
+            <>
+              <FormField label="Name (English)" htmlFor="svcCatNameEn" required>
+                <Input
+                  id="svcCatNameEn"
+                  value={form.nameEn}
+                  onChange={(e) => setForm({ ...form, nameEn: e.target.value })}
+                />
+              </FormField>
+              <FormField label="Description (English)" htmlFor="svcCatDescEn" required>
+                <Textarea
+                  id="svcCatDescEn"
+                  rows={4}
+                  value={form.descriptionEn}
+                  onChange={(e) => setForm({ ...form, descriptionEn: e.target.value })}
+                />
+              </FormField>
+            </>
           ) : (
-            <FormField label="Name (Arabic)" htmlFor="svcCatNameAr" required>
-              <Input
-                id="svcCatNameAr"
-                dir="rtl"
-                value={form.nameAr}
-                onChange={(e) => setForm({ ...form, nameAr: e.target.value })}
-              />
-            </FormField>
+            <>
+              <FormField label="Name (Arabic)" htmlFor="svcCatNameAr" required>
+                <Input
+                  id="svcCatNameAr"
+                  dir="rtl"
+                  value={form.nameAr}
+                  onChange={(e) => setForm({ ...form, nameAr: e.target.value })}
+                />
+              </FormField>
+              <FormField label="Description (Arabic)" htmlFor="svcCatDescAr" required>
+                <Textarea
+                  id="svcCatDescAr"
+                  dir="rtl"
+                  rows={4}
+                  value={form.descriptionAr}
+                  onChange={(e) => setForm({ ...form, descriptionAr: e.target.value })}
+                />
+              </FormField>
+            </>
           )}
         </div>
       </Modal>

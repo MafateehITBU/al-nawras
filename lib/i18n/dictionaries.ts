@@ -26,6 +26,7 @@ export interface WebsiteDictionary {
     switchLanguage: string;
     noServicesInCategory: string;
     noServiceCategories: string;
+    readMore: string;
   };
 }
 
@@ -57,6 +58,7 @@ const dictionaries: Record<SupportedLocale, WebsiteDictionary> = {
       switchLanguage: "Switch language",
       noServicesInCategory: "No services in this category yet.",
       noServiceCategories: "No service categories available.",
+      readMore: "Read more",
     },
   },
   ar: {
@@ -85,6 +87,7 @@ const dictionaries: Record<SupportedLocale, WebsiteDictionary> = {
       switchLanguage: "تغيير اللغة",
       noServicesInCategory: "لا توجد خدمات في هذه الفئة بعد.",
       noServiceCategories: "لا توجد فئات خدمات متاحة.",
+      readMore: "اقرأ المزيد",
     },
   },
 };

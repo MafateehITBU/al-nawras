@@ -139,7 +139,11 @@ export function ServicesMegaMenu({
                               : "bg-website-surface text-website-primary ring-website-border",
                           )}
                         >
-                          <Icon icon="lucide:sparkles" className="size-3.5" aria-hidden />
+                          <Icon
+                            icon={category.icon || "lucide:sparkles"}
+                            className="size-3.5"
+                            aria-hidden
+                          />
                         </span>
                         <span className="min-w-0 leading-snug">{name}</span>
                       </button>

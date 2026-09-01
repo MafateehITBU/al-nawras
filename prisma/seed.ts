@@ -1,5 +1,6 @@
 import { AdminRole, PrismaClient, SocialPlatform } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { SEED_SERVICE_IMAGES, seedCategories } from "./seed-services";
 
 const prisma = new PrismaClient();
 
@@ -57,6 +58,36 @@ async function main() {
   }
 
   console.log("Social link placeholders initialized");
+
+  for (const category of seedCategories) {
+    const { services, ...categoryData } = category;
+    const savedCategory = await prisma.serviceCategory.upsert({
+      where: { slug: categoryData.slug },
+      update: {},
+      create: categoryData,
+    });
+
+    for (const nestedService of services) {
+      const { benefits, ...serviceData } = nestedService;
+      await prisma.service.upsert({
+        where: { slug: serviceData.slug },
+        update: {},
+        create: {
+          ...serviceData,
+          ...SEED_SERVICE_IMAGES,
+          categoryId: savedCategory.id,
+          strategicBenefits: {
+            create: benefits.map((benefit, index) => ({
+              ...benefit,
+              sortOrder: index,
+            })),
+          },
+        },
+      });
+    }
+  }
+
+  console.log("Core services and nested services initialized");
   console.log("Seeding complete.");
 }
 

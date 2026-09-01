@@ -5,6 +5,10 @@ export function getServiceDetailPath(serviceSlug: string, locale: SupportedLocal
   return localizePath(`/services/${serviceSlug}`, locale);
 }
 
+export function getServiceCategoryPath(categorySlug: string, locale: SupportedLocale) {
+  return localizePath(`/services/category/${categorySlug}`, locale);
+}
+
 export function isServicesRoute(pathname: string) {
   const segments = pathname.split("/").filter(Boolean);
   const offset = segments.length > 0 && (segments[0] === "en" || segments[0] === "ar") ? 1 : 0;
