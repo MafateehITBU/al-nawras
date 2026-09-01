@@ -13,7 +13,7 @@ export const WEBSITE_FOOTER_COMPANY_LINKS = [
 
 export const WEBSITE_FOOTER_QUICK_LINKS = [
   { key: "blog" as const, href: "/blog" },
-  { key: "privacyPolicy" as const, href: "/privacy-policy" },
+  { key: "termsAndConditions" as const, href: "/terms-and-conditions" },
 ] as const;
 
 export const WEBSITE_LEGAL_PATHS = {

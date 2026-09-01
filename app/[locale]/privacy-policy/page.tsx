@@ -1,31 +1,11 @@
-import { PagePlaceholder } from "@/components/website/page-placeholder";
-import { isSupportedLocale } from "@/lib/i18n/config";
-import { getDictionary } from "@/lib/i18n/dictionaries";
-import { buildWebsiteMetadata } from "@/lib/seo/metadata";
-import { notFound } from "next/navigation";
+import { isSupportedLocale, localizePath } from "@/lib/i18n/config";
+import { notFound, redirect } from "next/navigation";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale: localeParam } = await params;
-  if (!isSupportedLocale(localeParam)) return {};
-  const dictionary = getDictionary(localeParam);
-  return buildWebsiteMetadata({
-    locale: localeParam,
-    title: dictionary.footer.privacyPolicy,
-    path: "/privacy-policy",
-  });
-}
-
-export default async function PrivacyPolicyPage({
+export default async function PrivacyPolicyRedirect({
   params,
 }: PageProps<"/[locale]/privacy-policy">) {
   const { locale: localeParam } = await params;
   if (!isSupportedLocale(localeParam)) notFound();
-  const dictionary = getDictionary(localeParam);
-  return (
-    <PagePlaceholder locale={localeParam} title={dictionary.footer.privacyPolicy} />
-  );
+
+  redirect(localizePath("/terms-and-conditions", localeParam));
 }

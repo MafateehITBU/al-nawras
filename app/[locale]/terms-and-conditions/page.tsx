@@ -1,4 +1,4 @@
-import { PagePlaceholder } from "@/components/website/page-placeholder";
+import { TermsPage } from "@/components/website/legal/terms-page";
 import { isSupportedLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { buildWebsiteMetadata } from "@/lib/seo/metadata";
@@ -19,13 +19,11 @@ export async function generateMetadata({
   });
 }
 
-export default async function TermsPage({
+export default async function TermsAndConditionsRoute({
   params,
 }: PageProps<"/[locale]/terms-and-conditions">) {
   const { locale: localeParam } = await params;
   if (!isSupportedLocale(localeParam)) notFound();
-  const dictionary = getDictionary(localeParam);
-  return (
-    <PagePlaceholder locale={localeParam} title={dictionary.footer.termsAndConditions} />
-  );
+
+  return <TermsPage locale={localeParam} />;
 }

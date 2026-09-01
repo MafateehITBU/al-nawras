@@ -69,8 +69,8 @@ export function WebsiteFooter({
                   href={localizePath(item.href, locale)}
                   className="website-body text-base text-website-muted transition-colors hover:text-white website-focus-ring rounded-sm"
                 >
-                  {item.key === "privacyPolicy"
-                    ? dictionary.footer.privacyPolicy
+                  {item.key === "termsAndConditions"
+                    ? dictionary.footer.termsAndConditions
                     : dictionary.nav[item.key]}
                 </Link>
               </li>
@@ -162,13 +162,6 @@ export function WebsiteFooter({
               className="text-website-primary underline-offset-2 transition-colors hover:text-white hover:underline website-focus-ring rounded-sm"
             >
               {dictionary.footer.termsAndConditions}
-            </Link>
-            <span aria-hidden>|</span>
-            <Link
-              href={localizePath(WEBSITE_LEGAL_PATHS.privacy, locale)}
-              className="text-website-primary underline-offset-2 transition-colors hover:text-white hover:underline website-focus-ring rounded-sm"
-            >
-              {dictionary.footer.privacyPolicy}
             </Link>
           </p>
         </div>

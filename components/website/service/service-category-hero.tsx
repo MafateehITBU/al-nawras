@@ -127,14 +127,14 @@ export function ServiceCategoryHero({
               <p className="website-body mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-white/60">
                 {locale === "ar" ? "تصفح الخدمات" : "Browse services"}
               </p>
-              <ul className="-mx-1 flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+              <ul className="-mx-1 flex gap-2 overflow-x-auto py-1 scrollbar-none">
                 {category.services.map((service, index) => {
                   const name = pickLocalizedField(service, "name", locale);
                   return (
                     <li key={service.id} className="shrink-0">
                       <Link
                         href={`#category-service-${service.slug}`}
-                        className="website-body inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-website-primary/50 hover:bg-white/15 hover:text-white website-focus-ring"
+                        className="website-body inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur-sm transition-colors duration-300 hover:border-website-primary/50 hover:bg-white/15 hover:text-white website-focus-ring"
                       >
                         <span className="text-xs font-semibold text-website-primary">
                           {String(index + 1).padStart(2, "0")}
