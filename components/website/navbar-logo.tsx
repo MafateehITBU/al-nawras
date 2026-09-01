@@ -1,8 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { APP_NAME } from "@/constants";
 import { WEBSITE_ASSETS } from "@/constants/website-assets";
 import { cn } from "@/lib/utils";
+
+const NAVBAR_LOGO_WIDTH = 375;
+const NAVBAR_LOGO_HEIGHT = 72;
 
 export function NavbarLogo({
   logoUrl,
@@ -18,19 +20,22 @@ export function NavbarLogo({
   return (
     <Link
       href={href}
-      className={cn("website-focus-ring block shrink-0", className)}
+      className={cn(
+        "website-focus-ring inline-flex shrink-0 items-center overflow-visible",
+        className,
+      )}
       aria-label={APP_NAME}
     >
-      <div className="relative h-12 w-52 sm:h-14 sm:w-60 lg:h-[3.75rem] lg:w-72">
-        <Image
-          src={src}
-          alt={APP_NAME}
-          fill
-          priority
-          sizes="(max-width: 640px) 13rem, (max-width: 1024px) 15rem, 18rem"
-          className="object-contain object-start"
-        />
-      </div>
+      {/* Native img keeps the full wide wordmark visible; next/image wrappers crop panoramic logos. */}
+      <img
+        src={src}
+        alt={APP_NAME}
+        width={NAVBAR_LOGO_WIDTH}
+        height={NAVBAR_LOGO_HEIGHT}
+        decoding="async"
+        fetchPriority="high"
+        className="block h-11 w-auto max-w-none sm:h-12 lg:h-[3.25rem]"
+      />
     </Link>
   );
 }

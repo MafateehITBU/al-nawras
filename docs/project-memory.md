@@ -3,7 +3,7 @@
 > **Source of truth** for architecture decisions, implementation status, and technical context.
 > Read this document before starting any new task. Update it after significant changes.
 
-**Last updated:** 2026-09-01 (blogs listing + details, service category pages)
+**Last updated:** 2026-09-01 (blog UI refinements, attachment download, navbar logo fix)
 **Current phase:** Phase 7 — Public Website (Contact remaining)
 
 ---
@@ -492,13 +492,20 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] **Data:** Server Components call `lib/services/blog.service.ts` public helpers (no client-side full fetch)
 - [x] **Published logic:** `publishedAt <= now` (no separate draft flag in schema)
 - [x] **Featured blog:** latest published post via `getFeaturedPublicBlog()`; excluded from page-1 list to avoid duplicate
-- [x] **Listing:** 4 posts/page (`PUBLIC_BLOG_PAGE_SIZE`), URL search params `page`, `search`, `categoryId`
+- [x] **Listing:** 4 posts/page (`PUBLIC_BLOG_PAGE_SIZE`), URL search params `page`, `search`, `category` (category slug, not id)
 - [x] **Search:** server-side Prisma across title EN/AR, content EN/AR, author, category names; debounced client input updates URL
-- [x] **Popular Topics:** `getPopularBlogCategories()` + public `GET /api/blog-categories/popular`; category filter via URL; active category highlighted secondary
+- [x] **Popular Topics:** `getPopularBlogCategories()` + public `GET /api/blog-categories/popular`; category filter via slug in URL; active category highlighted secondary
 - [x] **Stay Informed:** UI + email validation only — **newsletter backend not implemented** (shows pending message)
 - [x] **Rich text:** TipTap stores HTML; public renderer uses `sanitizeBlogHtml()` + `.blog-prose` styles in `app/website.css`
-- [x] **Attachment CTA:** conditional on `attachmentUrl`; displays `attachmentName` (new optional field) or format fallback; uses `public/images/blog-cta.png`
-- [x] **Related blogs:** up to 3 same-category published posts, excludes current
+- [x] **Attachment CTA:** conditional on `attachmentUrl`; download via `GET /api/blogs/[slug]/attachment` with proper filename/extension (`Content-Disposition`); uses `public/images/blog-cta.png`
+- [x] **Related blogs:** up to 3 same-category published posts, excludes current; falls back to latest published posts when fewer than 3 in category
+- [x] **Details sidebar:** attachment CTA + related blogs sticky on large screens
+- [x] **Navbar logo:** native `<img>` at intrinsic `375×72` with `w-auto max-w-none` (Next/Image wrapper cropped the wide wordmark); same in navigation loader
+- [x] **Listing cards:** flush stacked list (no gaps); `border-b` on each `BlogCard` article (not `<li>` — avoids animation/background overlap); `overflow-hidden` on `<li>` clips reveal animation; category `text-xs` (~12px), read more `text-sm` (~14px); muted text → `text-website-text`
+- [x] **Featured hero:** wider image column, less-rounded larger badge, primary text color on meta/excerpt
+- [x] **Pagination:** transparent inactive background; page numbers `size-9` to match arrow buttons
+- [x] **Details hero:** category dot inside pill; meta row `text-website-text`
+- [x] **Related blogs panel:** `#006689` border/divider; date + category on one line with dot; larger titles
 - [x] **Share:** Web Share API with clipboard copy fallback + inline “link copied” feedback
 - [x] **SEO:** listing titles EN/AR via `getBlogPageContent()`; per-blog dynamic metadata from title + excerpt + featured image
 - [x] **Sitemap:** blog slug URLs per locale via `listPublicBlogSlugs()`

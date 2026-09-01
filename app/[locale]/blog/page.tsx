@@ -33,7 +33,7 @@ export default async function BlogListingPage({
   params,
   searchParams,
 }: PageProps<"/[locale]/blog"> & {
-  searchParams: Promise<{ page?: string; search?: string; categoryId?: string }>;
+  searchParams: Promise<{ page?: string; search?: string; category?: string }>;
 }) {
   const { locale: localeParam } = await params;
   if (!isSupportedLocale(localeParam)) notFound();
@@ -43,7 +43,7 @@ export default async function BlogListingPage({
     page: rawSearchParams.page,
     limit: PUBLIC_BLOG_PAGE_SIZE,
     search: rawSearchParams.search,
-    categoryId: rawSearchParams.categoryId,
+    category: rawSearchParams.category,
   });
 
   const [featuredBlog, popularCategories] = await Promise.all([
@@ -54,7 +54,7 @@ export default async function BlogListingPage({
   const shouldExcludeFeatured =
     featuredBlog &&
     !query.search &&
-    !query.categoryId &&
+    !query.category &&
     query.page === 1;
 
   const { items, pagination } = await listPublicBlogs({
@@ -73,7 +73,7 @@ export default async function BlogListingPage({
       }}
       popularCategories={popularCategories}
       search={query.search}
-      categoryId={query.categoryId}
+      category={query.category}
     />
   );
 }

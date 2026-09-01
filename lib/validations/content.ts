@@ -111,7 +111,7 @@ export const publicBlogListQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(20).default(4),
   search: z.string().trim().optional(),
-  categoryId: z.string().trim().optional(),
+  category: z.string().trim().optional(),
   excludeId: z.string().trim().optional(),
 });
 

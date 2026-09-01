@@ -39,7 +39,7 @@ export function WebsitePagination({
         item === "ellipsis" ? (
           <span
             key={`ellipsis-${index}`}
-            className="website-body px-1 text-sm text-website-muted"
+            className="website-body px-1 text-sm text-website-text"
             aria-hidden
           >
             …
@@ -50,7 +50,7 @@ export function WebsitePagination({
             href={buildHref(item)}
             active={item === page}
             ariaLabel={`Page ${item}`}
-            className="min-w-9 px-2"
+            className="size-9"
           >
             {item}
           </PaginationLink>
@@ -107,7 +107,7 @@ function PaginationLink({
         "website-body inline-flex items-center justify-center rounded-md border text-sm font-medium transition-colors website-focus-ring",
         active
           ? "border-website-primary bg-website-primary text-white"
-          : "border-website-border bg-website-surface text-website-text hover:border-website-primary hover:text-website-primary",
+          : "border-website-border bg-transparent text-website-text hover:border-website-primary hover:text-website-primary",
         className,
       )}
     >

@@ -2,7 +2,9 @@ import { Icon } from "@iconify/react";
 import { getBlogPageContent } from "@/lib/i18n/blog-page-content";
 import type { SupportedLocale } from "@/lib/i18n/config";
 import type { PublicBlogDetail } from "@/lib/services/blog.service";
+import { getBlogAttachmentDownloadPath } from "@/lib/website/paths";
 import Image from "next/image";
+import Link from "next/link";
 
 export function BlogAttachmentCta({
   locale,
@@ -36,15 +38,12 @@ export function BlogAttachmentCta({
           {content.download}
         </p>
         <p className="website-heading mt-2 text-lg font-bold leading-snug">{attachmentName}</p>
-        <a
-          href={blog.attachmentUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          download
+        <Link
+          href={getBlogAttachmentDownloadPath(blog.slug)}
           className="website-body mt-5 inline-flex w-full items-center justify-center rounded-lg bg-website-secondary py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-website-secondary-hover website-focus-ring"
         >
           {content.getTheReport}
-        </a>
+        </Link>
       </div>
     </div>
   );

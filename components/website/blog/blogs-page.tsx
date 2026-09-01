@@ -22,7 +22,7 @@ export function BlogsPage({
   pagination,
   popularCategories,
   search,
-  categoryId,
+  category,
 }: {
   locale: SupportedLocale;
   featuredBlog: PublicBlogListItem | null;
@@ -30,15 +30,15 @@ export function BlogsPage({
   pagination: { page: number; totalPages: number };
   popularCategories: PopularCategory[];
   search?: string;
-  categoryId?: string;
+  category?: string;
 }) {
   const content = getBlogPageContent(locale);
   const basePath = getBlogListingPath(locale);
-  const showFeatured = featuredBlog && !search && !categoryId && pagination.page === 1;
+  const showFeatured = featuredBlog && !search && !category && pagination.page === 1;
 
   const emptyMessage = search
     ? content.noSearchResults
-    : categoryId
+    : category
       ? content.noCategoryResults
       : content.noBlogs;
 
@@ -55,9 +55,12 @@ export function BlogsPage({
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,22rem)] lg:gap-10 xl:gap-12">
             <div>
               {blogs.length > 0 ? (
-                <ul className="space-y-5" role="list">
+                <ul
+                  className="overflow-hidden rounded-xl border border-website-border [&>li:last-child_article]:border-b-0"
+                  role="list"
+                >
                   {blogs.map((blog, index) => (
-                    <li key={blog.id}>
+                    <li key={blog.id} className="overflow-hidden">
                       <AnimateIn variant="up" delay={index * 60}>
                         <BlogCard locale={locale} blog={blog} />
                       </AnimateIn>
@@ -66,7 +69,7 @@ export function BlogsPage({
                 </ul>
               ) : (
                 <div className="rounded-xl border border-dashed border-website-border bg-website-surface px-6 py-12 text-center">
-                  <p className="website-body text-base text-website-muted">{emptyMessage}</p>
+                  <p className="website-body text-base text-website-text">{emptyMessage}</p>
                 </div>
               )}
 
@@ -77,7 +80,7 @@ export function BlogsPage({
                 previousLabel={content.previousPage}
                 nextLabel={content.nextPage}
                 buildHref={(page) =>
-                  `${basePath}${buildBlogListingQuery({ page, search, categoryId })}`
+                  `${basePath}${buildBlogListingQuery({ page, search, category })}`
                 }
               />
             </div>
@@ -86,12 +89,12 @@ export function BlogsPage({
               <SearchInsights
                 locale={locale}
                 initialSearch={search}
-                categoryId={categoryId}
+                category={category}
               />
               <PopularTopics
                 locale={locale}
                 categories={popularCategories}
-                activeCategoryId={categoryId}
+                activeCategory={category}
                 search={search}
               />
               <StayInformed locale={locale} />

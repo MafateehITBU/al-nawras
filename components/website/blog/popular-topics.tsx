@@ -11,12 +11,12 @@ type PopularCategory = Awaited<ReturnType<typeof getPopularBlogCategories>>[numb
 export function PopularTopics({
   locale,
   categories,
-  activeCategoryId,
+  activeCategory,
   search,
 }: {
   locale: SupportedLocale;
   categories: PopularCategory[];
-  activeCategoryId?: string;
+  activeCategory?: string;
   search?: string;
 }) {
   const content = getBlogPageContent(locale);
@@ -29,9 +29,9 @@ export function PopularTopics({
       </h2>
       <ul className="mt-4 space-y-1" role="list">
         {categories.map((category) => {
-          const isActive = category.id === activeCategoryId;
+          const isActive = category.slug === activeCategory;
           const href = `${base}${buildBlogListingQuery({
-            categoryId: isActive ? undefined : category.id,
+            category: isActive ? undefined : category.slug,
             search,
             page: 1,
           })}`;
@@ -49,7 +49,7 @@ export function PopularTopics({
                 aria-current={isActive ? "true" : undefined}
               >
                 <span>{pickLocalizedField(category, "name", locale)}</span>
-                <span className={cn(isActive ? "text-website-secondary" : "text-website-muted")}>
+                <span className={cn(isActive ? "text-website-secondary" : "text-website-text")}>
                   {category.blogCount}
                 </span>
               </Link>

@@ -2,9 +2,11 @@
 
 import { APP_NAME } from "@/constants";
 import { WEBSITE_ASSETS } from "@/constants/website-assets";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+
+const NAVBAR_LOGO_WIDTH = 375;
+const NAVBAR_LOGO_HEIGHT = 72;
 
 export function WebsiteNavigationLoader({ logoUrl }: { logoUrl?: string | null }) {
   const [mounted, setMounted] = useState(false);
@@ -30,16 +32,14 @@ export function WebsiteNavigationLoader({ logoUrl }: { logoUrl?: string | null }
       aria-label="Loading page"
     >
       <div className="flex flex-col items-center gap-6 px-6">
-        <div className="relative h-14 w-60 sm:h-16 sm:w-72">
-          <Image
-            src={src}
-            alt={APP_NAME}
-            fill
-            priority
-            className="object-contain"
-            sizes="18rem"
-          />
-        </div>
+        <img
+          src={src}
+          alt={APP_NAME}
+          width={NAVBAR_LOGO_WIDTH}
+          height={NAVBAR_LOGO_HEIGHT}
+          decoding="async"
+          className="block h-12 w-auto max-w-[min(90vw,22rem)] sm:h-14"
+        />
         <div className="website-nav-loader-spinner" aria-hidden />
       </div>
     </div>,

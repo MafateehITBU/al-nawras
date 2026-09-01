@@ -18,10 +18,11 @@ export function RelatedBlogs({
   const content = getBlogPageContent(locale);
 
   return (
-    <div className="rounded-xl bg-website-bg p-5">
-      <h2 className="website-body text-xs font-semibold uppercase tracking-[0.16em] text-website-muted">
+    <div className="rounded-xl border border-[#006689] bg-website-bg p-5">
+      <h2 className="website-body text-xs font-semibold uppercase tracking-[0.16em] text-website-text">
         {content.relatedArticles}
       </h2>
+      <div className="mt-3 border-b border-[#006689]/30" aria-hidden />
       <ul className="mt-4 space-y-5" role="list">
         {blogs.map((blog) => {
           const title = pickLocalizedField(blog, "title", locale);
@@ -30,16 +31,14 @@ export function RelatedBlogs({
           return (
             <li key={blog.id}>
               <article>
-                <time
-                  dateTime={new Date(blog.publishedAt).toISOString()}
-                  className="website-body text-xs text-website-muted"
-                >
-                  {formatBlogDate(blog.publishedAt, locale)}
-                </time>
-                <p className="website-body mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-website-primary">
-                  {categoryName}
+                <p className="website-body flex flex-wrap items-center gap-2 text-xs text-[#006689]">
+                  <time dateTime={new Date(blog.publishedAt).toISOString()}>
+                    {formatBlogDate(blog.publishedAt, locale)}
+                  </time>
+                  <span aria-hidden>•</span>
+                  <span>{categoryName}</span>
                 </p>
-                <h3 className="website-heading mt-1 text-base font-bold leading-snug text-website-text">
+                <h3 className="website-heading mt-2 text-lg font-bold leading-snug text-website-text">
                   <Link
                     href={getBlogDetailPath(blog.slug, locale)}
                     className="transition-colors hover:text-website-primary website-focus-ring"

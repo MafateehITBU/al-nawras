@@ -11,11 +11,11 @@ import { useEffect, useRef, useState } from "react";
 export function SearchInsights({
   locale,
   initialSearch,
-  categoryId,
+  category,
 }: {
   locale: SupportedLocale;
   initialSearch?: string;
-  categoryId?: string;
+  category?: string;
 }) {
   const router = useRouter();
   const content = getBlogPageContent(locale);
@@ -39,7 +39,7 @@ export function SearchInsights({
       const base = getBlogListingPath(locale);
       const query = buildBlogListingQuery({
         search: value,
-        categoryId,
+        category,
         page: 1,
       });
       router.push(`${base}${query}`);
@@ -48,7 +48,7 @@ export function SearchInsights({
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [value, locale, categoryId, router]);
+  }, [value, locale, category, router]);
 
   return (
     <div className="rounded-xl border border-website-border bg-website-surface p-5">

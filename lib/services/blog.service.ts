@@ -221,9 +221,31 @@ export async function getFeaturedPublicBlog() {
   });
 }
 
+async function resolvePublicBlogCategoryId(categorySlug: string) {
+  const category = await prisma.blogCategory.findUnique({
+    where: { slug: categorySlug },
+    select: { id: true },
+  });
+  return category?.id ?? null;
+}
+
 export async function listPublicBlogs(query: PublicBlogListQuery) {
-  const { page, limit, search, categoryId, excludeId } = query;
+  const { page, limit, search, category, excludeId } = query;
   const skip = (page - 1) * limit;
+
+  const categoryId = category ? await resolvePublicBlogCategoryId(category) : undefined;
+
+  if (category && !categoryId) {
+    return {
+      items: [],
+      pagination: {
+        page,
+        limit,
+        total: 0,
+        totalPages: 1,
+      },
+    };
+  }
 
   const where: Prisma.BlogWhereInput = {
     ...publishedBlogWhere(),
@@ -272,7 +294,7 @@ export async function getRelatedPublicBlogs(
   excludeBlogId: string,
   limit = 3,
 ) {
-  return prisma.blog.findMany({
+  const sameCategory = await prisma.blog.findMany({
     where: {
       ...publishedBlogWhere(),
       categoryId,
@@ -282,6 +304,23 @@ export async function getRelatedPublicBlogs(
     orderBy: { publishedAt: "desc" },
     take: limit,
   });
+
+  if (sameCategory.length >= limit) return sameCategory;
+
+  const excludeIds = [excludeBlogId, ...sameCategory.map((blog) => blog.id)];
+  const remaining = limit - sameCategory.length;
+
+  const fallback = await prisma.blog.findMany({
+    where: {
+      ...publishedBlogWhere(),
+      id: { notIn: excludeIds },
+    },
+    select: publicBlogListSelect,
+    orderBy: { publishedAt: "desc" },
+    take: remaining,
+  });
+
+  return [...sameCategory, ...fallback];
 }
 
 export async function getPublicBlogPageData(slug: string) {

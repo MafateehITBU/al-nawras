@@ -26,7 +26,7 @@ export function FeaturedBlog({
   return (
     <section className="bg-website-surface py-10 sm:py-12 lg:py-14" aria-labelledby="featured-blog-title">
       <div className="website-container">
-        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+        <div className="grid items-center gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:gap-12 xl:gap-16">
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-website-bg lg:aspect-[5/4]">
             {hasImage ? (
               <Image
@@ -35,21 +35,21 @@ export function FeaturedBlog({
                 fill
                 priority
                 className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 55vw"
               />
             ) : (
-              <div className="flex h-full items-center justify-center text-website-muted">—</div>
+              <div className="flex h-full items-center justify-center text-website-text">—</div>
             )}
           </div>
 
           <div>
             <div className="flex flex-wrap items-center gap-3">
-              <span className="website-body rounded-full bg-[#EDF9FF] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-website-primary">
+              <span className="website-body rounded-md bg-[#EDF9FF] px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.12em] text-website-primary">
                 {content.featuredBadge}
               </span>
               <time
                 dateTime={new Date(blog.publishedAt).toISOString()}
-                className="website-body text-sm text-website-muted"
+                className="website-body text-sm text-website-text"
               >
                 {formatBlogDate(blog.publishedAt, locale)}
               </time>
@@ -64,7 +64,7 @@ export function FeaturedBlog({
               </Link>
             </h1>
 
-            <p className="website-body mt-4 text-base leading-relaxed text-website-muted sm:text-[1.0625rem]">
+            <p className="website-body mt-4 text-base leading-relaxed text-website-text sm:text-[1.0625rem]">
               {excerpt}
             </p>
 

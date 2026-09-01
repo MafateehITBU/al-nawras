@@ -20,14 +20,18 @@ export function getBlogListingPath(locale: SupportedLocale) {
 export function buildBlogListingQuery(params: {
   page?: number;
   search?: string;
-  categoryId?: string;
+  category?: string;
 }) {
   const query = new URLSearchParams();
   if (params.search?.trim()) query.set("search", params.search.trim());
-  if (params.categoryId) query.set("categoryId", params.categoryId);
+  if (params.category) query.set("category", params.category);
   if (params.page && params.page > 1) query.set("page", String(params.page));
   const qs = query.toString();
   return qs ? `?${qs}` : "";
+}
+
+export function getBlogAttachmentDownloadPath(slug: string) {
+  return `/api/blogs/${slug}/attachment`;
 }
 
 export function isServicesRoute(pathname: string) {

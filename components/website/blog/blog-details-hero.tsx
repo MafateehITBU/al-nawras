@@ -22,12 +22,12 @@ export function BlogDetailsHero({
     <section className="bg-website-surface pb-8 pt-10 sm:pb-10 sm:pt-12" aria-labelledby="blog-title">
       <div className="website-container">
         <div className="mx-auto max-w-4xl text-center">
-          <div className="flex items-center justify-center gap-2.5">
-            <span
-              className="size-2.5 shrink-0 rounded-full bg-website-secondary"
-              aria-hidden
-            />
-            <span className="website-body rounded-full border border-website-muted bg-[#ECEEF0] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#006689]">
+          <div className="flex items-center justify-center">
+            <span className="website-body inline-flex items-center gap-2 rounded-full border border-website-muted bg-[#ECEEF0] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#006689]">
+              <span
+                className="size-2.5 shrink-0 rounded-full bg-website-secondary"
+                aria-hidden
+              />
               {categoryName}
             </span>
           </div>
@@ -72,7 +72,7 @@ export function BlogMetaRow({
 }) {
   return (
     <ul
-      className={`website-body flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-website-muted ${className ?? ""}`}
+      className={`website-body flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-website-text ${className ?? ""}`}
       role="list"
     >
       <li className="inline-flex items-center gap-2">

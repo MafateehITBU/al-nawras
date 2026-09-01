@@ -36,7 +36,7 @@ export function BlogDetailsPage({
               <ShareBlog locale={locale} url={shareUrl} />
             </div>
 
-            <aside className="space-y-5">
+            <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
               <BlogAttachmentCta locale={locale} blog={blog} />
               <RelatedBlogs locale={locale} blogs={relatedBlogs} />
             </aside>
