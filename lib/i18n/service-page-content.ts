@@ -12,6 +12,9 @@ export interface ServicePageContent {
   strategicBenefits: string;
   whyChooseTitle: string;
   relatedServices: string;
+  categoryServicesTitle: string;
+  categoryServicesDescription: string;
+  viewService: string;
   whyChooseItems: WhyChooseItem[];
 }
 
@@ -22,6 +25,10 @@ const servicePageContent: Record<SupportedLocale, ServicePageContent> = {
     strategicBenefits: "Strategic Benefits",
     whyChooseTitle: "Why Choose Al Nawras",
     relatedServices: "Related Services",
+    categoryServicesTitle: "Our Services",
+    categoryServicesDescription:
+      "Explore our specialised services within this category, each designed to protect and strengthen your intellectual property.",
+    viewService: "View service",
     whyChooseItems: [
       {
         icon: "mdi:scale-balance",
@@ -55,6 +62,10 @@ const servicePageContent: Record<SupportedLocale, ServicePageContent> = {
     strategicBenefits: "الفوائد الاستراتيجية",
     whyChooseTitle: "لماذا تختار النورس",
     relatedServices: "خدمات ذات صلة",
+    categoryServicesTitle: "خدماتنا",
+    categoryServicesDescription:
+      "استكشف خدماتنا المتخصصة ضمن هذه الفئة، المصممة لحماية ملكيتك الفكرية وتعزيزها.",
+    viewService: "عرض الخدمة",
     whyChooseItems: [
       {
         icon: "mdi:scale-balance",

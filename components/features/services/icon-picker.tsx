@@ -7,16 +7,17 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const POPULAR_ICONS = [
+  "mdi:certificate-outline",
+  "mdi:shield-check-outline",
+  "mdi:scale-balance",
   "mdi:shield-check",
   "mdi:lightbulb-on",
-  "mdi:scale-balance",
   "mdi:file-document",
   "mdi:globe-model",
   "mdi:handshake",
   "mdi:chart-line",
   "mdi:account-group",
-  "mdi:briefcase",
-  "mdi:certificate",
+  "mdi:briefcase-outline",
   "mdi:gavel",
   "mdi:target",
 ];

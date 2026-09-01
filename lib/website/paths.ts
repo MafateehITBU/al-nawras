@@ -5,6 +5,10 @@ export function getServiceDetailPath(serviceSlug: string, locale: SupportedLocal
   return localizePath(`/services/${serviceSlug}`, locale);
 }
 
+export function getServiceCategoryPath(categorySlug: string, locale: SupportedLocale) {
+  return localizePath(`/services/category/${categorySlug}`, locale);
+}
+
 export function getBlogDetailPath(blogSlug: string, locale: SupportedLocale) {
   return localizePath(`/blog/${blogSlug}`, locale);
 }

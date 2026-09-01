@@ -29,6 +29,9 @@ export async function getPublicServicesMenu() {
       nameEn: true,
       nameAr: true,
       slug: true,
+      icon: true,
+      descriptionEn: true,
+      descriptionAr: true,
       services: {
         select: {
           id: true,
@@ -137,6 +140,51 @@ export async function listPublicServiceSlugs() {
   return prisma.service.findMany({
     select: { slug: true, updatedAt: true },
     orderBy: { nameEn: "asc" },
+  });
+}
+
+const categoryServiceSelect = {
+  id: true,
+  slug: true,
+  nameEn: true,
+  nameAr: true,
+  heroTitleEn: true,
+  heroTitleAr: true,
+  heroDescriptionEn: true,
+  heroDescriptionAr: true,
+  overviewImageUrl: true,
+} as const;
+
+export type CategoryServiceSummary = Prisma.ServiceGetPayload<{
+  select: typeof categoryServiceSelect;
+}>;
+
+export async function getPublicServiceCategoryPageData(categorySlug: string) {
+  const category = await prisma.serviceCategory.findUnique({
+    where: { slug: categorySlug },
+    select: {
+      id: true,
+      slug: true,
+      nameEn: true,
+      nameAr: true,
+      icon: true,
+      descriptionEn: true,
+      descriptionAr: true,
+      services: {
+        select: categoryServiceSelect,
+        orderBy: { createdAt: "asc" },
+      },
+    },
+  });
+
+  if (!category) throw new NotFoundError("Service category not found");
+  return category;
+}
+
+export async function listPublicServiceCategorySlugs() {
+  return prisma.serviceCategory.findMany({
+    select: { slug: true, updatedAt: true },
+    orderBy: { createdAt: "asc" },
   });
 }
 

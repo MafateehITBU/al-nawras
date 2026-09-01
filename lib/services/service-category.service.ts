@@ -22,6 +22,8 @@ export async function listServiceCategories(query: PaginationQuery) {
           { nameEn: { contains: search, mode: "insensitive" } },
           { nameAr: { contains: search, mode: "insensitive" } },
           { slug: { contains: search, mode: "insensitive" } },
+          { descriptionEn: { contains: search, mode: "insensitive" } },
+          { descriptionAr: { contains: search, mode: "insensitive" } },
         ],
       }
     : {};
@@ -76,7 +78,14 @@ export async function createServiceCategory(input: CreateServiceCategoryInput) {
   const slug = await resolveCategorySlug(input.nameEn);
 
   return prisma.serviceCategory.create({
-    data: { nameEn: input.nameEn, nameAr: input.nameAr, slug },
+    data: {
+      nameEn: input.nameEn,
+      nameAr: input.nameAr,
+      slug,
+      icon: input.icon,
+      descriptionEn: input.descriptionEn,
+      descriptionAr: input.descriptionAr,
+    },
     include: categoryInclude,
   });
 }
@@ -96,6 +105,9 @@ export async function updateServiceCategory(
     data: {
       ...(input.nameEn !== undefined && { nameEn: input.nameEn }),
       ...(input.nameAr !== undefined && { nameAr: input.nameAr }),
+      ...(input.icon !== undefined && { icon: input.icon }),
+      ...(input.descriptionEn !== undefined && { descriptionEn: input.descriptionEn }),
+      ...(input.descriptionAr !== undefined && { descriptionAr: input.descriptionAr }),
       ...(slug !== undefined && { slug }),
     },
     include: categoryInclude,

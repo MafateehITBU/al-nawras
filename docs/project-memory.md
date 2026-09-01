@@ -3,7 +3,7 @@
 > **Source of truth** for architecture decisions, implementation status, and technical context.
 > Read this document before starting any new task. Update it after significant changes.
 
-**Last updated:** 2026-09-01 (blogs listing + blog details pages)
+**Last updated:** 2026-09-01 (blogs listing + details, service category pages)
 **Current phase:** Phase 7 — Public Website (Contact remaining)
 
 ---
@@ -186,7 +186,7 @@ Auto-generated slugs via `lib/utils/index.ts`. Reading time stored as `readingTi
 | `WebsiteSocialLink` | `website_social_links` | platform (unique), url |
 | `BlogCategory` | `blog_categories` | nameEn, nameAr, slug (unique) |
 | `Blog` | `blogs` | bilingual content, slug, categoryId → BlogCategory, Cloudinary refs |
-| `ServiceCategory` | `service_categories` | nameEn, nameAr, slug (unique) |
+| `ServiceCategory` | `service_categories` | nameEn, nameAr, slug (unique), icon, descriptionEn/Ar — used by home Core Services cards |
 | `Service` | `services` | categoryId, nameEn/Ar, heroTitleEn/Ar, heroDescriptionEn/Ar, overviewTitleEn/Ar, overviewDescriptionEn/Ar, strategic benefits |
 | `ServiceStrategicBenefit` | `service_strategic_benefits` | icon, bilingual title/description, serviceId (cascade delete) |
 | `ContactEnquiry` | `contact_enquiries` | contact info, serviceId → Service, status enum |
@@ -252,7 +252,7 @@ Auto-generated slugs via `lib/utils/index.ts`. Reading time stored as `readingTi
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET/POST | `/api/admin/service-categories` | List / create categories |
+| GET/POST | `/api/admin/service-categories` | List / create categories (name, icon, description) |
 | GET/PATCH/DELETE | `/api/admin/service-categories/[id]` | Category CRUD |
 | GET/POST | `/api/admin/services` | List / create services (with benefits) |
 | GET/PATCH/DELETE | `/api/admin/services/[id]` | Service CRUD (benefits replace on PATCH) |
@@ -284,6 +284,8 @@ Run with `npm run db:seed`. Creates:
 | Super Admin | `admin@alnawras.com` / `Admin@123456` |
 | WebsiteSettings | Business hours + contact email |
 | Social links | Empty placeholders for all 4 platforms |
+| Core services | Patents, Trademarks, Legal Advisory (name, icon, description) |
+| Services | 5 nested services per category (EN/AR content, benefits, local seed images) |
 
 Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 
@@ -362,7 +364,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Admin management pages (`/admin/admins`)
 - [x] Website information management (`/admin/website`)
 - [x] Blog categories & blogs — TipTap rich text, EN/AR tabs (`/admin/blog-categories`, `/admin/blogs`)
-- [x] Service categories & services — Iconify icon selector (`/admin/service-categories`, `/admin/services`)
+- [x] Service categories & services — Iconify icon + bilingual description on categories for home Core Services cards (`/admin/service-categories`, `/admin/services`)
 - [x] Contact enquiries management (`/admin/contact-enquiries`)
 - [x] Map location selector — Leaflet + OpenStreetMap + Nominatim geocoding proxy
 - [x] File upload UI components (`ImageUploadField`, `DocumentUploadField`) wired to Phase 5 APIs
@@ -467,7 +469,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 ### Phase 7 — Home Page ✅
 
 - [x] Static bilingual page at `app/[locale]/page.tsx` — no backend/API
-- [x] Content in `lib/i18n/home-page-content.ts` (hero, who we are, core services, edge, approach, expertise, SEO)
+- [x] Content in `lib/i18n/home-page-content.ts` (hero, who we are, core services intro, edge, approach, expertise, SEO); core service **cards** come from `ServiceCategory` CMS data
 - [x] Shared section styles in `home-section-styles.ts`:
   - Desktop sections use **`lg:min-h-[calc(100dvh-5rem)]`** (no fixed height / no nested scroll)
   - Inner wrapper is plain `website-container` — **no `lg:overflow-y-auto`** (fixes per-section scrollbars on Arabic)
@@ -475,7 +477,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Sections under `components/website/home/`:
   - `HomeHero` — `home-hero-bg.png` + `home-hero-image.png`; two-line title (line 2 primary, own line); **`lg:whitespace-nowrap` only for EN** (Arabic wraps); hero image hidden below `lg`, desktop `object-contain object-end` edge-to-edge; stats titles nowrap on EN only; direction-aware image (AR: `rtl:scale-x-[-1]`)
   - `WhoWeAreSection` + `CoreValues` / `CoreValueItem` — larger titles/body; core-value icons on `bg-website-secondary` orange boxes; `#F4F6FE` panel with logical `border-s` accent
-  - `CoreServicesSection` + `CoreServiceCard` + `CoreServicesCarousel` — dark `#2D3035` section; cards **363×376px**, no border radius; mobile auto-advancing carousel every 5s (RTL-aware); desktop 3-column grid (`hidden lg:block`)
+  - `CoreServicesSection` + `CoreServiceCard` + `CoreServicesCarousel` — dark `#2D3035` section; cards **363×376px**, **`rounded-2xl`**; content from `ServiceCategory` (name, icon, description); carousel on all breakpoints (1 card on mobile, 3 on desktop, slides when more than 3); auto-advance every 5s (RTL-aware)
   - `AlNawrasEdgeSection` + `EdgeItem` — title highlight **italic, not bold**; no dividers; numbering not bold; EN description hard-breaks after “practical” via `<br />` (tight paragraph spacing); Arabic breaks after “الفهم العملي”
   - `OurApproachSection` + `ApproachStep` — desktop timeline line `#27A8E133`; step numbers `1–4` (no leading zero); steps 1 & 3 (`position: "above"`) keep description on the line with `bg-website-bg` so titles are not clipped; section uses `lg:min-h-[calc(100dvh-5rem)]` without inner overflow scroll
   - `ExpertiseSection` + `ExpertiseFloatingBadge` — image **608×581px**; orange badge ~**210×110px** (desktop), half on / half off the image via logical `-start`; title highlight italic; badge text centered in the box with `text-start` + `dir` for EN/AR; float animation `3s` (`animate-expertise-badge-float` in `website.css`); uses shared viewport section classes (`overflow-visible` on section)
@@ -584,3 +586,5 @@ npm run db:studio    # Open Prisma Studio
 | 2026-09-01 | 7 | Blogs listing + details — featured latest, search/filter/pagination, rich text, attachment CTA, related blogs |
 | 2026-08-31 | 7 | Navigation loading — logo + spinner overlay on internal link click (`WebsiteNavigationProvider`); no page transition animation |
 | 2026-08-31 | 8 | Production deploy — ISR revalidate 60s, locale-only Edge middleware, Vercel + Neon |
+| 2026-09-01 | 7 | Core services — `ServiceCategory` icon + bilingual description drive home cards; card `rounded-2xl` |
+| 2026-09-01 | 7 | Seed nested services under Patents, Trademarks, and Legal Advisory |
