@@ -2,11 +2,30 @@
 
 import { IconifyIcon } from "@/components/website/service/iconify-icon";
 import type { AboutExpertiseCard } from "@/lib/i18n/about-page-content";
+import { cn } from "@/lib/utils";
 
-export function ExpertiseCard({ card }: { card: AboutExpertiseCard }) {
+export function ExpertiseCard({
+  card,
+  isActive = false,
+}: {
+  card: AboutExpertiseCard;
+  isActive?: boolean;
+}) {
   return (
-    <article className="group mx-auto flex h-[330px] w-full max-w-[421px] flex-col rounded-xl border border-website-muted bg-website-bg p-6 transition-colors duration-300 hover:border-website-primary">
-      <div className="flex h-full flex-col transition-transform duration-300 group-hover:-translate-y-1">
+    <article
+      className={cn(
+        "group mx-auto flex h-[330px] w-full flex-col rounded-xl border bg-website-bg p-6 transition-all duration-500 ease-in-out motion-reduce:transition-none",
+        isActive
+          ? "border-website-primary shadow-lg shadow-website-primary/10"
+          : "border-website-muted hover:border-website-primary/60",
+      )}
+    >
+      <div
+        className={cn(
+          "flex h-full flex-col transition-transform duration-500 ease-in-out motion-reduce:transition-none",
+          !isActive && "group-hover:-translate-y-1",
+        )}
+      >
         <div
           className="flex size-12 shrink-0 items-center justify-center rounded-lg"
           style={{ backgroundColor: "#27A8E11A" }}
