@@ -15,6 +15,10 @@ export interface ServicePageContent {
   categoryServicesTitle: string;
   categoryServicesDescription: string;
   viewService: string;
+  serviceLabel: string;
+  categoryCtaTitle: string;
+  categoryCtaDescription: string;
+  categoryCtaButton: string;
   whyChooseItems: WhyChooseItem[];
 }
 
@@ -29,6 +33,11 @@ const servicePageContent: Record<SupportedLocale, ServicePageContent> = {
     categoryServicesDescription:
       "Explore our specialised services within this category, each designed to protect and strengthen your intellectual property.",
     viewService: "View service",
+    serviceLabel: "Service",
+    categoryCtaTitle: "Ready to protect your intellectual property?",
+    categoryCtaDescription:
+      "Speak with our specialists to find the right service for your needs and start building a stronger protection strategy.",
+    categoryCtaButton: "Get in touch",
     whyChooseItems: [
       {
         icon: "mdi:scale-balance",
@@ -66,6 +75,11 @@ const servicePageContent: Record<SupportedLocale, ServicePageContent> = {
     categoryServicesDescription:
       "استكشف خدماتنا المتخصصة ضمن هذه الفئة، المصممة لحماية ملكيتك الفكرية وتعزيزها.",
     viewService: "عرض الخدمة",
+    serviceLabel: "خدمة",
+    categoryCtaTitle: "هل أنت مستعد لحماية ملكيتك الفكرية؟",
+    categoryCtaDescription:
+      "تحدث مع متخصصينا لاختيار الخدمة المناسبة لاحتياجاتك والبدء في بناء استراتيجية حماية أقوى.",
+    categoryCtaButton: "تواصل معنا",
     whyChooseItems: [
       {
         icon: "mdi:scale-balance",

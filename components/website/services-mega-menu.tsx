@@ -5,11 +5,11 @@ import { pickLocalizedField } from "@/lib/i18n/content";
 import type { WebsiteDictionary } from "@/lib/i18n/dictionaries";
 import type { SupportedLocale } from "@/lib/i18n/config";
 import type { PublicServicesMenuCategory } from "@/lib/services/service.service";
-import { getServiceDetailPath } from "@/lib/website/paths";
+import { getServiceCategoryPath, getServiceDetailPath } from "@/lib/website/paths";
 import { splitIntoThreeColumns } from "@/lib/website/split-columns";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 const MEGA_MENU_MUTED = "text-[#686C70]";
 const SERVICES_PER_COLUMN = 5;
@@ -74,16 +74,6 @@ export function ServicesMegaMenu({
     SERVICES_PER_COLUMN,
   );
 
-  const handleCategoryKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>, categoryId: string) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        setActiveCategoryId(categoryId);
-      }
-    },
-    [],
-  );
-
   if (!isOpen) return null;
 
   const activeCategoryName = activeCategory
@@ -117,8 +107,8 @@ export function ServicesMegaMenu({
 
                   return (
                     <li key={category.id} className="shrink-0 lg:shrink">
-                      <button
-                        type="button"
+                      <Link
+                        href={getServiceCategoryPath(category.slug, locale)}
                         className={cn(
                           "website-body flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-start text-sm transition-colors duration-200 website-focus-ring lg:gap-3 lg:py-3",
                           isActive
@@ -128,8 +118,7 @@ export function ServicesMegaMenu({
                         aria-current={isActive ? "true" : undefined}
                         onMouseEnter={() => setActiveCategoryId(category.id)}
                         onFocus={() => setActiveCategoryId(category.id)}
-                        onClick={() => setActiveCategoryId(category.id)}
-                        onKeyDown={(event) => handleCategoryKeyDown(event, category.id)}
+                        onClick={onClose}
                       >
                         <span
                           className={cn(
@@ -146,7 +135,7 @@ export function ServicesMegaMenu({
                           />
                         </span>
                         <span className="min-w-0 leading-snug">{name}</span>
-                      </button>
+                      </Link>
                     </li>
                   );
                 })}
@@ -162,7 +151,13 @@ export function ServicesMegaMenu({
                         {dictionary.nav.services}
                       </p>
                       <h3 className="website-heading mt-1 text-lg font-bold text-website-text sm:text-xl">
-                        {activeCategoryName}
+                        <Link
+                          href={getServiceCategoryPath(activeCategory.slug, locale)}
+                          className="transition-colors hover:text-website-primary website-focus-ring rounded-sm"
+                          onClick={onClose}
+                        >
+                          {activeCategoryName}
+                        </Link>
                       </h3>
                     </div>
                     <span className="website-body inline-flex items-center gap-1.5 rounded-full bg-website-icon-bg px-3 py-1 text-xs font-medium text-website-primary">
@@ -298,28 +293,37 @@ export function MobileServicesSection({
 
                 return (
                   <li key={category.id}>
-                    <button
-                      type="button"
-                      className={cn(
-                        "website-body flex w-full items-center justify-between gap-2 py-2 text-start text-sm website-focus-ring",
-                        isExpanded
-                          ? "font-semibold text-website-primary"
-                          : "text-website-muted",
-                      )}
-                      aria-expanded={isExpanded}
-                      aria-controls={categorySubmenuId}
-                      onClick={() => toggleCategory(category.id)}
-                    >
-                      <span>{pickLocalizedField(category, "name", locale)}</span>
-                      <Icon
-                        icon="lucide:chevron-down"
+                    <div className="flex items-center justify-between gap-2">
+                      <Link
+                        href={getServiceCategoryPath(category.slug, locale)}
                         className={cn(
-                          "size-3.5 shrink-0 transition-transform duration-200",
-                          isExpanded && "rotate-180",
+                          "website-body min-w-0 flex-1 py-2 text-start text-sm website-focus-ring",
+                          isExpanded
+                            ? "font-semibold text-website-primary"
+                            : "text-website-muted hover:text-website-primary",
                         )}
-                        aria-hidden
-                      />
-                    </button>
+                        onClick={onNavigate}
+                      >
+                        {pickLocalizedField(category, "name", locale)}
+                      </Link>
+                      <button
+                        type="button"
+                        className="website-body flex size-8 shrink-0 items-center justify-center rounded-md text-website-muted website-focus-ring hover:text-website-primary"
+                        aria-expanded={isExpanded}
+                        aria-controls={categorySubmenuId}
+                        aria-label={pickLocalizedField(category, "name", locale)}
+                        onClick={() => toggleCategory(category.id)}
+                      >
+                        <Icon
+                          icon="lucide:chevron-down"
+                          className={cn(
+                            "size-3.5 shrink-0 transition-transform duration-200",
+                            isExpanded && "rotate-180",
+                          )}
+                          aria-hidden
+                        />
+                      </button>
+                    </div>
 
                     {isExpanded && (
                       <ul

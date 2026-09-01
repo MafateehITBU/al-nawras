@@ -252,6 +252,19 @@
   animation: mobile-submenu-in 0.22s ease-out;
 }
 
+@keyframes category-hero-enter {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.category-hero-image {
+  animation: category-hero-enter 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 /* Scroll-triggered reveal — vertical motion only to avoid horizontal scroll */
 .website-reveal {
   transition:
@@ -436,6 +449,10 @@
   }
 
   .mobile-submenu-in {
+    animation: none;
+  }
+
+  .category-hero-image {
     animation: none;
   }
 }
