@@ -3,8 +3,8 @@
 > **Source of truth** for architecture decisions, implementation status, and technical context.
 > Read this document before starting any new task. Update it after significant changes.
 
-**Last updated:** 2026-08-31 (mega menu, mobile nav, scroll animations, navigation loader)
-**Current phase:** Phase 7 — Public Website (Blog detail + Contact remaining)
+**Last updated:** 2026-09-01 (blogs listing + blog details pages)
+**Current phase:** Phase 7 — Public Website (Contact remaining)
 
 ---
 
@@ -429,6 +429,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Separate logo assets: `NavbarLogo` (`/logo-navbar.png` or CMS upload) vs `FooterLogo` (`/logo.png`)
 - [x] Placeholder routes: `/about`, `/privacy-policy`, `/terms-and-conditions`
 - [x] Dynamic service detail route: `/services/[slug]`
+- [x] **Blog listing** at `/[locale]/blog` and **blog details** at `/[locale]/blog/[slug]` (see Phase 7 — Blogs below)
 
 ### Phase 7 — Scroll Animations & Page Navigation Loading ✅
 
@@ -483,7 +484,25 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Reused: `PrimaryButton`, `SecondaryButton`, `IconifyIcon`, `website-container`, locale layout RTL/LTR
 - [x] SEO via `buildWebsiteMetadata()` with localized title/description
 
-### Phase 7 — About Us Page ✅
+### Phase 7 — Blogs Listing & Blog Details ✅
+
+- [x] **Routes:** `/[locale]/blog` (listing), `/[locale]/blog/[slug]` (dynamic details template)
+- [x] **Data:** Server Components call `lib/services/blog.service.ts` public helpers (no client-side full fetch)
+- [x] **Published logic:** `publishedAt <= now` (no separate draft flag in schema)
+- [x] **Featured blog:** latest published post via `getFeaturedPublicBlog()`; excluded from page-1 list to avoid duplicate
+- [x] **Listing:** 4 posts/page (`PUBLIC_BLOG_PAGE_SIZE`), URL search params `page`, `search`, `categoryId`
+- [x] **Search:** server-side Prisma across title EN/AR, content EN/AR, author, category names; debounced client input updates URL
+- [x] **Popular Topics:** `getPopularBlogCategories()` + public `GET /api/blog-categories/popular`; category filter via URL; active category highlighted secondary
+- [x] **Stay Informed:** UI + email validation only — **newsletter backend not implemented** (shows pending message)
+- [x] **Rich text:** TipTap stores HTML; public renderer uses `sanitizeBlogHtml()` + `.blog-prose` styles in `app/website.css`
+- [x] **Attachment CTA:** conditional on `attachmentUrl`; displays `attachmentName` (new optional field) or format fallback; uses `public/images/blog-cta.png`
+- [x] **Related blogs:** up to 3 same-category published posts, excludes current
+- [x] **Share:** Web Share API with clipboard copy fallback + inline “link copied” feedback
+- [x] **SEO:** listing titles EN/AR via `getBlogPageContent()`; per-blog dynamic metadata from title + excerpt + featured image
+- [x] **Sitemap:** blog slug URLs per locale via `listPublicBlogSlugs()`
+- [x] **Admin:** blog form supports optional `attachmentName` when attachment uploaded
+- [x] **Migration:** `20260901100000_add_blog_attachment_name`
+- [x] Components under `components/website/blog/`
 
 - [x] Static bilingual page at `app/[locale]/about/page.tsx` — no backend/API
 - [x] Content in `lib/i18n/about-page-content.ts` (hero, 8 expertise cards, firm expertise points, SEO)
@@ -514,7 +533,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - Social link URLs seeded as empty strings — to be filled via dashboard
 - Next.js 16 deprecates `middleware.ts` in favor of `proxy` — migrate when stable
 - Nominatim geocoding has usage limits — search is debounced; reverse geocode is best-effort on pin move
-- Contact and Blog detail public pages are still placeholders
+- Contact public page is still a placeholder
 - Vercel Hobby: Git push may not trigger deploy if GitHub ↔ Vercel webhook is stale — reconnect Git in project settings or run `npx vercel deploy --prod`
 - Super admin seed password exposed in docs — rotate before production
 
@@ -562,5 +581,6 @@ npm run db:studio    # Open Prisma Studio
 | 2026-08-31 | 7 | Mega menu redesign — full-width header dropdown, `rounded-b-xl`, border-top, category sidebar + service grid |
 | 2026-08-31 | 7 | Mobile services menu — per-category accordion (services inline under category) |
 | 2026-08-31 | 7 | Scroll animations — `AnimateIn` on public pages; vertical-only reveals; stagger on card grids |
+| 2026-09-01 | 7 | Blogs listing + details — featured latest, search/filter/pagination, rich text, attachment CTA, related blogs |
 | 2026-08-31 | 7 | Navigation loading — logo + spinner overlay on internal link click (`WebsiteNavigationProvider`); no page transition animation |
 | 2026-08-31 | 8 | Production deploy — ISR revalidate 60s, locale-only Edge middleware, Vercel + Neon |

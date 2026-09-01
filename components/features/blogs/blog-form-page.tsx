@@ -32,6 +32,7 @@ interface BlogFormState {
   attachmentUrl: string | null;
   attachmentPublicId: string | null;
   attachmentFormat: string | null;
+  attachmentName: string | null;
 }
 
 function toDateInputValue(date: Date | string) {
@@ -52,6 +53,7 @@ const emptyForm = (): BlogFormState => ({
   attachmentUrl: null,
   attachmentPublicId: null,
   attachmentFormat: null,
+  attachmentName: null,
 });
 
 export function BlogFormPage({ blogId }: { blogId?: string }) {
@@ -97,6 +99,7 @@ export function BlogFormPage({ blogId }: { blogId?: string }) {
           attachmentUrl: blog.attachmentUrl,
           attachmentPublicId: blog.attachmentPublicId,
           attachmentFormat: blog.attachmentFormat,
+          attachmentName: blog.attachmentName,
         });
       } catch (error) {
         if (!cancelled) {
@@ -138,6 +141,7 @@ export function BlogFormPage({ blogId }: { blogId?: string }) {
         attachmentUrl: form.attachmentUrl,
         attachmentPublicId: form.attachmentPublicId,
         attachmentFormat: form.attachmentFormat,
+        attachmentName: form.attachmentName,
       };
 
       if (isEditing && blogId) {
@@ -305,9 +309,22 @@ export function BlogFormPage({ blogId }: { blogId?: string }) {
                     attachmentUrl: asset?.url ?? null,
                     attachmentPublicId: asset?.publicId ?? null,
                     attachmentFormat: asset?.format ?? null,
+                    attachmentName: asset ? form.attachmentName : null,
                   })
                 }
               />
+              {form.attachmentUrl ? (
+                <FormField label="Attachment name" htmlFor="attachmentName">
+                  <Input
+                    id="attachmentName"
+                    value={form.attachmentName ?? ""}
+                    onChange={(e) =>
+                      setForm({ ...form, attachmentName: e.target.value || null })
+                    }
+                    placeholder="2024 IP Litigation Whitepaper"
+                  />
+                </FormField>
+              ) : null}
             </CardContent>
           </Card>
         </div>

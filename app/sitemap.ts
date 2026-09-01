@@ -5,6 +5,7 @@ import {
   WEBSITE_LEGAL_PATHS,
 } from "@/constants/website-nav";
 import { getSiteUrl, localizePath } from "@/lib/i18n/config";
+import { listPublicBlogSlugs } from "@/lib/services/blog.service";
 import { listPublicServiceSlugs } from "@/lib/services/service.service";
 import type { MetadataRoute } from "next";
 
@@ -21,6 +22,7 @@ const STATIC_PUBLIC_PATHS = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = getSiteUrl();
   const services = await listPublicServiceSlugs();
+  const blogs = await listPublicBlogSlugs();
 
   const staticEntries = SUPPORTED_LOCALES.flatMap((locale) =>
     STATIC_PUBLIC_PATHS.map((path) => ({
@@ -56,5 +58,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   );
 
-  return [...staticEntries, ...serviceEntries];
+  const blogEntries = blogs.flatMap(({ slug, updatedAt }) =>
+    SUPPORTED_LOCALES.map((locale) => ({
+      url: `${siteUrl}${localizePath(`/blog/${slug}`, locale)}`,
+      lastModified: updatedAt,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+      alternates: {
+        languages: Object.fromEntries(
+          SUPPORTED_LOCALES.map((alt) => [
+            alt,
+            `${siteUrl}${localizePath(`/blog/${slug}`, alt)}`,
+          ]),
+        ),
+      },
+    })),
+  );
+
+  return [...staticEntries, ...serviceEntries, ...blogEntries];
 }

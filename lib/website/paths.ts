@@ -5,6 +5,27 @@ export function getServiceDetailPath(serviceSlug: string, locale: SupportedLocal
   return localizePath(`/services/${serviceSlug}`, locale);
 }
 
+export function getBlogDetailPath(blogSlug: string, locale: SupportedLocale) {
+  return localizePath(`/blog/${blogSlug}`, locale);
+}
+
+export function getBlogListingPath(locale: SupportedLocale) {
+  return localizePath("/blog", locale);
+}
+
+export function buildBlogListingQuery(params: {
+  page?: number;
+  search?: string;
+  categoryId?: string;
+}) {
+  const query = new URLSearchParams();
+  if (params.search?.trim()) query.set("search", params.search.trim());
+  if (params.categoryId) query.set("categoryId", params.categoryId);
+  if (params.page && params.page > 1) query.set("page", String(params.page));
+  const qs = query.toString();
+  return qs ? `?${qs}` : "";
+}
+
 export function isServicesRoute(pathname: string) {
   const segments = pathname.split("/").filter(Boolean);
   const offset = segments.length > 0 && (segments[0] === "en" || segments[0] === "ar") ? 1 : 0;

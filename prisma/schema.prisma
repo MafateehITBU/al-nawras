@@ -147,6 +147,7 @@ model Blog {
   attachmentUrl          String?
   attachmentPublicId     String?
   attachmentFormat       String?
+  attachmentName         String?
   slug                   String       @unique
   categoryId             String
   category               BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)

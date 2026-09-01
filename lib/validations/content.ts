@@ -97,6 +97,7 @@ export const createBlogSchema = z.object({
   attachmentUrl: requiredUrlSchema.optional().nullable(),
   attachmentPublicId: z.string().trim().optional().nullable(),
   attachmentFormat: z.string().trim().optional().nullable(),
+  attachmentName: z.string().trim().max(255).optional().nullable(),
   categoryId: z.string().trim().min(1),
 });
 
@@ -104,6 +105,14 @@ export const updateBlogSchema = createBlogSchema.partial();
 
 export const listBlogsQuerySchema = paginationQuerySchema.extend({
   categoryId: z.string().trim().optional(),
+});
+
+export const publicBlogListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(20).default(4),
+  search: z.string().trim().optional(),
+  categoryId: z.string().trim().optional(),
+  excludeId: z.string().trim().optional(),
 });
 
 export const createServiceCategorySchema = bilingualNameSchema;
@@ -194,6 +203,7 @@ export type UpdateServiceInput = z.infer<typeof updateServiceSchema>;
 export type CreateContactEnquiryInput = z.infer<typeof createContactEnquirySchema>;
 export type UpdateContactEnquiryInput = z.infer<typeof updateContactEnquirySchema>;
 export type ListBlogsQuery = z.infer<typeof listBlogsQuerySchema>;
+export type PublicBlogListQuery = z.infer<typeof publicBlogListQuerySchema>;
 export type ListServicesQuery = z.infer<typeof listServicesQuerySchema>;
 export type ListContactEnquiriesQuery = z.infer<typeof listContactEnquiriesQuerySchema>;
 
