@@ -9,6 +9,7 @@ import { getAlternateLocaleLabel, type WebsiteDictionary } from "@/lib/i18n/dict
 import type { SupportedLocale } from "@/lib/i18n/config";
 import { localizePath } from "@/lib/i18n/config";
 import type { PublicServicesMenuCategory } from "@/lib/services/service.service";
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/website/body-scroll-lock";
 import { isNavItemActive } from "@/lib/website/paths";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -49,8 +50,7 @@ export function MobileNav({
   useEffect(() => {
     if (!isOpen) return;
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
     closeButtonRef.current?.focus();
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -61,7 +61,7 @@ export function MobileNav({
 
     document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      unlockBodyScroll();
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, onClose]);

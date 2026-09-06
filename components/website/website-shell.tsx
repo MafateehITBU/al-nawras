@@ -2,6 +2,7 @@ import { WebsiteFooter } from "@/components/website/website-footer";
 import { WebsiteHeader } from "@/components/website/website-header";
 import { WebsiteNavigationProvider } from "@/components/website/website-navigation-provider";
 import { WebsiteToaster } from "@/components/website/website-toaster";
+import { WhatsAppFloat } from "@/components/website/whatsapp-float";
 import type { WebsiteDictionary } from "@/lib/i18n/dictionaries";
 import type { SupportedLocale } from "@/lib/i18n/config";
 import type { PublicServicesMenuCategory } from "@/lib/services/service.service";
@@ -34,6 +35,7 @@ export function WebsiteShell({
         />
         <main className="flex-1 overflow-x-clip">{children}</main>
         <WebsiteFooter locale={locale} dictionary={dictionary} website={website} />
+        <WhatsAppFloat locale={locale} />
       </div>
     </WebsiteNavigationProvider>
   );

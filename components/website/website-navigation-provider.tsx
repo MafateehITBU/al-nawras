@@ -1,6 +1,7 @@
 "use client";
 
 import { WebsiteNavigationLoader } from "@/components/website/website-navigation-loader";
+import { resetBodyScrollLock } from "@/lib/website/body-scroll-lock";
 import { isInternalWebsiteLink } from "@/lib/website/internal-link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
@@ -21,6 +22,7 @@ export function WebsiteNavigationProvider({
 
   useEffect(() => {
     setLoading(false);
+    resetBodyScrollLock();
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);

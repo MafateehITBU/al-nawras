@@ -2,6 +2,7 @@
 
 import { APP_NAME } from "@/constants";
 import { WEBSITE_ASSETS } from "@/constants/website-assets";
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/website/body-scroll-lock";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -14,11 +15,10 @@ export function WebsiteNavigationLoader({ logoUrl }: { logoUrl?: string | null }
 
   useEffect(() => {
     setMounted(true);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      unlockBodyScroll();
     };
   }, []);
 
