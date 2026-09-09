@@ -10,9 +10,24 @@ export const notify = {
   info: (message: string) => toast.info(message),
   fromError: (error: unknown, fallback = "Something went wrong") => {
     if (error instanceof ApiClientError) {
-      toast.error(error.message);
+      const fieldMessage = formatValidationDetails(error.details);
+      toast.error(fieldMessage || error.message);
       return;
     }
     toast.error(fallback);
   },
 };
+
+function formatValidationDetails(details: unknown): string | null {
+  if (!details || typeof details !== "object") return null;
+
+  const fieldErrors = (details as { fieldErrors?: Record<string, string[] | undefined> })
+    .fieldErrors;
+  if (!fieldErrors) return null;
+
+  const messages = Object.entries(fieldErrors).flatMap(([field, errors]) =>
+    (errors ?? []).map((message) => `${field}: ${message}`),
+  );
+
+  return messages.length > 0 ? messages.join(" · ") : null;
+}
