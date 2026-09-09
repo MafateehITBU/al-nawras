@@ -32,7 +32,6 @@ export function ServicesPage() {
   const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [page, setPage] = useState<number>(PAGINATION.DEFAULT_PAGE);
@@ -126,11 +125,10 @@ export function ServicesPage() {
         </ListFilterField>
         <ListSearchField>
           <SearchToolbar
-            value={searchInput}
-            onChange={setSearchInput}
-            onSearch={() => {
+            value={search}
+            onChange={(next) => {
               setPage(1);
-              setSearch(searchInput.trim());
+              setSearch(next);
             }}
             placeholder="Search services…"
           />

@@ -1,62 +1,36 @@
-import { Icon } from "@iconify/react";
-import type { HomePartner } from "@/lib/i18n/home-page-content";
 import { cn } from "@/lib/utils";
+import type { HomePartner } from "@/lib/i18n/home-page-content";
 import Image from "next/image";
 
 export function PartnerLogoSlot({
   partner,
-  placeholderLabel,
-  isPlaceholder = false,
   className,
 }: {
-  partner: Pick<HomePartner, "id" | "name" | "logoUrl" | "websiteUrl">;
-  placeholderLabel: string;
-  isPlaceholder?: boolean;
+  partner: Pick<HomePartner, "id" | "name" | "logoUrl">;
   className?: string;
 }) {
-  const hasLogo = Boolean(partner.logoUrl?.trim());
-
-  const content = (
-    <div
+  return (
+    <article
       className={cn(
-        "flex h-14 shrink-0 items-center justify-center rounded-xl border border-website-border/80 bg-website-surface px-5 transition-colors hover:border-website-primary/35 sm:h-16 sm:px-6",
+        "group flex h-16 shrink-0 items-center gap-3 rounded-full border border-white/10 bg-website-card-dark pe-5 ps-2 sm:h-[4.25rem] sm:gap-3.5 sm:pe-6 sm:ps-2.5",
+        "transition-colors duration-300 hover:border-website-primary/45 hover:bg-[#404449]",
         className,
       )}
     >
-      {hasLogo ? (
-        <div className="relative h-8 w-[6.5rem] sm:h-9 sm:w-[7.5rem]">
+      <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-website-surface sm:size-14">
+        <div className="relative h-7 w-9 sm:h-8 sm:w-10">
           <Image
-            src={partner.logoUrl!}
-            alt={partner.name}
+            src={partner.logoUrl}
+            alt=""
             fill
-            className="object-contain object-center grayscale transition-[filter] hover:grayscale-0"
-            sizes="120px"
+            className="object-contain object-center opacity-80 transition-opacity duration-300 group-hover:opacity-100"
+            sizes="56px"
           />
         </div>
-      ) : (
-        <div className="flex min-w-[6.5rem] items-center justify-center gap-2 text-website-muted sm:min-w-[7.5rem]">
-          <Icon icon="lucide:landmark" className="size-4 shrink-0" aria-hidden />
-          <span className="website-body truncate text-[0.6875rem] font-medium uppercase tracking-wide sm:text-xs">
-            {isPlaceholder ? placeholderLabel : partner.name}
-          </span>
-        </div>
-      )}
-    </div>
+      </div>
+      <span className="website-body max-w-[9rem] truncate text-xs font-medium text-white/85 transition-colors duration-300 group-hover:text-white sm:max-w-[11rem] sm:text-sm">
+        {partner.name}
+      </span>
+    </article>
   );
-
-  if (partner.websiteUrl?.trim()) {
-    return (
-      <a
-        href={partner.websiteUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="website-focus-ring block shrink-0 rounded-xl"
-        aria-label={partner.name}
-      >
-        {content}
-      </a>
-    );
-  }
-
-  return content;
 }

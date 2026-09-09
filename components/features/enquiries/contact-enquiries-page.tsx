@@ -48,7 +48,6 @@ export function ContactEnquiriesPage() {
   const confirmDelete = useDeleteConfirm();
   const [data, setData] = useState<PaginatedResult<EnquiryListItem> | null>(null);
   const [loading, setLoading] = useState(true);
-  const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<EnquiryStatus | "">("");
   const [serviceFilter, setServiceFilter] = useState("");
@@ -143,11 +142,10 @@ export function ContactEnquiriesPage() {
       <ListFiltersCard>
         <ListSearchField>
           <SearchToolbar
-            value={searchInput}
-            onChange={setSearchInput}
-            onSearch={() => {
+            value={search}
+            onChange={(next) => {
               setPage(1);
-              setSearch(searchInput.trim());
+              setSearch(next);
             }}
             placeholder="Search by name, email, company…"
           />

@@ -31,7 +31,6 @@ export function BlogsPage() {
   const [data, setData] = useState<PaginatedResult<BlogListItem> | null>(null);
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [page, setPage] = useState<number>(PAGINATION.DEFAULT_PAGE);
@@ -97,11 +96,10 @@ export function BlogsPage() {
       <ListFiltersCard>
         <ListSearchField>
           <SearchToolbar
-            value={searchInput}
-            onChange={setSearchInput}
-            onSearch={() => {
+            value={search}
+            onChange={(next) => {
               setPage(1);
-              setSearch(searchInput.trim());
+              setSearch(next);
             }}
             placeholder="Search blogs…"
           />

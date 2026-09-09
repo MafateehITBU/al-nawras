@@ -1,33 +1,29 @@
 import { PartnersMarquee } from "@/components/website/home/partners-marquee";
 import { AnimateIn } from "@/components/website/animate-in";
-import {
-  homeBodyClassName,
-  homeDescriptionSizeClassName,
-  homeLabelClassName,
-} from "@/components/website/home/home-section-styles";
+import { homeLabelClassName } from "@/components/website/home/home-section-styles";
 import { getHomePageContent } from "@/lib/i18n/home-page-content";
 import type { SupportedLocale } from "@/lib/i18n/config";
+import { listPartners } from "@/lib/services/partner.service";
 
-const PARTNER_PLACEHOLDER_COUNT = 10;
-
-export function OurPartnersSection({ locale }: { locale: SupportedLocale }) {
+export async function OurPartnersSection({ locale }: { locale: SupportedLocale }) {
   const { partners } = getHomePageContent(locale);
-
-  const slots =
-    partners.items.length > 0
-      ? partners.items
-      : Array.from({ length: PARTNER_PLACEHOLDER_COUNT }, (_, index) => ({
-          id: `partner-placeholder-${index + 1}`,
-          name: partners.placeholderLabel,
-          logoUrl: null,
-        }));
+  const items = await listPartners();
 
   return (
     <section
-      className="overflow-hidden bg-website-surface py-12 sm:py-14 lg:py-16"
+      className="relative overflow-hidden bg-website-footer py-14 sm:py-16 lg:py-20"
       aria-labelledby="our-partners-title"
     >
-      <div className="website-container w-full">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-website-primary/50 to-transparent"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"
+        aria-hidden
+      />
+
+      <div className="website-container relative w-full">
         <div className="mx-auto max-w-3xl text-center">
           <span
             className={`${homeLabelClassName(locale)} text-sm text-website-primary sm:text-base`}
@@ -36,28 +32,30 @@ export function OurPartnersSection({ locale }: { locale: SupportedLocale }) {
           </span>
           <h2
             id="our-partners-title"
-            className="website-heading mt-2 text-[1.75rem] font-bold text-website-text sm:mt-3 sm:text-[2.125rem] lg:text-[2.375rem]"
+            className="website-heading mt-2 text-[1.75rem] font-bold text-white sm:mt-3 sm:text-[2.125rem] lg:text-[2.375rem]"
           >
             {partners.titleBefore}
             <span className="font-normal italic text-website-primary">
               {partners.titleHighlight}
             </span>
           </h2>
-          <p
-            className={`mx-auto mt-4 max-w-2xl sm:mt-5 ${homeDescriptionSizeClassName} ${homeBodyClassName}`}
-          >
+          <p className="website-body mx-auto mt-4 max-w-2xl text-sm font-light leading-relaxed text-website-muted sm:mt-5 sm:text-base">
             {partners.description}
           </p>
         </div>
       </div>
 
-      <AnimateIn variant="fade" className="mt-8 sm:mt-10 lg:mt-12">
-        <PartnersMarquee
-          partners={slots}
-          placeholderLabel={partners.placeholderLabel}
-          isPlaceholder={partners.items.length === 0}
-        />
-      </AnimateIn>
+      {items.length > 0 ? (
+        <AnimateIn variant="fade" className="relative mt-10 sm:mt-12 lg:mt-14">
+          <PartnersMarquee
+            partners={items.map((partner) => ({
+              id: partner.id,
+              name: partner.name,
+              logoUrl: partner.logoUrl,
+            }))}
+          />
+        </AnimateIn>
+      ) : null}
     </section>
   );
 }

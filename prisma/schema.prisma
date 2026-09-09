@@ -119,6 +119,19 @@ model WebsiteSocialLink {
   @@map("website_social_links")
 }
 
+model Partner {
+  id           String   @id @default(cuid())
+  name         String
+  logoUrl      String
+  logoPublicId String
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([sortOrder])
+  @@map("partners")
+}
+
 // ─── Blog Categories & Blogs ─────────────────────────────────────────────────
 
 model BlogCategory {

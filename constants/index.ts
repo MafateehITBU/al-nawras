@@ -43,6 +43,7 @@ export const CLOUDINARY_FOLDERS = {
   BLOG_IMAGES: "al-nawras/blogs/images",
   BLOG_ATTACHMENTS: "al-nawras/blogs/attachments",
   WEBSITE_LOGO: "al-nawras/website/logo",
+  PARTNER_LOGOS: "al-nawras/website/partners",
   SERVICE_IMAGES: "al-nawras/services/images",
 } as const;
 

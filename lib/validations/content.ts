@@ -79,6 +79,17 @@ export const updateWebsiteSocialLinkSchema = z.object({
   url: optionalUrlSchema,
 });
 
+export const createPartnerSchema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(200),
+  logoUrl: requiredUrlSchema,
+  logoPublicId: z.string().trim().min(1, "Logo public ID is required"),
+  sortOrder: z.number().int().min(0).default(0),
+});
+
+export const updatePartnerSchema = createPartnerSchema.partial();
+
+export const listPartnersQuerySchema = paginationQuerySchema;
+
 export const createBlogCategorySchema = bilingualNameSchema;
 
 export const updateBlogCategorySchema = createBlogCategorySchema.partial();
@@ -196,6 +207,8 @@ export type UpdateWebsiteAddressInput = z.infer<typeof updateWebsiteAddressSchem
 export type CreateWebsiteMapLocationInput = z.infer<typeof createWebsiteMapLocationSchema>;
 export type UpdateWebsiteMapLocationInput = z.infer<typeof updateWebsiteMapLocationSchema>;
 export type UpdateWebsiteSocialLinkInput = z.infer<typeof updateWebsiteSocialLinkSchema>;
+export type CreatePartnerInput = z.infer<typeof createPartnerSchema>;
+export type UpdatePartnerInput = z.infer<typeof updatePartnerSchema>;
 export type CreateBlogCategoryInput = z.infer<typeof createBlogCategorySchema>;
 export type UpdateBlogCategoryInput = z.infer<typeof updateBlogCategorySchema>;
 export type CreateBlogInput = z.infer<typeof createBlogSchema>;

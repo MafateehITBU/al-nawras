@@ -37,7 +37,6 @@ export function BlogCategoriesPage() {
   const confirmDelete = useDeleteConfirm();
   const [data, setData] = useState<PaginatedResult<BlogCategory> | null>(null);
   const [loading, setLoading] = useState(true);
-  const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState<number>(PAGINATION.DEFAULT_PAGE);
   const [modalOpen, setModalOpen] = useState(false);
@@ -150,11 +149,10 @@ export function BlogCategoriesPage() {
       <ListFiltersCard>
         <ListSearchField>
           <SearchToolbar
-            value={searchInput}
-            onChange={setSearchInput}
-            onSearch={() => {
+            value={search}
+            onChange={(next) => {
               setPage(1);
-              setSearch(searchInput.trim());
+              setSearch(next);
             }}
             placeholder="Search categories…"
           />

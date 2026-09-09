@@ -38,8 +38,7 @@ export interface HomeApproachStep {
 export interface HomePartner {
   id: string;
   name: string;
-  logoUrl: string | null;
-  websiteUrl?: string | null;
+  logoUrl: string;
 }
 
 export interface HomePageContent {
@@ -81,8 +80,6 @@ export interface HomePageContent {
     titleBefore: string;
     titleHighlight: string;
     description: string;
-    placeholderLabel: string;
-    items: HomePartner[];
   };
   approach: {
     label: string;
@@ -221,8 +218,6 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
       titleHighlight: "Collaborations.",
       description:
         "We work alongside respected organisations and institutions that share our commitment to protecting intellectual property and supporting innovation across markets.",
-      placeholderLabel: "Partner logo",
-      items: [],
     },
     approach: {
       label: "OUR APPROACH",
@@ -395,8 +390,6 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
       titleHighlight: "موثوقة.",
       description:
         "نعمل إلى جانب مؤسسات ومنظمات تتقاسم معنا التزام حماية الملكية الفكرية ودعم الابتكار في مختلف الأسواق.",
-      placeholderLabel: "شعار الشريك",
-      items: [],
     },
     approach: {
       label: "منهجية العمل",
