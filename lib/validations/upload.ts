@@ -7,6 +7,7 @@ export const imageUploadFolderSchema = z.enum([
   CLOUDINARY_FOLDERS.WEBSITE_LOGO,
   CLOUDINARY_FOLDERS.PARTNER_LOGOS,
   CLOUDINARY_FOLDERS.SERVICE_IMAGES,
+  CLOUDINARY_FOLDERS.SERVICE_CATEGORY_IMAGES,
 ]);
 
 export const documentUploadFolderSchema = z.enum([

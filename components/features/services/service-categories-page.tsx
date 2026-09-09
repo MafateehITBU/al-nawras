@@ -19,7 +19,7 @@ import {
 import { SearchToolbar } from "@/components/features/shared/search-toolbar";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { useDeleteConfirm } from "@/components/providers/confirm-dialog-provider";
-import { PAGINATION, type SupportedLocale } from "@/constants";
+import { PAGINATION, type SupportedLocale, CLOUDINARY_FOLDERS } from "@/constants";
 import { apiClient, apiClientPaginated } from "@/lib/api/client";
 import { notify } from "@/lib/utils/notify";
 import type { PaginatedResult, ServiceCategory } from "@/types";
@@ -315,7 +315,7 @@ export function ServiceCategoriesPage() {
 
           <ImageUploadField
             label="Category image"
-            folder="service-categories"
+            folder={CLOUDINARY_FOLDERS.SERVICE_CATEGORY_IMAGES}
             required
             value={
               form.imageUrl

@@ -45,6 +45,7 @@ export const CLOUDINARY_FOLDERS = {
   WEBSITE_LOGO: "al-nawras/website/logo",
   PARTNER_LOGOS: "al-nawras/website/partners",
   SERVICE_IMAGES: "al-nawras/services/images",
+  SERVICE_CATEGORY_IMAGES: "al-nawras/services/categories",
 } as const;
 
 export type CloudinaryFolder =
