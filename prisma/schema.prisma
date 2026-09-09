@@ -38,6 +38,11 @@ enum SocialPlatform {
   X
 }
 
+enum SiteRegion {
+  JO
+  AE
+}
+
 // ─── Admins ──────────────────────────────────────────────────────────────────
 
 model Admin {
@@ -72,40 +77,46 @@ model WebsiteSettings {
 }
 
 model WebsitePhone {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   phoneNumber String
   label       String?
-  sortOrder   Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  region      SiteRegion @default(AE)
+  sortOrder   Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
   @@index([sortOrder])
+  @@index([region, sortOrder])
   @@map("website_phones")
 }
 
 model WebsiteAddress {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   addressEn String
   addressAr String
   label     String?
-  sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  region    SiteRegion @default(AE)
+  sortOrder Int        @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   @@index([sortOrder])
+  @@index([region, sortOrder])
   @@map("website_addresses")
 }
 
 model WebsiteMapLocation {
-  id        String   @id @default(cuid())
-  latitude  Decimal  @db.Decimal(10, 7)
-  longitude Decimal  @db.Decimal(10, 7)
+  id        String     @id @default(cuid())
+  latitude  Decimal    @db.Decimal(10, 7)
+  longitude Decimal    @db.Decimal(10, 7)
   label     String?
-  sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  region    SiteRegion @default(AE)
+  sortOrder Int        @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   @@index([sortOrder])
+  @@index([region, sortOrder])
   @@map("website_map_locations")
 }
 
@@ -175,16 +186,18 @@ model Blog {
 // ─── Service Categories & Services ───────────────────────────────────────────
 
 model ServiceCategory {
-  id            String    @id @default(cuid())
-  nameEn        String
-  nameAr        String
-  slug          String    @unique
-  icon          String
-  descriptionEn String    @db.Text
-  descriptionAr String    @db.Text
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  services      Service[]
+  id             String    @id @default(cuid())
+  nameEn         String
+  nameAr         String
+  slug           String    @unique
+  icon           String
+  descriptionEn  String    @db.Text
+  descriptionAr  String    @db.Text
+  imageUrl       String    @default("")
+  imagePublicId  String    @default("")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  services       Service[]
 
   @@map("service_categories")
 }

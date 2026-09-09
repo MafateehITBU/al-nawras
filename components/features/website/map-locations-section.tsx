@@ -7,12 +7,18 @@ import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import { Modal, ModalFooter } from "@/components/ui/modal";
 import { SectionHeader } from "@/components/ui/page-header";
+import { Select } from "@/components/ui/select";
 import { useDeleteConfirm } from "@/components/providers/confirm-dialog-provider";
 import { MapLocationPicker, LocationSearch } from "@/components/features/map";
+import {
+  DEFAULT_SITE_REGION,
+  SITE_REGION_LABELS,
+  SITE_REGION_OPTIONS,
+} from "@/components/features/website/site-region";
 import { toNumber } from "@/components/features/website/types";
 import { apiClient } from "@/lib/api/client";
 import { notify } from "@/lib/utils/notify";
-import type { WebsiteMapLocation } from "@prisma/client";
+import type { SiteRegion, WebsiteMapLocation } from "@prisma/client";
 import { ExternalLink, MapPinned, Pencil, Plus, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -20,13 +26,15 @@ interface MapFormState {
   latitude: number;
   longitude: number;
   label: string;
+  region: SiteRegion;
 }
 
-const DEFAULT_COORDS = { latitude: 24.7136, longitude: 46.6753 };
+const DEFAULT_COORDS = { latitude: 24.4539, longitude: 54.3773 };
 
 const emptyForm = (): MapFormState => ({
   ...DEFAULT_COORDS,
   label: "",
+  region: DEFAULT_SITE_REGION,
 });
 
 function formatCoords(lat: number, lng: number) {
@@ -85,6 +93,7 @@ export function MapLocationsSection({
       latitude: toNumber(location.latitude),
       longitude: toNumber(location.longitude),
       label: location.label ?? "",
+      region: location.region,
     });
     labelManuallyEdited.current = Boolean(location.label);
     setModalOpen(true);
@@ -130,6 +139,7 @@ export function MapLocationsSection({
         latitude: form.latitude,
         longitude: form.longitude,
         label: form.label.trim() || null,
+        region: form.region,
       };
 
       if (editing) {
@@ -178,7 +188,7 @@ export function MapLocationsSection({
         <CardHeader>
           <SectionHeader
             title="Map locations"
-            description="Pins shown on the contact map using OpenStreetMap."
+            description="Pins shown on the contact map, tagged by region."
             actions={
               <Button size="sm" onClick={openCreate}>
                 <Plus className="size-4" />
@@ -221,6 +231,9 @@ export function MapLocationsSection({
                         <p className="font-medium text-dashboard-text">
                           {location.label || "Untitled location"}
                         </p>
+                        <span className="mt-1 inline-flex rounded-full bg-dashboard-bg px-2 py-0.5 text-xs font-medium text-dashboard-text">
+                          {SITE_REGION_LABELS[location.region]}
+                        </span>
                         <p className="mt-1 text-sm text-dashboard-text-muted">
                           {formatCoords(lat, lng)}
                         </p>
@@ -294,6 +307,21 @@ export function MapLocationsSection({
               />
             </div>
           )}
+          <FormField label="Region" htmlFor="mapRegion" required>
+            <Select
+              id="mapRegion"
+              value={form.region}
+              onChange={(e) =>
+                setForm({ ...form, region: e.target.value as SiteRegion })
+              }
+            >
+              {SITE_REGION_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </FormField>
           <FormField
             label="Label"
             htmlFor="mapLabel"

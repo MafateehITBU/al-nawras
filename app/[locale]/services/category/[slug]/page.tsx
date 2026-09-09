@@ -23,6 +23,7 @@ export async function generateMetadata({
       pickLocalizedField(category, "description", localeParam),
       160,
     );
+    const categoryImage = category.imageUrl.trim();
     const firstServiceImage = category.services[0]?.overviewImageUrl;
 
     return buildWebsiteMetadata({
@@ -30,7 +31,7 @@ export async function generateMetadata({
       title,
       description,
       path: `/services/category/${slug}`,
-      imageUrl: firstServiceImage || null,
+      imageUrl: categoryImage || firstServiceImage || null,
     });
   } catch {
     return {};

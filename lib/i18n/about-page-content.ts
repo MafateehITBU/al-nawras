@@ -27,6 +27,17 @@ export interface AboutPageContent {
     description: string;
     cards: AboutExpertiseCard[];
   };
+  owner: {
+    label: string;
+    name: string;
+    role: string;
+    intro: string;
+    points: { title: string; description: string }[];
+    highlights: { label: string; value: string }[];
+    readMoreCta: string;
+    portfolioUrl: string;
+    imageAlt: string;
+  };
   firmExpertise: {
     label: string;
     title: string;
@@ -105,6 +116,42 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
             "Specialized legal services for protecting intellectual property rights, trademarks, and digital assets in the online environment, including domain names and matters related to digital presence.",
         },
       ],
+    },
+    owner: {
+      label: "THE FOUNDER",
+      name: "Awwad Al Zboon",
+      role: "Founder, Manager & Authorized Signatory",
+      intro:
+        "More than 30 years of hands-on experience in intellectual property, company law, and economic legislation — built through senior roles across Jordan and the UAE.",
+      points: [
+        {
+          title: "Intellectual property enforcement",
+          description:
+            "Extensive practical experience in IP enforcement, dispute resolution, trademarks, copyrights, industrial designs, and related legal matters.",
+        },
+        {
+          title: "Public-sector expertise",
+          description:
+            "Served at Jordan’s Ministry of Industry and Trade and the Companies Control Department.",
+        },
+        {
+          title: "UAE Ministry of Economy",
+          description:
+            "Legal Affairs Expert in Intellectual Property at the UAE Ministry of Economy (November 2009 – December 2024), advising on regulatory and IP matters.",
+        },
+        {
+          title: "Broader legal practice",
+          description:
+            "Experience as a legal advisor in a leading UAE law firm, plus deep expertise in company law, contracts, and commercial agreements.",
+        },
+      ],
+      highlights: [
+        { label: "Place of birth", value: "Hashemite Kingdom of Jordan" },
+        { label: "Years of experience", value: "30+" },
+      ],
+      readMoreCta: "Read more",
+      portfolioUrl: "https://alzboon.com/index.php/en/resume.html",
+      imageAlt: "Awwad Al Zboon, Founder of Alnawras Intellectual Property",
     },
     firmExpertise: {
       label: "FIRM EXPERTISE",
@@ -199,6 +246,43 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
             "خدمات قانونية متخصصة في حماية الحقوق والعلامات والأصول الفكرية في البيئة الرقمية، بما في ذلك أسماء النطاقات والمسائل المرتبطة بالحضور الرقمي.",
         },
       ],
+    },
+    owner: {
+      label: "المؤسس",
+      name: "عواد الزبون",
+      role: "المالك والمدير والمفوض بالتوقيع",
+      intro:
+        "أكثر من 30 عاماً من الخبرة العملية في الملكية الفكرية وقوانين الشركات والتشريعات الاقتصادية، عبر مناصب قيادية في الأردن والإمارات.",
+      points: [
+        {
+          title: "إنفاذ حقوق الملكية الفكرية",
+          description:
+            "خبرة عملية واسعة في إنفاذ حقوق الملكية الفكرية وفض النزاعات والعلامات التجارية وحقوق المؤلف والتصاميم الصناعية والقضايا المرتبطة بها.",
+        },
+        {
+          title: "خبرة في القطاع العام",
+          description:
+            "عمل في وزارة الصناعة والتجارة في المملكة الأردنية الهاشمية ودائرة مراقبة الشركات.",
+        },
+        {
+          title: "وزارة الاقتصاد في الإمارات",
+          description:
+            "خبير شؤون قانونية في الملكية الفكرية لدى وزارة الاقتصاد في دولة الإمارات العربية المتحدة (نوفمبر 2009 – ديسمبر 2024)، مع تقديم المشورة في الشؤون التنظيمية والملكية الفكرية.",
+        },
+        {
+          title: "ممارسة قانونية أوسع",
+          description:
+            "خبرة كمستشار قانوني في إحدى أشهر شركات المحاماة في الإمارات، إضافة إلى خبرة عميقة في قوانين الشركات والعقود والاتفاقيات التجارية.",
+        },
+      ],
+      highlights: [
+        { label: "مكان الميلاد", value: "المملكة الأردنية الهاشمية" },
+        { label: "سنوات الخبرة", value: "30+" },
+      ],
+      readMoreCta: "اقرأ المزيد",
+      portfolioUrl:
+        "https://alzboon.com/index.php/ar/%D8%A7%D9%84%D8%B3%D9%8A%D8%B1%D8%A9-%D8%A7%D9%84%D8%B0%D8%A7%D8%AA%D9%8A%D8%A9.html",
+      imageAlt: "عواد الزبون، مؤسس النورس للملكية الفكرية",
     },
     firmExpertise: {
       label: "على ماذا تقوم خبراتنا؟",

@@ -19,7 +19,6 @@ export function ContactInformation({
   const { contactInfo } = content;
   const { settings, phones, addresses, mapLocations } = website;
 
-  const primaryAddress = addresses[0] ?? null;
   const primaryLocation = mapLocations[0] ?? null;
 
   const latitude = primaryLocation ? Number(primaryLocation.latitude) : NaN;
@@ -37,11 +36,20 @@ export function ContactInformation({
       </h2>
 
       <div className="mt-6 space-y-6 sm:mt-8">
-        {primaryAddress ? (
+        {addresses.length > 0 ? (
           <ContactInfoItem icon="lucide:map-pin" label={contactInfo.officeLocation}>
-            <p className="whitespace-pre-line">
-              {pickLocalizedField(primaryAddress, "address", locale)}
-            </p>
+            <div className="space-y-3">
+              {addresses.map((address) => (
+                <p key={address.id} className="whitespace-pre-line">
+                  {address.label ? (
+                    <span className="mb-1 block font-medium text-website-text">
+                      {address.label}
+                    </span>
+                  ) : null}
+                  {pickLocalizedField(address, "address", locale)}
+                </p>
+              ))}
+            </div>
           </ContactInfoItem>
         ) : null}
 

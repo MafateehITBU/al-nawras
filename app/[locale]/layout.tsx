@@ -8,7 +8,7 @@ import {
 } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { buildWebsiteMetadata } from "@/lib/seo/metadata";
-import { getWebsiteContent } from "@/lib/services/website.service";
+import { getRegionalWebsiteContent } from "@/lib/website/regional-website-content";
 import { getPublicServicesMenu } from "@/lib/services/service.service";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -45,8 +45,8 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  const [website, dictionary, servicesMenu] = await Promise.all([
-    getWebsiteContent(),
+  const [{ website, region }, dictionary, servicesMenu] = await Promise.all([
+    getRegionalWebsiteContent(),
     Promise.resolve(getDictionary(localeParam)),
     getPublicServicesMenu(),
   ]);
@@ -63,6 +63,7 @@ export default async function LocaleLayout({
           locale={localeParam}
           dictionary={dictionary}
           website={website}
+          siteRegion={region}
           servicesMenu={servicesMenu}
         >
           {children}

@@ -119,6 +119,7 @@ export async function createWebsiteMapLocation(input: CreateWebsiteMapLocationIn
       latitude: new Prisma.Decimal(input.latitude),
       longitude: new Prisma.Decimal(input.longitude),
       label: input.label ?? null,
+      region: input.region,
       sortOrder: input.sortOrder,
     },
   });
@@ -140,6 +141,7 @@ export async function updateWebsiteMapLocation(
         longitude: new Prisma.Decimal(input.longitude),
       }),
       ...(input.label !== undefined && { label: input.label }),
+      ...(input.region !== undefined && { region: input.region }),
       ...(input.sortOrder !== undefined && { sortOrder: input.sortOrder }),
     },
   });

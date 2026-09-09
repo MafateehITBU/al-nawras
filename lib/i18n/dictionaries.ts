@@ -28,6 +28,11 @@ export interface WebsiteDictionary {
     noServiceCategories: string;
     readMore: string;
   };
+  cookies: {
+    message: string;
+    accept: string;
+    reject: string;
+  };
 }
 
 const dictionaries: Record<SupportedLocale, WebsiteDictionary> = {
@@ -60,6 +65,12 @@ const dictionaries: Record<SupportedLocale, WebsiteDictionary> = {
       noServiceCategories: "No service categories available.",
       readMore: "Read more",
     },
+    cookies: {
+      message:
+        "We use cookies to remember your cookie preferences and to show the right office contact details for your region.",
+      accept: "Accept",
+      reject: "Reject",
+    },
   },
   ar: {
     nav: {
@@ -88,6 +99,12 @@ const dictionaries: Record<SupportedLocale, WebsiteDictionary> = {
       noServicesInCategory: "لا توجد خدمات في هذه الفئة بعد.",
       noServiceCategories: "لا توجد فئات خدمات متاحة.",
       readMore: "اقرأ المزيد",
+    },
+    cookies: {
+      message:
+        "نستخدم ملفات تعريف الارتباط لحفظ تفضيلاتك وعرض بيانات التواصل المناسبة لمنطقتك.",
+      accept: "قبول",
+      reject: "رفض",
     },
   },
 };

@@ -10,6 +10,7 @@ import { Modal, ModalFooter } from "@/components/ui/modal";
 import { PageHeader } from "@/components/ui/page-header";
 import { Pagination } from "@/components/ui/pagination";
 import { IconPicker } from "@/components/features/services/icon-picker";
+import { ImageUploadField } from "@/components/features/uploads/image-upload-field";
 import { LocaleTabs } from "@/components/features/shared/locale-tabs";
 import {
   ListFiltersCard,
@@ -24,6 +25,7 @@ import { notify } from "@/lib/utils/notify";
 import type { PaginatedResult, ServiceCategory } from "@/types";
 import { Icon } from "@iconify/react";
 import { FolderTree, Pencil, Plus, Trash2 } from "lucide-react";
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
 interface CategoryFormState {
@@ -32,6 +34,8 @@ interface CategoryFormState {
   icon: string;
   descriptionEn: string;
   descriptionAr: string;
+  imageUrl: string;
+  imagePublicId: string;
 }
 
 const emptyForm = (): CategoryFormState => ({
@@ -40,6 +44,8 @@ const emptyForm = (): CategoryFormState => ({
   icon: "mdi:briefcase-outline",
   descriptionEn: "",
   descriptionAr: "",
+  imageUrl: "",
+  imagePublicId: "",
 });
 
 export function ServiceCategoriesPage() {
@@ -92,6 +98,8 @@ export function ServiceCategoriesPage() {
       icon: category.icon,
       descriptionEn: category.descriptionEn,
       descriptionAr: category.descriptionAr,
+      imageUrl: category.imageUrl || "",
+      imagePublicId: category.imagePublicId || "",
     });
     setLocale("en");
     setModalOpen(true);
@@ -116,6 +124,10 @@ export function ServiceCategoriesPage() {
       notify.error("Description is required in both languages");
       return;
     }
+    if (!form.imageUrl.trim() || !form.imagePublicId.trim()) {
+      notify.error("Category image is required");
+      return;
+    }
 
     setSaving(true);
     try {
@@ -125,6 +137,8 @@ export function ServiceCategoriesPage() {
         icon: form.icon.trim(),
         descriptionEn: form.descriptionEn.trim(),
         descriptionAr: form.descriptionAr.trim(),
+        imageUrl: form.imageUrl.trim(),
+        imagePublicId: form.imagePublicId.trim(),
       };
 
       if (editing) {
@@ -165,7 +179,7 @@ export function ServiceCategoriesPage() {
     <>
       <PageHeader
         title="Service Categories"
-        description="Organize services into categories. Name, icon, and description are used on the home page Core Services cards."
+        description="Organize services into categories. Name, icon, image, and description are used on the website."
         actions={
           <Button onClick={openCreate}>
             <Plus className="size-4" />
@@ -204,6 +218,7 @@ export function ServiceCategoriesPage() {
               <Table>
                 <THead>
                   <TR>
+                    <TH className="w-20">Image</TH>
                     <TH className="w-14">Icon</TH>
                     <TH>Name (EN)</TH>
                     <TH>Name (AR)</TH>
@@ -214,6 +229,23 @@ export function ServiceCategoriesPage() {
                 <TBody>
                   {data.items.map((category) => (
                     <TR key={category.id}>
+                      <TD>
+                        {category.imageUrl ? (
+                          <div className="relative size-12 overflow-hidden rounded-lg border border-dashboard-border bg-dashboard-bg">
+                            <Image
+                              src={category.imageUrl}
+                              alt=""
+                              fill
+                              className="object-cover"
+                              sizes="48px"
+                            />
+                          </div>
+                        ) : (
+                          <span className="flex size-12 items-center justify-center rounded-lg bg-dashboard-bg text-xs text-dashboard-text-muted">
+                            —
+                          </span>
+                        )}
+                      </TD>
                       <TD>
                         <span className="flex size-9 items-center justify-center rounded-lg bg-dashboard-bg text-dashboard-primary">
                           <Icon icon={category.icon} className="size-5" aria-hidden />
@@ -262,7 +294,7 @@ export function ServiceCategoriesPage() {
         open={modalOpen}
         onClose={closeModal}
         title={editing ? "Edit category" : "Add category"}
-        description="Name, icon, and description appear on the home page Core Services cards."
+        description="Name, icon, image, and description appear on the website category pages."
         size="lg"
         footer={
           <ModalFooter
@@ -280,6 +312,25 @@ export function ServiceCategoriesPage() {
               onChange={(icon) => setForm({ ...form, icon })}
             />
           </FormField>
+
+          <ImageUploadField
+            label="Category image"
+            folder="service-categories"
+            required
+            value={
+              form.imageUrl
+                ? { url: form.imageUrl, publicId: form.imagePublicId }
+                : null
+            }
+            onChange={(asset) =>
+              setForm({
+                ...form,
+                imageUrl: asset?.url ?? "",
+                imagePublicId: asset?.publicId ?? "",
+              })
+            }
+          />
+
           <LocaleTabs active={locale} onChange={setLocale} />
           {locale === "en" ? (
             <>

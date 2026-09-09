@@ -7,11 +7,17 @@ import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import { Modal, ModalFooter } from "@/components/ui/modal";
 import { SectionHeader } from "@/components/ui/page-header";
+import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  DEFAULT_SITE_REGION,
+  SITE_REGION_LABELS,
+  SITE_REGION_OPTIONS,
+} from "@/components/features/website/site-region";
 import { useDeleteConfirm } from "@/components/providers/confirm-dialog-provider";
 import { apiClient } from "@/lib/api/client";
 import { notify } from "@/lib/utils/notify";
-import type { WebsiteAddress } from "@prisma/client";
+import type { SiteRegion, WebsiteAddress } from "@prisma/client";
 import { MapPin, Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
@@ -19,12 +25,14 @@ interface AddressFormState {
   addressEn: string;
   addressAr: string;
   label: string;
+  region: SiteRegion;
 }
 
 const emptyForm = (): AddressFormState => ({
   addressEn: "",
   addressAr: "",
   label: "",
+  region: DEFAULT_SITE_REGION,
 });
 
 export function AddressesSection({
@@ -52,6 +60,7 @@ export function AddressesSection({
       addressEn: address.addressEn,
       addressAr: address.addressAr,
       label: address.label ?? "",
+      region: address.region,
     });
     setModalOpen(true);
   }
@@ -69,6 +78,7 @@ export function AddressesSection({
         addressEn: form.addressEn.trim(),
         addressAr: form.addressAr.trim(),
         label: form.label.trim() || null,
+        region: form.region,
       };
 
       if (editing) {
@@ -117,7 +127,7 @@ export function AddressesSection({
         <CardHeader>
           <SectionHeader
             title="Addresses"
-            description="Physical office addresses in English and Arabic."
+            description="Physical office addresses in English and Arabic, tagged by region."
             actions={
               <Button size="sm" onClick={openCreate}>
                 <Plus className="size-4" />
@@ -144,11 +154,16 @@ export function AddressesSection({
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0 flex-1 space-y-2">
-                      {address.label && (
-                        <p className="text-sm font-semibold text-dashboard-text">
-                          {address.label}
-                        </p>
-                      )}
+                      <div className="flex flex-wrap items-center gap-2">
+                        {address.label ? (
+                          <p className="text-sm font-semibold text-dashboard-text">
+                            {address.label}
+                          </p>
+                        ) : null}
+                        <span className="inline-flex rounded-full bg-dashboard-bg px-2 py-0.5 text-xs font-medium text-dashboard-text">
+                          {SITE_REGION_LABELS[address.region]}
+                        </span>
+                      </div>
                       <div className="grid gap-3 sm:grid-cols-2">
                         <div>
                           <p className="text-xs font-medium uppercase tracking-wide text-dashboard-text-muted">
@@ -209,7 +224,22 @@ export function AddressesSection({
         }
       >
         <div className="space-y-4">
-          <FormField label="Label" htmlFor="addressLabel" hint="Optional — e.g. Riyadh office">
+          <FormField label="Region" htmlFor="addressRegion" required>
+            <Select
+              id="addressRegion"
+              value={form.region}
+              onChange={(e) =>
+                setForm({ ...form, region: e.target.value as SiteRegion })
+              }
+            >
+              {SITE_REGION_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </FormField>
+          <FormField label="Label" htmlFor="addressLabel" hint="Optional — e.g. Abu Dhabi office">
             <Input
               id="addressLabel"
               value={form.label}

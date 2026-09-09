@@ -1,15 +1,25 @@
+"use client";
+
 import { Icon } from "@iconify/react";
 import type { SupportedLocale } from "@/lib/i18n/config";
+import { toWhatsAppDigits } from "@/lib/website/site-region";
 
-const WHATSAPP_NUMBER = "971564633944";
-const WHATSAPP_HREF = `https://wa.me/${WHATSAPP_NUMBER}`;
+export function WhatsAppFloat({
+  locale,
+  phoneNumber,
+}: {
+  locale: SupportedLocale;
+  phoneNumber?: string | null;
+}) {
+  const digits = phoneNumber ? toWhatsAppDigits(phoneNumber) : "";
+  if (!digits) return null;
 
-export function WhatsAppFloat({ locale }: { locale: SupportedLocale }) {
   const label = locale === "ar" ? "تواصل عبر واتساب" : "Chat on WhatsApp";
+  const href = `https://wa.me/${digits}`;
 
   return (
     <a
-      href={WHATSAPP_HREF}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}

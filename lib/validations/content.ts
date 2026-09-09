@@ -51,6 +51,7 @@ export const updateWebsiteSettingsSchema = z.object({
 export const createWebsitePhoneSchema = z.object({
   phoneNumber: phoneSchema,
   label: z.string().trim().max(100).optional().nullable(),
+  region: z.enum(["JO", "AE"]).default("AE"),
   sortOrder: z.number().int().min(0).default(0),
 });
 
@@ -60,6 +61,7 @@ export const createWebsiteAddressSchema = z.object({
   addressEn: z.string().trim().min(1, "English address is required"),
   addressAr: z.string().trim().min(1, "Arabic address is required"),
   label: z.string().trim().max(100).optional().nullable(),
+  region: z.enum(["JO", "AE"]).default("AE"),
   sortOrder: z.number().int().min(0).default(0),
 });
 
@@ -69,6 +71,7 @@ export const createWebsiteMapLocationSchema = z.object({
   latitude: z.coerce.number().min(-90).max(90),
   longitude: z.coerce.number().min(-180).max(180),
   label: z.string().trim().max(100).optional().nullable(),
+  region: z.enum(["JO", "AE"]).default("AE"),
   sortOrder: z.number().int().min(0).default(0),
 });
 
@@ -130,6 +133,8 @@ export const createServiceCategorySchema = bilingualNameSchema.extend({
   icon: z.string().trim().min(1, "Icon is required").max(200),
   descriptionEn: z.string().trim().min(1, "English description is required"),
   descriptionAr: z.string().trim().min(1, "Arabic description is required"),
+  imageUrl: requiredUrlSchema,
+  imagePublicId: z.string().trim().min(1, "Image public ID is required"),
 });
 
 export const updateServiceCategorySchema = createServiceCategorySchema.partial();

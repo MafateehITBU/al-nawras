@@ -8,7 +8,7 @@ import type { getPublicServiceCategoryPageData } from "@/lib/services/service.se
 import Image from "next/image";
 import Link from "next/link";
 
-const CATEGORY_HERO_IMAGE = "/images/Test.jpeg";
+const CATEGORY_HERO_FALLBACK_IMAGE = "/images/Test.jpeg";
 
 type CategoryHeroData = Pick<
   Awaited<ReturnType<typeof getPublicServiceCategoryPageData>>,
@@ -17,6 +17,7 @@ type CategoryHeroData = Pick<
   | "icon"
   | "descriptionEn"
   | "descriptionAr"
+  | "imageUrl"
   | "services"
   | "slug"
 >;
@@ -32,6 +33,7 @@ export function ServiceCategoryHero({
   const categoryName = pickLocalizedField(category, "name", locale);
   const description = pickLocalizedField(category, "description", locale);
   const serviceCount = category.services.length;
+  const heroImage = category.imageUrl.trim() || CATEGORY_HERO_FALLBACK_IMAGE;
 
   return (
     <section
@@ -39,7 +41,7 @@ export function ServiceCategoryHero({
       aria-labelledby="service-category-hero-title"
     >
       <Image
-        src={CATEGORY_HERO_IMAGE}
+        src={heroImage}
         alt=""
         fill
         priority

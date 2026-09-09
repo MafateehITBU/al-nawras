@@ -7,22 +7,30 @@ import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import { Modal, ModalFooter } from "@/components/ui/modal";
 import { SectionHeader } from "@/components/ui/page-header";
+import { Select } from "@/components/ui/select";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
+import {
+  DEFAULT_SITE_REGION,
+  SITE_REGION_LABELS,
+  SITE_REGION_OPTIONS,
+} from "@/components/features/website/site-region";
 import { useDeleteConfirm } from "@/components/providers/confirm-dialog-provider";
 import { apiClient } from "@/lib/api/client";
 import { notify } from "@/lib/utils/notify";
-import type { WebsitePhone } from "@prisma/client";
+import type { SiteRegion, WebsitePhone } from "@prisma/client";
 import { Pencil, Phone, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 interface PhoneFormState {
   phoneNumber: string;
   label: string;
+  region: SiteRegion;
 }
 
 const emptyForm = (): PhoneFormState => ({
   phoneNumber: "",
   label: "",
+  region: DEFAULT_SITE_REGION,
 });
 
 export function PhonesSection({
@@ -49,6 +57,7 @@ export function PhonesSection({
     setForm({
       phoneNumber: phone.phoneNumber,
       label: phone.label ?? "",
+      region: phone.region,
     });
     setModalOpen(true);
   }
@@ -65,6 +74,7 @@ export function PhonesSection({
       const body = {
         phoneNumber: form.phoneNumber.trim(),
         label: form.label.trim() || null,
+        region: form.region,
       };
 
       if (editing) {
@@ -111,7 +121,7 @@ export function PhonesSection({
         <CardHeader>
           <SectionHeader
             title="Phone numbers"
-            description="Contact numbers displayed on the website."
+            description="Contact numbers displayed on the website by visitor region."
             actions={
               <Button size="sm" onClick={openCreate}>
                 <Plus className="size-4" />
@@ -135,6 +145,7 @@ export function PhonesSection({
                 <TR>
                   <TH>Phone</TH>
                   <TH>Label</TH>
+                  <TH>Region</TH>
                   <TH className="w-24 text-right">Actions</TH>
                 </TR>
               </THead>
@@ -144,6 +155,11 @@ export function PhonesSection({
                     <TD className="font-medium">{phone.phoneNumber}</TD>
                     <TD className="text-dashboard-text-muted">
                       {phone.label || "—"}
+                    </TD>
+                    <TD>
+                      <span className="inline-flex rounded-full bg-dashboard-bg px-2 py-0.5 text-xs font-medium text-dashboard-text">
+                        {SITE_REGION_LABELS[phone.region]}
+                      </span>
                     </TD>
                     <TD className="text-right">
                       <div className="flex justify-end gap-1">
@@ -177,7 +193,7 @@ export function PhonesSection({
         open={modalOpen}
         onClose={closeModal}
         title={editing ? "Edit phone number" : "Add phone number"}
-        description="Use international format, e.g. +966 12 345 6789"
+        description="Use international format, e.g. +971 50 123 4567"
         footer={
           <ModalFooter
             onCancel={closeModal}
@@ -193,8 +209,23 @@ export function PhonesSection({
               id="phoneNumber"
               value={form.phoneNumber}
               onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
-              placeholder="+966 12 345 6789"
+              placeholder="+971 50 123 4567"
             />
+          </FormField>
+          <FormField label="Region" htmlFor="phoneRegion" required>
+            <Select
+              id="phoneRegion"
+              value={form.region}
+              onChange={(e) =>
+                setForm({ ...form, region: e.target.value as SiteRegion })
+              }
+            >
+              {SITE_REGION_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
           </FormField>
           <FormField label="Label" htmlFor="phoneLabel" hint="Optional — e.g. Main office">
             <Input

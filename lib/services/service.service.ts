@@ -181,6 +181,7 @@ export async function getPublicServiceCategoryPageData(categorySlug: string) {
       icon: true,
       descriptionEn: true,
       descriptionAr: true,
+      imageUrl: true,
       services: {
         select: categoryServiceSelect,
         orderBy: { createdAt: "asc" },

@@ -3,7 +3,7 @@ import { getContactPageContent } from "@/lib/i18n/contact-page-content";
 import { isSupportedLocale } from "@/lib/i18n/config";
 import { buildWebsiteMetadata } from "@/lib/seo/metadata";
 import { listPublicContactServices } from "@/lib/services/service.service";
-import { getWebsiteContent } from "@/lib/services/website.service";
+import { getRegionalWebsiteContent } from "@/lib/website/regional-website-content";
 import { notFound } from "next/navigation";
 
 export const revalidate = 60;
@@ -29,8 +29,8 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
   const { locale: localeParam } = await params;
   if (!isSupportedLocale(localeParam)) notFound();
 
-  const [website, services] = await Promise.all([
-    getWebsiteContent(),
+  const [{ website }, services] = await Promise.all([
+    getRegionalWebsiteContent(),
     listPublicContactServices(),
   ]);
 

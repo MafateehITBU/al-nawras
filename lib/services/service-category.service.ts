@@ -85,6 +85,8 @@ export async function createServiceCategory(input: CreateServiceCategoryInput) {
       icon: input.icon,
       descriptionEn: input.descriptionEn,
       descriptionAr: input.descriptionAr,
+      imageUrl: input.imageUrl,
+      imagePublicId: input.imagePublicId,
     },
     include: categoryInclude,
   });
@@ -108,6 +110,8 @@ export async function updateServiceCategory(
       ...(input.icon !== undefined && { icon: input.icon }),
       ...(input.descriptionEn !== undefined && { descriptionEn: input.descriptionEn }),
       ...(input.descriptionAr !== undefined && { descriptionAr: input.descriptionAr }),
+      ...(input.imageUrl !== undefined && { imageUrl: input.imageUrl }),
+      ...(input.imagePublicId !== undefined && { imagePublicId: input.imagePublicId }),
       ...(slug !== undefined && { slug }),
     },
     include: categoryInclude,

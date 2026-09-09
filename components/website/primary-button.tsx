@@ -10,14 +10,40 @@ type PrimaryButtonProps = {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
+  /** Open in a new tab (for external portfolio / third-party links). */
+  external?: boolean;
 };
 
-export function PrimaryButton({ href, children, className, onClick }: PrimaryButtonProps) {
+export function PrimaryButton({
+  href,
+  children,
+  className,
+  onClick,
+  external = false,
+}: PrimaryButtonProps) {
+  const content = (
+    <span className="relative z-[1] inline-flex items-center gap-2 whitespace-nowrap">
+      {children}
+    </span>
+  );
+
+  if (external) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClick}
+        className={cn(primaryButtonClassName, className)}
+      >
+        {content}
+      </a>
+    );
+  }
+
   return (
     <Link href={href} onClick={onClick} className={cn(primaryButtonClassName, className)}>
-      <span className="relative z-[1] inline-flex items-center gap-2 whitespace-nowrap">
-        {children}
-      </span>
+      {content}
     </Link>
   );
 }
