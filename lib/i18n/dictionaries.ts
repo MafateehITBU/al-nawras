@@ -18,6 +18,7 @@ export interface WebsiteDictionary {
     termsAndConditions: string;
     privacyPolicy: string;
     copyrightPrefix: string;
+    designedBy: string;
   };
   actions: {
     getInTouch: string;
@@ -55,6 +56,7 @@ const dictionaries: Record<SupportedLocale, WebsiteDictionary> = {
       termsAndConditions: "Terms and Conditions",
       privacyPolicy: "Privacy Policy",
       copyrightPrefix: "Copyright ©",
+      designedBy: "Designed by",
     },
     actions: {
       getInTouch: "Get in touch",
@@ -90,6 +92,7 @@ const dictionaries: Record<SupportedLocale, WebsiteDictionary> = {
       termsAndConditions: "الشروط والأحكام",
       privacyPolicy: "سياسة الخصوصية",
       copyrightPrefix: "حقوق النشر ©",
+      designedBy: "تصميم",
     },
     actions: {
       getInTouch: "تواصل معنا",

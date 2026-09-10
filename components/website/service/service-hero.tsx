@@ -25,7 +25,10 @@ export function ServiceHero({
       style={{ backgroundImage: "url('/images/service-hero-bg.png')" }}
       aria-labelledby="service-hero-title"
     >
-      <div className="absolute inset-0 bg-website-text/55" aria-hidden="true" />
+      <div
+        className="absolute inset-0 bg-gradient-to-r from-website-text/92 via-website-text/75 to-website-text/45 rtl:bg-gradient-to-l"
+        aria-hidden="true"
+      />
       <div className="website-container relative py-20 sm:py-24 lg:py-28">
         <ServiceBreadcrumb locale={locale} serviceName={serviceName} />
 
@@ -37,14 +40,19 @@ export function ServiceHero({
             {serviceName}
           </h1>
 
+          <div
+            className="mt-3 h-1 w-14 rounded-full bg-website-secondary sm:mt-4"
+            aria-hidden="true"
+          />
+
           <p
             id="service-hero-title"
-            className="website-heading mt-3 text-xl font-semibold text-website-secondary sm:mt-4 sm:text-2xl"
+            className="website-heading mt-4 text-xl font-semibold text-website-secondary sm:mt-5 sm:text-2xl"
           >
             {heroTitle}
           </p>
 
-          <p className="website-body mt-4 whitespace-pre-line text-base font-light leading-relaxed text-white/90 sm:mt-5 sm:text-lg">
+          <p className="website-body mt-4 whitespace-pre-line text-base font-light leading-relaxed text-white/95 sm:mt-5 sm:text-lg">
             {heroDescription}
           </p>
         </div>

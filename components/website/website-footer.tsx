@@ -139,24 +139,24 @@ export function WebsiteFooter({
       </div>
 
       <div className="border-t border-white/10">
-        <div className="website-container flex flex-col gap-3 py-4 text-xs text-website-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            {dictionary.footer.copyrightPrefix} {year}{" "}
+        <div className="website-container grid gap-3 py-4 text-xs text-website-muted sm:grid-cols-3 sm:items-center">
+          <p className="sm:justify-self-start">
+            {dictionary.footer.copyrightPrefix} {year} {dictionary.footer.allRightsReserved}
+          </p>
+
+          <p className="sm:justify-self-center sm:text-center">
+            {dictionary.footer.designedBy}{" "}
             <a
               href={WEBSITE_ASSETS.external.mafateehGroup}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors hover:text-white website-focus-ring rounded-sm"
+              className="text-website-primary underline-offset-2 transition-colors hover:text-white hover:underline website-focus-ring rounded-sm"
             >
               Mafateeh Group
             </a>
           </p>
 
-          <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span>{dictionary.footer.allRightsReserved}</span>
-            <span aria-hidden className="hidden sm:inline">
-              |
-            </span>
+          <p className="sm:justify-self-end sm:text-end">
             <Link
               href={localizePath(WEBSITE_LEGAL_PATHS.terms, locale)}
               className="text-website-primary underline-offset-2 transition-colors hover:text-white hover:underline website-focus-ring rounded-sm"
