@@ -106,7 +106,7 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
     },
     hero: {
       titleLine1: "What Sets You Apart.",
-      titleLine2: "We Protect and Secure Its Future.",
+      titleLine2: "We Protect It.",
       description:
         "In a fast-changing world, protecting intellectual property means protecting your business. Al Nawras provides integrated legal and advisory expertise to protect, manage, and defend your innovations, trademarks, and IP assets across local and international markets.",
       primaryCta: "Contact Us",
@@ -166,49 +166,49 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
           title: "Partnership",
           supportingStatement: "Our Clients' Success Is Our Success.",
           description:
-            "We understand our clients' needs and provide legal solutions aligned with their goals.",
+            "We understand our clients’ needs and provide legal solutions aligned with their business objectives.",
         },
       ],
     },
     coreServices: {
       label: "OUR CORE SERVICES",
-      title: "Specialised Intellectual Property Services",
+      title: "Specialised Legal and Advisory Services",
       description:
-        "We provide integrated services for protecting and managing intellectual property rights, from registration and legal advice to ongoing monitoring, enforcement, and related legal matters.",
+        "We provide integrated services for protecting and managing intellectual property rights, from searches, filing, and registration to portfolio management, enforcement, and related legal and commercial matters.",
     },
     alNawrasEdge: {
       titleBefore: "The Al Nawras ",
       titleHighlight: "Edge.",
       description:
-        "We combine specialised intellectual property expertise with a practical\nunderstanding of business needs to deliver precise legal services that go beyond protecting rights. We help you manage your intellectual assets, preserve their value, and support your business as it evolves.",
+        "We combine specialised intellectual property expertise with a practical understanding of business needs. Our services extend beyond protecting rights to managing intellectual property assets, preserving their value, and supporting businesses as they evolve.",
       items: [
         {
           number: "01",
           label: "EXPERTISE",
           title: "Specialised Knowledge",
           description:
-            "Our intellectual property expertise enables us to handle every matter with precision, from basic rights to complex legal issues.",
+            "Our intellectual property expertise enables us to handle matters with precision, from routine filings to complex legal disputes.",
         },
         {
           number: "02",
           label: "PARTNERSHIP",
           title: "Support Built Around Your Needs",
           description:
-            "We understand your business, rights, and objectives, providing support throughout every stage of your matter.",
+            "We take the time to understand your business, rights, and objectives, providing support throughout every stage of your matter.",
         },
         {
           number: "03",
           label: "SOLUTIONS",
-          title: "Strategies That Fit Your Business",
+          title: "Strategies Tailored to Your Business",
           description:
-            "We develop tailored strategies based on your rights, target markets, and business needs.",
+            "We develop tailored strategies based on the nature of your rights, target markets, potential risks, and business objectives.",
         },
         {
           number: "04",
           label: "RELIABILITY",
           title: "Protection Built on Precision",
           description:
-            "We manage every matter carefully, monitoring deadlines and procedures to maintain effective protection.",
+            "We manage every matter carefully, monitoring procedures, requirements, and deadlines to maintain effective and continuous protection.",
         },
       ],
     },
@@ -217,27 +217,27 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
       titleBefore: "Trusted ",
       titleHighlight: "Collaborations.",
       description:
-        "We work alongside respected organisations and institutions that share our commitment to protecting intellectual property and supporting innovation across markets.",
+        "We work with respected organisations and institutions that share our commitment to protecting intellectual property and supporting innovation across markets.",
     },
     approach: {
       label: "OUR APPROACH",
       title: "A Clear Approach to Protecting Your Rights",
       description:
-        "We begin by understanding your needs, defining the right strategy, implementing it effectively, and providing ongoing support to protect your rights.",
+        "We handle every matter through a structured process that begins with understanding your needs, followed by developing the appropriate strategy, managing its implementation, and providing ongoing support.",
       steps: [
         {
           number: "01",
           label: "DISCOVERY",
           title: "Understanding Your Needs",
-          description: "We identify your rights, business needs, and protection priorities.",
+          description: "We identify your intellectual property rights, business needs, target markets, and protection objectives.",
           position: "above",
         },
         {
           number: "02",
           label: "STRATEGY",
-          title: "Defining the Right Path",
+          title: "Defining the Appropriate Course of Action",
           description:
-            "We develop a clear strategy based on your rights, markets, and objectives.",
+            "We develop a clear strategy based on the nature of your rights, applicable jurisdictions, objectives, and potential risks.",
           position: "on-line",
         },
         {
@@ -245,7 +245,7 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
           label: "IMPLEMENTATION",
           title: "Managing the Process",
           description:
-            "We manage applications, documentation, filing, and follow-up with precision.",
+            "We prepare and file applications and supporting documents and follow up on the relevant legal and administrative procedures.",
           position: "above",
         },
         {
@@ -253,20 +253,20 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
           label: "ONGOING SUPPORT",
           title: "Protecting What Matters",
           description:
-            "We monitor your rights, deadlines, and relevant legal developments.",
+            "We monitor your rights, deadlines, renewals, and relevant legal developments to help maintain effective protection.",
           position: "on-line",
         },
       ],
     },
     expertise: {
       titleLine1: "Expertise That Builds Trust.",
-      titleHighlight: "Grounded in Knowledge.",
+      titleHighlight: "Protection Grounded in Knowledge",
       descriptionParagraphs: [
         "In intellectual property, procedural knowledge is only part of the picture. Effective protection requires a clear understanding of each intellectual asset, the applicable legal framework, and the risks it may face.",
         "At Al Nawras Intellectual Property, we help rights holders and businesses make informed decisions, from protecting and managing their intellectual assets to addressing related challenges and disputes. We develop practical protection strategies tailored to each business and its evolving needs.",
       ],
       badgeHeader: "Strategic Defence",
-      badgeDescription: "IN EVERY JURISDICTION",
+      badgeDescription: "At Every Stage",
       imageAlt: "Legal documents and fountain pen representing intellectual property expertise",
     },
   },
@@ -280,7 +280,7 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
       titleLine1: "نحمي ما يميّزك.",
       titleLine2: "ونبني له مستقبلًا أكثر أمانًا.",
       description:
-        "في عالم تتسارع فيه الأفكار وتتغير فيه الأسواق، تصبح حماية الملكية الفكرية جزءًا أساسيًا من حماية الأعمال نفسها. في النورس للملكية الفكرية، نقدم خبرة قانونية واستشارية متكاملة تساعدك على حماية ابتكاراتك، علاماتك التجارية وأصولك الفكرية، وإدارتها والدفاع عنها في الأسواق المحلية والدولية.",
+      "في عالم تتسارع فيه الابتكارات وتتغير فيه الأسواق، تصبح حماية الملكية الفكرية جزءًا أساسيًا من حماية الأعمال. في النورس للملكية الفكرية، نقدم خدمات قانونية واستشارية متكاملة لحماية حقوق الملكية الفكرية وإدارتها وإنفاذها في الأسواق المحلية والدولية.",
       primaryCta: "تواصل معنا",
       secondaryCta: "من نحن",
       stats: [
@@ -324,63 +324,63 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
           title: "الأمانة",
           supportingStatement: "نبني الثقة على الوضوح والالتزام.",
           description:
-            "نتعامل مع كل ملف بمهنية وشفافية، ونحرص على أن تكون قرارات عملائنا مبنية على معلومات واضحة ومشورة مسؤولة.",
+            "نتعامل مع كل ملف بمهنية وشفافية، ونقدم مشورة قانونية واضحة ومسؤولة.",
         },
         {
           icon: "mdi:crosshairs-gps",
           title: "الدقة",
-          supportingStatement: "لأن التفاصيل تصنع فرقًا في الملكية الفكرية.",
+          supportingStatement: "كل تفصيل يصنع فرقًا في الملكية الفكرية.",
           description:
-            "نولي كل مرحلة من مراحل العمل عناية دقيقة، من البحث والتسجيل إلى المتابعة والحماية والإنفاذ.",
+            "ندير كل مرحلة بعناية، بدءًا من البحث وإيداع الطلبات، ووصولًا إلى المراقبة والتجديد والإنفاذ. ",
         },
         {
           icon: "mdi:account-group-outline",
           title: "الشراكة",
-          supportingStatement: "نجاح عملائنا هو جزء من نجاحنا.",
+          supportingStatement: "نجاح عملائنا جزء من نجاحنا.",
           description:
-            "نتعامل مع عملائنا كشركاء، ونحرص على فهم أعمالهم واحتياجاتهم لنقدم حلولًا قانونية تتناسب مع أهدافهم الحالية والمستقبلية.",
+            "نفهم احتياجات عملائنا ونقدم حلولًا قانونية تتوافق مع أهداف أعمالهم.",
         },
       ],
     },
     coreServices: {
       label: "خدماتنا الأساسية",
-      title: "خدمات متخصصة في الملكية الفكرية",
+      title: "خدمات قانونية واستشارية متخصصة",
       description:
-        "نقدم خدمات متكاملة لحماية حقوق الملكية الفكرية وإدارتها، بدءًا من التسجيل والاستشارات، وصولًا إلى المتابعة والإنفاذ والتعامل مع المسائل القانونية المرتبطة بها.",
+        "نقدم خدمات متكاملة لحماية حقوق الملكية الفكرية وإدارتها، بدءًا من البحث وإيداع الطلبات والتسجيل، ووصولًا إلى إدارة المحافظ والإنفاذ والمسائل القانونية والتجارية المرتبطة بها.",
     },
     alNawrasEdge: {
       titleBefore: "ما الذي يميز ",
       titleHighlight: "النورس؟",
       description:
-        "نجمع بين التخصص في الملكية الفكرية والفهم العملي\nلاحتياجات الأعمال، لنقدم خدمة قانونية دقيقة لا تكتفي بحماية الحق، بل تساعد على إدارته والحفاظ على قيمته مع تطور أعمالك.",
+        "نجمع بين الخبرة المتخصصة في الملكية الفكرية والفهم العملي لاحتياجات الأعمال. ولا تقتصر خدماتنا على حماية الحقوق، بل تمتد إلى إدارة أصول الملكية الفكرية والحفاظ على قيمتها ودعم الأعمال في مختلف مراحل تطورها.",
       items: [
         {
           number: "01",
           label: "الخبرة",
           title: "معرفة متخصصة",
           description:
-            "فهم عميق للملكية الفكرية وإجراءاتها القانونية، يتيح لنا التعامل مع الملفات بدقة ووضوح، من الحقوق الأساسية إلى المسائل الأكثر تعقيدًا.",
+            "تمكّننا خبرتنا في الملكية الفكرية من التعامل مع الملفات بدقة، بدءًا من الطلبات والإجراءات المعتادة ووصولًا إلى النزاعات القانونية المعقدة.",
         },
         {
           number: "02",
           label: "الشراكة",
-          title: "متابعة تبدأ من احتياجك",
+          title: "متابعة تنطلق من احتياجاتك",
           description:
-            "نعمل إلى جانبك لفهم طبيعة أعمالك وحقوقك وأهدافك، ونوفر المتابعة اللازمة عبر مختلف مراحل الملف.",
+            "نحرص على فهم أعمالك وحقوقك وأهدافك، ونقدم الدعم اللازم في جميع مراحل الملف.",
         },
         {
           number: "03",
           label: "الحلول",
-          title: "استراتيجيات تناسب أعمالك",
+          title: "استراتيجيات مصممة لأعمالك",
           description:
-            "لا توجد حماية واحدة تناسب الجميع. نحدد المسار القانوني الأنسب وفق طبيعة الحق، والسوق المستهدف، والاحتياجات الحالية، والمستقبلية.",
+            "نضع استراتيجيات تتناسب مع طبيعة حقوقك والأسواق المستهدفة والمخاطر المحتملة وأهداف أعمالك.",
         },
         {
           number: "04",
           label: "الموثوقية",
-          title: "حماية مبنية على الدقة",
+          title: "حماية قائمة على الدقة",
           description:
-            "نتعامل مع كل طلب وملف ومستند بعناية، مع متابعة المواعيد والإجراءات والتفاصيل التي تضمن استمرارية حماية حقوقك.",
+            "ندير كل ملف بعناية، ونتابع الإجراءات والمتطلبات والمواعيد للحفاظ على حماية فعالة ومستمرة.",
         },
       ],
     },
@@ -389,58 +389,58 @@ const homePageContent: Record<SupportedLocale, HomePageContent> = {
       titleBefore: "شراكات ",
       titleHighlight: "موثوقة.",
       description:
-        "نعمل إلى جانب مؤسسات ومنظمات تتقاسم معنا التزام حماية الملكية الفكرية ودعم الابتكار في مختلف الأسواق.",
+        "نعمل مع مؤسسات وجهات مرموقة تشاركنا الالتزام بحماية الملكية الفكرية ودعم الابتكار في مختلف الأسواق.",
     },
     approach: {
       label: "منهجية العمل",
       title: "منهج واضح لحماية حقوقك",
       description:
-        "نتعامل مع كل ملف بخطوات مدروسة تبدأ بفهم احتياجك، ثم تحديد المسار الأنسب وتنفيذه ومتابعته لضمان حماية فعالة ومستدامة.",
+        "نتعامل مع كل ملف وفق منهج منظم يبدأ بفهم احتياجاتك، ثم وضع الاستراتيجية المناسبة وإدارة تنفيذها وتقديم المتابعة المستمرة.",
       steps: [
         {
           number: "01",
           label: "الاستكشاف",
-          title: "نفهم احتياجك",
+          title: "فهم احتياجاتك",
           description:
-            "نبدأ بفهم طبيعة حقوقك، ونشاطك التجاري، وأهدافك، لنحدد الجوانب التي تحتاج إلى حماية أو معالجة قانونية.",
+            "نحدد حقوق الملكية الفكرية المرتبطة بأعمالك واحتياجاتك والأسواق المستهدفة وأولويات الحماية.",
           position: "above",
         },
         {
           number: "02",
           label: "الاستراتيجية",
-          title: "نحدد المسار الأنسب",
+          title: "تحديد المسار المناسب",
           description:
-            "نقيّم الخيارات المتاحة ونضع خطة واضحة تتناسب مع طبيعة الحق والأسواق التي تستهدفها، مع مراعاة المخاطر والفرص المرتبطة به.",
+            "نضع استراتيجية واضحة تستند إلى طبيعة الحقوق والأنظمة القانونية المعنية والأهداف والمخاطر المحتملة.",
           position: "on-line",
         },
         {
           number: "03",
           label: "التنفيذ",
-          title: "نتولى الإجراءات",
+          title: "إدارة الإجراءات",
           description:
-            "من إعداد الطلبات والمستندات إلى تقديمها ومتابعتها، نتولى التفاصيل القانونية والإجرائية بدقة لضمان سير الملف بالشكل الصحيح.",
+            "نُعد الطلبات والمستندات المؤيدة ونودعها، ونتابع الإجراءات القانونية والإدارية ذات الصلة.",
           position: "above",
         },
         {
           number: "04",
           label: "المتابعة",
-          title: "نحافظ على حقوقك",
+          title: "الحفاظ على حقوقك",
           description:
-            "لا تنتهي مهمتنا عند إتمام التسجيل أو الإجراء. نواصل متابعة الحقوق والملفات والمواعيد والتطورات التي قد تؤثر في نطاق الحماية أو استمراريتها.",
+            "نتابع حقوقك ومواعيدها وتجديداتها والتطورات القانونية ذات الصلة للمساعدة على استمرار حمايتها بفاعلية.",
           position: "on-line",
         },
       ],
     },
     expertise: {
-      titleLine1: "خبرة تُبنى عليها الثقة.",
+      titleLine1: "خبرة تُبنى الثقة.",
       titleHighlight: "وحماية تستند إلى المعرفة.",
       descriptionParagraphs: [
-        "في مجال الملكية الفكرية، لا تكفي معرفة الإجراءات وحدها. حماية الحقوق تتطلب فهمًا دقيقًا لطبيعة كل أصل فكري، والبيئة القانونية التي تحكمه، والمخاطر التي قد تواجهه.",
-        "في النورس للملكية الفكرية، نوظف خبرتنا المتخصصة لمساعدة أصحاب الحقوق والشركات على اتخاذ قرارات قانونية مدروسة، من حماية أصولهم الفكرية وإدارتها، إلى التعامل مع التحديات والنزاعات التي قد تؤثر فيها.",
+        "في مجال الملكية الفكرية، لا تكفي معرفة الإجراءات وحدها لتحقيق الحماية الفعالة؛ إذ تتطلب حماية الحق فهمًا واضحًا لطبيعة أصل الملكية الفكرية والإطار القانوني المنطبق والمخاطر التي قد يتعرض لها.",
+        " في النورس للملكية الفكرية، نساعد أصحاب الحقوق والشركات على اتخاذ قرارات مدروسة، بدءًا من حماية أصول الملكية الفكرية وإدارتها، ووصولًا إلى التعامل مع التعديات وإجراءات الإنفاذ والنزاعات. نضع استراتيجيات حماية عملية تتناسب مع طبيعة كل عمل واحتياجاته المتغيرة.",
         "نعمل على بناء حماية تتناسب مع طبيعة كل عمل، وتواكب احتياجاته مع تطوره وتوسعه.",
       ],
-      badgeHeader: "دفاع استراتيجي",
-      badgeDescription: "لحماية حقوقك في كل مرحلة",
+      badgeHeader: "حماية استراتيجية",
+      badgeDescription: "في كل مرحلة",
       imageAlt: "مستندات قانونية وقلم حبر يمثل خبرة الملكية الفكرية",
     },
   },

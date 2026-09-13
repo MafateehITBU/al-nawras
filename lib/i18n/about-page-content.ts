@@ -56,64 +56,64 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
         "Learn about Al Nawras Intellectual Property, our specialized expertise, and our approach to protecting, managing, and maximizing the value of intellectual property.",
     },
     hero: {
-      titleLine1: "Our Legacy in Intellectual Property Expertise",
-      titleLine2: "And a Vision That Keeps Pace with Business Growth.",
+      titleLine1: "Specialised Expertise in Intellectual Property",
+      titleLine2: "A Vision Aligned with Business Growth",
       description:
-        "Over years of specialized practice, we have built our expertise around the needs of rights holders and businesses in protecting and managing their intellectual property. We believe effective protection begins with understanding the right itself and the business context surrounding it, extending well beyond registration and procedural requirements.",
+        "Through years of specialised practice, we have developed our expertise around the needs of rights holders and businesses seeking to protect and manage their intellectual property. We believe that effective protection begins with understanding the nature of each right and the business context in which it operates, extending far beyond registration and procedural requirements.",
     },
     expertise: {
       label: "OUR EXPERTISE",
-      title: "Elite Intellectual Property Services",
+      title: "Comprehensive Intellectual Property Expertise",
       description:
-        "Comprehensive solutions tailored to protect and maximize the value of your innovations.",
+        "Integrated legal and advisory services designed to protect, manage, enforce, and maximise the commercial value of your intellectual property.",
       cards: [
         {
           icon: "mdi:shield-check-outline",
-          title: "Comprehensive Intellectual Property Expertise",
+          title: "Comprehensive IP Services",
           description:
-            "We provide specialized legal solutions to protect, manage, and maximize the value of intellectual property assets in line with your business objectives.",
+            "We provide specialised legal and advisory services to protect, manage, enforce, and maximise the value of intellectual property assets in line with your business objectives.",
         },
         {
           icon: "mdi:target",
-          title: "Protection & Strategy",
+          title: "IP Protection & Strategy",
           description:
-            "We help you build a clear approach to protecting your intellectual property assets in line with the nature of your business, target markets, and future plans.",
+            "We develop intellectual property protection strategies based on the nature of your rights, business activities, target markets, and future plans.",
         },
         {
           icon: "mdi:scale-balance",
-          title: "Legal & Technical Expertise",
+          title: "Legal, Technical & Commercial Expertise",
           description:
-            "We combine legal knowledge with technical and commercial understanding to address intellectual property matters across different levels of complexity.",
+            "We combine legal expertise with technical and commercial understanding to address intellectual property matters of varying scope and complexity.",
         },
         {
           icon: "mdi:earth",
           title: "Local & International Knowledge",
           description:
-            "We understand local and international legal frameworks and help our clients manage and protect their intellectual property rights across multiple markets and jurisdictions.",
+            "We understand the legal frameworks and procedural requirements of different jurisdictions, helping clients protect and manage their intellectual property rights across local and international markets.",
         },
         {
           icon: "mdi:handshake-outline",
-          title: "Comprehensive Support",
+          title: "Support Across the IP Lifecycle",
           description:
-            "We support your intellectual property rights throughout every stage, from establishment and protection to management, transactions, and enforcement.",
+            "We support intellectual property rights throughout their lifecycle, from searches, filing, and registration to portfolio management, transactions, renewal, enforcement, and dispute resolution.",
         },
         {
           icon: "mdi:chart-line",
           title: "Commercial Perspective",
           description:
-            "We view intellectual property as more than a set of legal rights; we consider its role in protecting businesses, supporting growth, and strengthening commercial value.",
+            "We approach intellectual property as both a legal right and a business asset, considering its role in managing risk, supporting growth, and creating commercial value.",
         },
         {
           icon: "mdi:calendar-check-outline",
-          title: "Proactive Monitoring & Follow-Up",
+          title: "Proactive IP Portfolio Management",
           description:
-            "We provide ongoing management and monitoring of your intellectual property rights, helping you stay ahead of registrations, renewals, deadlines, risks, and opportunities while keeping your IP portfolio organised and effective.",
+            "We proactively manage and monitor intellectual property portfolios, including applications, registrations, renewals, deadlines, risks, and relevant developments across jurisdictions.",
         },
         {
           icon: "mdi:web",
-          title: "Digital Intellectual Property",
+          title: "Online IP & Brand Protection",
           description:
-            "Specialized legal services for protecting intellectual property rights, trademarks, and digital assets in the online environment, including domain names and matters related to digital presence.",
+            "We provide specialised services to protect intellectual property rights and brand identity in the digital environment, including domain name matters, online monitoring, infringement detection, and enforcement.",
         },
       ],
     },
@@ -122,12 +122,12 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
       name: "Awwad Al Zboon",
       role: "Founder, Manager & Authorized Signatory",
       intro:
-        "More than 30 years of hands-on experience in intellectual property, company law, and economic legislation — built through senior roles across Jordan and the UAE.",
+        "More than 30 years of practical experience in intellectual property, corporate law, and economic legislation, developed through senior roles in Jordan and the UAE.",
       points: [
         {
           title: "Intellectual property enforcement",
           description:
-            "Extensive practical experience in IP enforcement, dispute resolution, trademarks, copyrights, industrial designs, and related legal matters.",
+            "Extensive practical experience in intellectual property enforcement, dispute resolution, trade marks, copyright, industrial designs, and related legal matters",
         },
         {
           title: "Public-sector expertise",
@@ -137,12 +137,12 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
         {
           title: "UAE Ministry of Economy",
           description:
-            "Legal Affairs Expert in Intellectual Property at the UAE Ministry of Economy (November 2009 – December 2024), advising on regulatory and IP matters.",
+            "Served as a Legal Affairs Expert in Intellectual Property at the UAE Ministry of Economy from November 2009 to December 2024, providing advice on intellectual property and regulatory matters.",
         },
         {
           title: "Broader legal practice",
           description:
-            "Experience as a legal advisor in a leading UAE law firm, plus deep expertise in company law, contracts, and commercial agreements.",
+            "Previously worked as a legal adviser at a leading UAE law firm, with extensive experience in corporate law, contracts, and commercial agreements.",
         },
       ],
       highlights: [
@@ -163,17 +163,17 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
         {
           title: "Meticulous Attention to Detail",
           description:
-            "We carefully consider the details that may affect the scope and strength of your intellectual property protection.",
+            "We carefully assess the legal and procedural details that may affect the validity, scope, and strength of intellectual property protection.",
         },
         {
           title: "A Perspective Beyond Registration",
           description:
-            "We treat intellectual property as a business asset, helping you protect its value and support your wider objectives.",
+            "We treat intellectual property as a business asset, helping clients protect its value and align it with their broader commercial objectives.",
         },
         {
           title: "Solutions Tailored to Client Needs",
           description:
-            "We understand your business and needs to provide legal solutions tailored to your specific situation.",
+            "We begin by understanding each client’s business, rights, and objectives before recommending the most appropriate legal and commercial course of action",
         },
       ],
       contactCta: "Contact Us",
@@ -187,63 +187,63 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
         "تعرّف على النورس للملكية الفكرية، وخبراتنا المتخصصة، ونهجنا في حماية وإدارة وتعظيم قيمة حقوق الملكية الفكرية.",
     },
     hero: {
-      titleLine1: "إرث من الخبرة في الملكية الفكرية،",
-      titleLine2: "ورؤية تواكب تطور الأعمال.",
+      titleLine1: "خبرة متخصصة في الملكية الفكرية،",
+      titleLine2: "ورؤية تواكب نمو الأعمال.",
       description:
-        "على مدى سنوات من العمل المتخصص، بنينا خبرتنا حول احتياجات أصحاب الحقوق والشركات في حماية ملكيتهم الفكرية وإدارتها. نؤمن بأن الحماية الفعالة تبدأ بفهم الحق وطبيعة العمل من حوله، وتمتد إلى ما هو أبعد من التسجيل والإجراءات.",
+        "على مدى سنوات من العمل المتخصص، بنينا خبرتنا حول احتياجات أصحاب الحقوق والشركات في حماية ملكيتهم الفكرية وإدارتها. ونؤمن بأن الحماية الفعالة تبدأ بفهم طبيعة كل حق والسياق التجاري المرتبط به، وتمتد إلى ما هو أبعد من التسجيل واستكمال الإجراءات.",
     },
     expertise: {
       label: "خبراتنا",
-      title: "خدمات متخصصة ونخبة في مجال الملكية الفكرية",
-      description: "حلول شاملة مصممة لحماية ابتكاراتك وتعظيم قيمتها.",
+      title: "خبرة متكاملة في الملكية الفكرية",
+      description: "خدمات قانونية واستشارية متكاملة تهدف إلى حماية ملكيتك الفكرية وإدارتها وإنفاذ حقوقها وتعظيم قيمتها التجارية.",
       cards: [
         {
           icon: "mdi:shield-check-outline",
-          title: "خبرة متكاملة في الملكية الفكرية",
+          title: "خدمات متكاملة في الملكية الفكرية",
           description:
-            "نقدّم حلولًا قانونية متخصصة تساعد على حماية أصول الملكية الفكرية وإدارتها وتعظيم قيمتها بما يتناسب مع أهداف أعمالك.",
+            "نقدم خدمات قانونية واستشارية متخصصة لحماية أصول الملكية الفكرية وإدارتها وإنفاذ حقوقها وتعظيم قيمتها بما يتوافق مع أهداف أعمالك.",
         },
         {
           icon: "mdi:target",
-          title: "الحماية والاستراتيجية",
+          title: "حماية الملكية الفكرية واستراتيجيتها",
           description:
-            "نساعدك على بناء نهج واضح لحماية أصولك الفكرية، بما يتوافق مع طبيعة أعمالك والأسواق التي تستهدفها وخططك المستقبلية.",
+            "نضع استراتيجيات لحماية الملكية الفكرية تستند إلى طبيعة حقوقك ونشاطك التجاري والأسواق المستهدفة وخططك المستقبلية.",
         },
         {
           icon: "mdi:scale-balance",
-          title: "الخبرة القانونية والفنية",
+          title: "خبرة قانونية وفنية وتجارية",
           description:
-            "نجمع بين المعرفة القانونية والفهم الفني والتجاري للتعامل مع مسائل الملكية الفكرية بمختلف مستوياتها وتعقيداتها.",
+            "نجمع بين الخبرة القانونية والفهم الفني والتجاري للتعامل مع مسائل الملكية الفكرية، باختلاف نطاقها ودرجة تعقيدها.",
         },
         {
           icon: "mdi:earth",
-          title: "المعرفة المحلية والدولية",
+          title: "معرفة محلية ودولية",
           description:
-            "نمتلك فهمًا للأطر القانونية المحلية والدولية، ونساعد عملاءنا في إدارة حقوقهم وحمايتها عبر أسواق واختصاصات قضائية مختلفة.",
+          "نمتلك فهمًا للأطر القانونية والمتطلبات الإجرائية في مختلف الاختصاصات القضائية، ونساعد عملاءنا على حماية حقوق الملكية الفكرية وإدارتها في الأسواق المحلية والدولية.",
         },
         {
           icon: "mdi:handshake-outline",
           title: "الدعم المتكامل",
           description:
-            "نواكب حقوقك الفكرية عبر مختلف مراحلها، من التأسيس والحماية إلى الإدارة والمعاملات والإنفاذ.",
+            "نقدم الدعم في مختلف مراحل حقوق الملكية الفكرية، بدءًا من البحث وإيداع الطلبات والتسجيل، ووصولًا إلى إدارة المحافظ والمعاملات والتجديد والإنفاذ وتسوية المنازعات.",
         },
         {
           icon: "mdi:chart-line",
           title: "منظور تجاري",
           description:
-            "لا نتعامل مع الملكية الفكرية كحقوق قانونية فقط، بل ننظر إلى دورها في حماية الأعمال ودعم النمو وتعزيز القيمة التجارية.",
+            "نتعامل مع الملكية الفكرية بوصفها حقًا قانونيًا وأصلًا من أصول الأعمال، مع مراعاة دورها في إدارة المخاطر ودعم النمو وتحقيق القيمة التجارية.",
         },
         {
           icon: "mdi:calendar-check-outline",
-          title: "المتابعة والاستباقية",
+          title: "إدارة استباقية لمحافظ الملكية الفكرية", 
           description:
-            "نساعدك على التعامل مع المواعيد والمخاطر والتغييرات والفرص في الوقت المناسب، للحفاظ على محفظتك الفكرية منظمة وفعالة.\n\nإدارة ومتابعة حقوق الملكية الفكرية، بما في ذلك التسجيلات والتجديدات والمواعيد والملفات المتعددة.",
+            "ندير محافظ الملكية الفكرية ونتابعها بصورة استباقية، بما يشمل الطلبات والتسجيلات والتجديدات والمواعيد والمخاطر والتطورات ذات الصلة في مختلف الاختصاصات القضائية.",
         },
         {
           icon: "mdi:web",
-          title: "الملكية الفكرية الرقمية",
+          title: "حماية الملكية الفكرية والعلامات التجارية عبر الإنترنت",
           description:
-            "خدمات قانونية متخصصة في حماية الحقوق والعلامات والأصول الفكرية في البيئة الرقمية، بما في ذلك أسماء النطاقات والمسائل المرتبطة بالحضور الرقمي.",
+            "نقدم خدمات متخصصة لحماية حقوق الملكية الفكرية وهوية العلامات التجارية في البيئة الرقمية، بما يشمل المسائل المتعلقة بأسماء النطاقات، والمراقبة الإلكترونية، ورصد التعديات، والإنفاذ.",
         },
       ],
     },
@@ -252,27 +252,27 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
       name: "عواد الزبون",
       role: "المالك والمدير والمفوض بالتوقيع",
       intro:
-        "أكثر من 30 عاماً من الخبرة العملية في الملكية الفكرية وقوانين الشركات والتشريعات الاقتصادية، عبر مناصب قيادية في الأردن والإمارات.",
+        "أكثر من 30 عامًا من الخبرة العملية في الملكية الفكرية وقانون الشركات والتشريعات الاقتصادية، اكتسبها من خلال توليه مناصب رفيعة في الأردن ودولة الإمارات العربية المتحدة.",
       points: [
         {
           title: "إنفاذ حقوق الملكية الفكرية",
           description:
-            "خبرة عملية واسعة في إنفاذ حقوق الملكية الفكرية وفض النزاعات والعلامات التجارية وحقوق المؤلف والتصاميم الصناعية والقضايا المرتبطة بها.",
+            "خبرة عملية واسعة في إنفاذ حقوق الملكية الفكرية، وتسوية المنازعات، والعلامات التجارية، وحقوق المؤلف، والتصاميم الصناعية، والمسائل القانونية ذات الصلة.",
         },
         {
           title: "خبرة في القطاع العام",
           description:
-            "عمل في وزارة الصناعة والتجارة في المملكة الأردنية الهاشمية ودائرة مراقبة الشركات.",
+            "عمل لدى وزارة الصناعة والتجارة ودائرة مراقبة الشركات في المملكة الأردنية الهاشمية.",
         },
         {
           title: "وزارة الاقتصاد في الإمارات",
           description:
-            "خبير شؤون قانونية في الملكية الفكرية لدى وزارة الاقتصاد في دولة الإمارات العربية المتحدة (نوفمبر 2009 – ديسمبر 2024)، مع تقديم المشورة في الشؤون التنظيمية والملكية الفكرية.",
+            "شغل منصب خبير شؤون قانونية في الملكية الفكرية لدى وزارة الاقتصاد في دولة الإمارات العربية المتحدة، خلال الفترة من نوفمبر 2009 إلى ديسمبر 2024، وقدم المشورة في مسائل الملكية الفكرية والشؤون التنظيمية.",
         },
         {
           title: "ممارسة قانونية أوسع",
           description:
-            "خبرة كمستشار قانوني في إحدى أشهر شركات المحاماة في الإمارات، إضافة إلى خبرة عميقة في قوانين الشركات والعقود والاتفاقيات التجارية.",
+            "عمل سابقًا مستشارًا قانونيًا لدى إحدى شركات المحاماة الرائدة في دولة الإمارات، ويتمتع بخبرة واسعة في قانون الشركات والعقود والاتفاقيات التجارية.",
         },
       ],
       highlights: [
@@ -293,19 +293,19 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
       ],
       points: [
         {
-          title: "معرفة دقيقة بالتفاصيل",
+          title: "عناية دقيقة بالتفاصيل",
           description:
-            "نتعامل مع كل ملف وفق طبيعته ومتطلباته، مع عناية بالتفاصيل التي قد تؤثر في نطاق الحماية وقوة الحق.",
+            "نقيّم بعناية التفاصيل القانونية والإجرائية التي قد تؤثر في صحة الحق ونطاق حمايته وقوتها.",
         },
         {
           title: "رؤية تتجاوز التسجيل",
           description:
-            "ننظر إلى الملكية الفكرية كأصل من أصول العمل، ونساعد على اتخاذ قرارات تحافظ على قيمتها وتدعم أهداف صاحبها.",
+            "نتعامل مع الملكية الفكرية بوصفها أصلًا من أصول الأعمال، ونساعد عملاءنا على حماية قيمتها وربطها بأهدافهم التجارية الأوسع.",
         },
         {
           title: "حلول تراعي احتياجات العميل",
           description:
-            "نبدأ بفهم طبيعة عملك واحتياجك، ثم نحدد المسار القانوني الأنسب بدل تقديم حلول نمطية لا تناسب جميع الحالات.",
+            "نبدأ بفهم أعمال كل عميل وحقوقه وأهدافه قبل اقتراح المسار القانوني والتجاري الأنسب لحالته.",
         },
       ],
       contactCta: "تواصل معنا",

@@ -41,9 +41,9 @@ const servicePageContent: Record<SupportedLocale, ServicePageContent> = {
     whyChooseItems: [
       {
         icon: "mdi:scale-balance",
-        title: "Legal & Technical Expertise",
+        title: "Legal & Commercial Expertise",
         description:
-          "A specialized team combining legal expertise with the technical knowledge required to handle intellectual property matters with precision.",
+          "We combine legal knowledge with a practical understanding of corporate and commercial matters to provide advice aligned with your business needs.",
       },
       {
         icon: "mdi:earth",
@@ -53,15 +53,15 @@ const servicePageContent: Record<SupportedLocale, ServicePageContent> = {
       },
       {
         icon: "mdi:clipboard-check-outline",
-        title: "Attention to Every Detail",
+        title: "Understanding of Regulatory Requirements",
         description:
-          "We handle every matter with care, from legal and procedural details to technical requirements, ensuring the strongest possible protection.",
+          "We assist clients in navigating the legal and procedural requirements relevant to their businesses and corporate transactions.",
       },
       {
         icon: "mdi:handshake-outline",
-        title: "Comprehensive Support",
+        title: "Attention to Detail",
         description:
-          "We support you throughout the entire journey, from consultation and registration to ongoing follow-up and enforcement, with continuous assistance whenever needed.",
+          "We carefully review the documents, requirements, and procedures relevant to each matter to reduce avoidable risks and delays.",
       },
     ],
   },
@@ -83,27 +83,27 @@ const servicePageContent: Record<SupportedLocale, ServicePageContent> = {
     whyChooseItems: [
       {
         icon: "mdi:scale-balance",
-        title: "خبرة قانونية وتقنية",
+        title: "خبرة قانونية وتجارية",
         description:
-          "فريق متخصص يجمع بين الخبرة القانونية والمعرفة الفنية اللازمة للتعامل مع قضايا الملكية الفكرية بدقة.",
+          "نجمع بين المعرفة القانونية والفهم العملي لشؤون الشركات والمعاملات التجارية لتقديم مشورة تتوافق مع احتياجات أعمالك.",
       },
       {
         icon: "mdi:earth",
-        title: "حضور وخبرة دولية",
+        title: "فهم المتطلبات التنظيمية",
         description:
-          "فهم متكامل للتشريعات المحلية والدولية، مع خبرة في التعامل مع متطلبات الملكية الفكرية عبر أسواق متعددة.",
+          "نساعد عملاءنا على التعامل مع المتطلبات القانونية والإجرائية المرتبطة بأعمالهم ومعاملات شركاتهم.",
       },
       {
         icon: "mdi:clipboard-check-outline",
-        title: "دقة في كل التفاصيل",
+        title: "عناية دقيقة بالتفاصيل",
         description:
-          "نتعامل مع كل ملف بعناية، من التفاصيل القانونية والإجرائية إلى المتطلبات الفنية، لضمان أفضل حماية ممكنة.",
+          "نراجع بعناية المستندات والمتطلبات والإجراءات المرتبطة بكل ملف للحد من المخاطر وحالات التأخير التي يمكن تجنبها.",
       },
       {
         icon: "mdi:handshake-outline",
-        title: "دعم متكامل",
+        title: "دعم مستمر للشركات",
         description:
-          "نرافقك في مختلف مراحل العمل، من الاستشارة والتسجيل إلى المتابعة والإنفاذ، مع دعم مستمر عند الحاجة.",
+          "نقدم الدعم القانوني والإداري في مختلف مراحل عمل الشركة وتطورها.",
       },
     ],
   },

@@ -3,7 +3,7 @@
 > **Source of truth** for architecture decisions, implementation status, and technical context.
 > Read this document before starting any new task. Update it after significant changes.
 
-**Last updated:** 2026-09-01 (Contact page, home partners section)
+**Last updated:** 2026-09-13 (Public EN/AR copy refresh)
 **Current phase:** Phase 7 — Public Website
 
 ---
@@ -455,7 +455,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
   - `ServiceHero` — shared `service-hero-bg.png` background, breadcrumb (Home link, Services non-link, current name)
   - `ServiceOverview` — two-column layout, expertise badge, overview image with `#F4F6FE` frame, description with logical `border-s`
   - `StrategicBenefitsSection` — dynamic benefits from DB, Iconify icons via `IconifyIcon` client wrapper
-  - `WhyChooseSection` — static bilingual content in `lib/i18n/service-page-content.ts`
+  - `WhyChooseSection` — static bilingual content in `lib/i18n/service-page-content.ts` (legal/commercial framing, EN/AR refreshed 2026-09-13)
   - `RelatedServicesSection` — up to 3 same-category services, hidden when none
 - [x] Data fetching: `getPublicServicePageData(slug)` returns service (with category + benefits) + related services in two queries
 - [x] Related services: same `categoryId`, excludes current, max 3, ordered by `nameEn`
@@ -478,7 +478,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
   - `HomeHero` — `home-hero-bg.png` + `home-hero-image.png`; two-line title (line 2 primary, own line); **`lg:whitespace-nowrap` only for EN** (Arabic wraps); hero image hidden below `lg`, desktop `object-contain object-end` edge-to-edge; stats titles nowrap on EN only; direction-aware image (AR: `rtl:scale-x-[-1]`)
   - `WhoWeAreSection` + `CoreValues` / `CoreValueItem` — larger titles/body; core-value icons on `bg-website-secondary` orange boxes; `#F4F6FE` panel with logical `border-s` accent
   - `CoreServicesSection` + `CoreServiceCard` + `CoreServicesCarousel` — dark `#2D3035` section; cards **363×376px**, **`rounded-2xl`**; content from `ServiceCategory` (name, icon, description); carousel on all breakpoints (1 card on mobile, 3 on desktop, slides when more than 3); auto-advance every 5s (RTL-aware)
-  - `AlNawrasEdgeSection` + `EdgeItem` — title highlight **italic, not bold**; no dividers; numbering not bold; EN description hard-breaks after “practical” via `<br />` (tight paragraph spacing); Arabic breaks after “الفهم العملي”
+  - `AlNawrasEdgeSection` + `EdgeItem` — title highlight **italic, not bold**; no dividers; numbering not bold; EN/AR copy no longer uses hardcoded line breaks in the intro
   - `OurApproachSection` + `ApproachStep` — desktop timeline line `#27A8E133`; step numbers `1–4` (no leading zero); steps 1 & 3 (`position: "above"`) keep description on the line with `bg-website-bg` so titles are not clipped; section uses `lg:min-h-[calc(100dvh-5rem)]` without inner overflow scroll
   - `ExpertiseSection` + `ExpertiseFloatingBadge` — image **608×581px**; orange badge ~**210×110px** (desktop), half on / half off the image via logical `-start`; title highlight italic; badge text centered in the box with `text-start` + `dir` for EN/AR; float animation `3s` (`animate-expertise-badge-float` in `website.css`); uses shared viewport section classes (`overflow-visible` on section)
 - [x] `SecondaryButton` — reusable ghost button with CSS conic-gradient border travel animation (`website-secondary-btn`)
@@ -535,7 +535,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Pause on hover; RTL animation direction; reduced-motion fallback (wrapped grid)
 
 - [x] Static bilingual page at `app/[locale]/about/page.tsx` — no backend/API
-- [x] Content in `lib/i18n/about-page-content.ts` (hero, 8 expertise cards, firm expertise points, SEO)
+- [x] Content in `lib/i18n/about-page-content.ts` (hero, 8 expertise cards, founder, firm expertise points, SEO) — EN/AR copy refreshed 2026-09-13
 - [x] Sections under `components/website/about/`:
   - `AboutHero` — `about-hero-bg.png`, `PageBreadcrumb`, two-line title (white + secondary)
   - `AboutExpertise` — centered primary label with decorative lines, 3-column card grid (8 cards)
@@ -615,3 +615,4 @@ npm run db:studio    # Open Prisma Studio
 | 2026-08-31 | 8 | Production deploy — ISR revalidate 60s, locale-only Edge middleware, Vercel + Neon |
 | 2026-09-01 | 7 | Core services — `ServiceCategory` icon + bilingual description drive home cards; card `rounded-2xl` |
 | 2026-09-01 | 7 | Seed nested services under Patents, Trademarks, and Legal Advisory |
+| 2026-09-13 | 7 | Refresh Home, About, and Service EN/AR copy (`home-page-content.ts`, `about-page-content.ts`, `service-page-content.ts`) |
