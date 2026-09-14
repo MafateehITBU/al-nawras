@@ -62,11 +62,7 @@ export function WebsiteNavigationProvider({
       const nextUrl = new URL(href, window.location.href);
       const currentUrl = new URL(window.location.href);
 
-      if (
-        nextUrl.pathname === currentUrl.pathname &&
-        nextUrl.search === currentUrl.search &&
-        nextUrl.hash === currentUrl.hash
-      ) {
+      if (nextUrl.pathname === currentUrl.pathname) {
         return;
       }
 

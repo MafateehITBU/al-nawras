@@ -34,7 +34,7 @@ export function BlogsPage({
 }) {
   const content = getBlogPageContent(locale);
   const basePath = getBlogListingPath(locale);
-  const showFeatured = featuredBlog && !search && !category && pagination.page === 1;
+  const showFeatured = featuredBlog && !search && !category;
 
   const emptyMessage = search
     ? content.noSearchResults

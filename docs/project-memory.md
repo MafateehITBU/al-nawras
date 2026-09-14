@@ -443,6 +443,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
   - `WebsiteNavigationProvider` intercepts internal website link clicks (`lib/website/internal-link.ts`)
   - Shows **`WebsiteNavigationLoader`** — full-screen centered CMS/navbar logo + CSS spinner (`website-nav-loader-spinner`)
   - Hides when `pathname` changes; 15s safety timeout; body scroll locked while visible
+  - Same-path query changes (blog pagination, search, category) skip the overlay so the page can update without the 15s wait
   - No View Transitions API / no page enter-exit animation on route change
 - [x] CSS in `app/website.css`: reveal variants, stagger keyframes, nav loader spinner
 
@@ -492,7 +493,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] **Data:** Server Components call `lib/services/blog.service.ts` public helpers (no client-side full fetch)
 - [x] **Published logic:** `isPublished === true` **and** `publishedAt <= now`; unpublished posts 404 on details, are omitted from listing/featured/related/popular topics/sitemap/attachment download
 - [x] **Admin:** `isPublished` checkbox on blog form; list status badge + published/hidden filter
-- [x] **Featured blog:** latest published post via `getFeaturedPublicBlog()`; excluded from page-1 list to avoid duplicate
+- [x] **Featured blog:** latest published post via `getFeaturedPublicBlog()`; shown on every listing page (hidden during search/category); excluded from the paged list to avoid duplicates
 - [x] **Listing:** 4 posts/page (`PUBLIC_BLOG_PAGE_SIZE`), URL search params `page`, `search`, `category` (category slug, not id)
 - [x] **Search:** server-side Prisma across title EN/AR, content EN/AR, author, category names; debounced client input updates URL
 - [x] **Popular Topics:** `getPopularBlogCategories()` + public `GET /api/blog-categories/popular`; category filter via slug in URL; active category highlighted secondary

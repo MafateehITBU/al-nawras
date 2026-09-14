@@ -1,6 +1,7 @@
 import { NotFoundError } from "@/lib/api/errors";
 import prisma from "@/lib/db/prisma";
 import { calculateReadingTime } from "@/lib/utils/index";
+import { excerptPlainText } from "@/lib/utils/text";
 import { resolveUniqueSlug, resolveUniqueSlugWithExclude } from "@/lib/utils/slug";
 import type {
   CreateBlogInput,
@@ -44,6 +45,14 @@ export type RelatedBlogSummary = PublicBlogListItem;
 
 function publishedBlogWhere(now = new Date()): Prisma.BlogWhereInput {
   return { isPublished: true, publishedAt: { lte: now } };
+}
+
+function withListExcerpts(blog: PublicBlogListItem): PublicBlogListItem {
+  return {
+    ...blog,
+    contentEn: excerptPlainText(blog.contentEn, 240),
+    contentAr: excerptPlainText(blog.contentAr, 240),
+  };
 }
 
 function buildBlogSearchWhere(search: string): Prisma.BlogWhereInput {
@@ -217,11 +226,13 @@ export async function deleteBlog(id: string) {
 }
 
 export async function getFeaturedPublicBlog() {
-  return prisma.blog.findFirst({
+  const blog = await prisma.blog.findFirst({
     where: publishedBlogWhere(),
     orderBy: { publishedAt: "desc" },
     select: publicBlogListSelect,
   });
+
+  return blog ? withListExcerpts(blog) : null;
 }
 
 async function resolvePublicBlogCategoryId(categorySlug: string) {
@@ -269,7 +280,7 @@ export async function listPublicBlogs(query: PublicBlogListQuery) {
   ]);
 
   return {
-    items,
+    items: items.map(withListExcerpts),
     pagination: {
       page,
       limit,
@@ -308,7 +319,7 @@ export async function getRelatedPublicBlogs(
     take: limit,
   });
 
-  if (sameCategory.length >= limit) return sameCategory;
+  if (sameCategory.length >= limit) return sameCategory.map(withListExcerpts);
 
   const excludeIds = [excludeBlogId, ...sameCategory.map((blog) => blog.id)];
   const remaining = limit - sameCategory.length;
@@ -323,7 +334,7 @@ export async function getRelatedPublicBlogs(
     take: remaining,
   });
 
-  return [...sameCategory, ...fallback];
+  return [...sameCategory, ...fallback].map(withListExcerpts);
 }
 
 export async function getPublicBlogPageData(slug: string) {
