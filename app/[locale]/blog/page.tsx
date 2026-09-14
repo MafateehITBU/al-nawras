@@ -51,11 +51,10 @@ export default async function BlogListingPage({
     getPopularBlogCategories(),
   ]);
 
-  const shouldExcludeFeatured = Boolean(featuredBlog && !query.search && !query.category);
-
   const { items, pagination } = await listPublicBlogs({
     ...query,
-    excludeId: shouldExcludeFeatured ? featuredBlog.id : undefined,
+    excludeId:
+      featuredBlog && !query.search && !query.category ? featuredBlog.id : undefined,
   });
 
   return (
