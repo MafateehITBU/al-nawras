@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import { LoadingState } from "@/components/ui/loading";
@@ -22,6 +23,7 @@ import { useEffect, useState } from "react";
 interface BlogFormState {
   authorName: string;
   publishedAt: string;
+  isPublished: boolean;
   titleEn: string;
   titleAr: string;
   contentEn: string;
@@ -43,6 +45,7 @@ function toDateInputValue(date: Date | string) {
 const emptyForm = (): BlogFormState => ({
   authorName: "",
   publishedAt: toDateInputValue(new Date()),
+  isPublished: true,
   titleEn: "",
   titleAr: "",
   contentEn: "",
@@ -89,6 +92,7 @@ export function BlogFormPage({ blogId }: { blogId?: string }) {
         setForm({
           authorName: blog.authorName,
           publishedAt: toDateInputValue(blog.publishedAt),
+          isPublished: blog.isPublished,
           titleEn: blog.titleEn,
           titleAr: blog.titleAr,
           contentEn: blog.contentEn,
@@ -131,6 +135,7 @@ export function BlogFormPage({ blogId }: { blogId?: string }) {
       const body = {
         authorName: form.authorName.trim(),
         publishedAt: form.publishedAt,
+        isPublished: form.isPublished,
         titleEn: form.titleEn.trim(),
         titleAr: form.titleAr.trim(),
         contentEn: form.contentEn.trim(),
@@ -252,6 +257,20 @@ export function BlogFormPage({ blogId }: { blogId?: string }) {
                   onChange={(e) => setForm({ ...form, publishedAt: e.target.value })}
                 />
               </FormField>
+              <label className="flex cursor-pointer items-start gap-2 text-sm">
+                <Checkbox
+                  id="isPublished"
+                  className="mt-0.5"
+                  checked={form.isPublished}
+                  onChange={(e) => setForm({ ...form, isPublished: e.target.checked })}
+                />
+                <span>
+                  <span className="font-medium text-dashboard-text">Published on website</span>
+                  <span className="mt-0.5 block text-xs text-dashboard-text-muted">
+                    Uncheck to hide this post from the public blog listing and details pages.
+                  </span>
+                </span>
+              </label>
               <FormField label="Category" htmlFor="categoryId" required>
                 <Select
                   id="categoryId"

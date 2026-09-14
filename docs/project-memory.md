@@ -3,7 +3,7 @@
 > **Source of truth** for architecture decisions, implementation status, and technical context.
 > Read this document before starting any new task. Update it after significant changes.
 
-**Last updated:** 2026-09-13 (Public EN/AR copy refresh)
+**Last updated:** 2026-09-14 (Blog `isPublished` hide/show)
 **Current phase:** Phase 7 — Public Website
 
 ---
@@ -185,7 +185,7 @@ Auto-generated slugs via `lib/utils/index.ts`. Reading time stored as `readingTi
 | `WebsiteMapLocation` | `website_map_locations` | latitude, longitude, label, sortOrder |
 | `WebsiteSocialLink` | `website_social_links` | platform (unique), url |
 | `BlogCategory` | `blog_categories` | nameEn, nameAr, slug (unique) |
-| `Blog` | `blogs` | bilingual content, slug, categoryId → BlogCategory, Cloudinary refs |
+| `Blog` | `blogs` | bilingual content, slug, isPublished, publishedAt, categoryId → BlogCategory, Cloudinary refs |
 | `ServiceCategory` | `service_categories` | nameEn, nameAr, slug (unique), icon, descriptionEn/Ar — used by home Core Services cards |
 | `Service` | `services` | categoryId, nameEn/Ar, heroTitleEn/Ar, heroDescriptionEn/Ar, overviewTitleEn/Ar, overviewDescriptionEn/Ar, strategic benefits |
 | `ServiceStrategicBenefit` | `service_strategic_benefits` | icon, bilingual title/description, serviceId (cascade delete) |
@@ -194,7 +194,7 @@ Auto-generated slugs via `lib/utils/index.ts`. Reading time stored as `readingTi
 ### Indexes
 
 - `admins`: email (unique), isActive
-- `blogs`: slug (unique), categoryId, publishedAt
+- `blogs`: slug (unique), categoryId, publishedAt, isPublished
 - `blog_categories`: slug (unique)
 - `service_categories`: slug (unique)
 - `services`: categoryId
@@ -393,7 +393,7 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 
 - [x] Shared filter toolbar: `components/features/shared/list-filters-card.tsx` (`ListFiltersCard`, `ListSearchField`, `ListFilterField`)
 - [x] **Services** (`/admin/services`): search + **Filter by category** dropdown — categories loaded with `sortOrder=asc` (oldest → newest)
-- [x] **Blogs** (`/admin/blogs`): search + category filter
+- [x] **Blogs** (`/admin/blogs`): search + category + published/hidden filters
 - [x] **Admins** (`/admin/admins`): search + role + active/inactive filters
 - [x] **Contact enquiries** (`/admin/contact-enquiries`): search + status + service filters
 - [x] Category list pages use the same filter toolbar layout (search only)
@@ -490,7 +490,8 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 
 - [x] **Routes:** `/[locale]/blog` (listing), `/[locale]/blog/[slug]` (dynamic details template)
 - [x] **Data:** Server Components call `lib/services/blog.service.ts` public helpers (no client-side full fetch)
-- [x] **Published logic:** `publishedAt <= now` (no separate draft flag in schema)
+- [x] **Published logic:** `isPublished === true` **and** `publishedAt <= now`; unpublished posts 404 on details, are omitted from listing/featured/related/popular topics/sitemap/attachment download
+- [x] **Admin:** `isPublished` checkbox on blog form; list status badge + published/hidden filter
 - [x] **Featured blog:** latest published post via `getFeaturedPublicBlog()`; excluded from page-1 list to avoid duplicate
 - [x] **Listing:** 4 posts/page (`PUBLIC_BLOG_PAGE_SIZE`), URL search params `page`, `search`, `category` (category slug, not id)
 - [x] **Search:** server-side Prisma across title EN/AR, content EN/AR, author, category names; debounced client input updates URL
@@ -509,8 +510,8 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] **Share:** Web Share API with clipboard copy fallback + inline “link copied” feedback
 - [x] **SEO:** listing titles EN/AR via `getBlogPageContent()`; per-blog dynamic metadata from title + excerpt + featured image
 - [x] **Sitemap:** blog slug URLs per locale via `listPublicBlogSlugs()`
-- [x] **Admin:** blog form supports optional `attachmentName` when attachment uploaded
-- [x] **Migration:** `20260901100000_add_blog_attachment_name`
+- [x] **Admin:** blog form supports optional `attachmentName` when attachment uploaded; `isPublished` hides the post from the public site
+- [x] **Migration:** `20260901100000_add_blog_attachment_name`, `20260914120000_add_blog_is_published`
 - [x] Components under `components/website/blog/`
 
 ### Phase 7 — Contact Us Page ✅
@@ -616,3 +617,4 @@ npm run db:studio    # Open Prisma Studio
 | 2026-09-01 | 7 | Core services — `ServiceCategory` icon + bilingual description drive home cards; card `rounded-2xl` |
 | 2026-09-01 | 7 | Seed nested services under Patents, Trademarks, and Legal Advisory |
 | 2026-09-13 | 7 | Refresh Home, About, and Service EN/AR copy (`home-page-content.ts`, `about-page-content.ts`, `service-page-content.ts`) |
+| 2026-09-14 | 7 | Blog `isPublished` flag — hide posts from public listing, details, sitemap, and attachments |

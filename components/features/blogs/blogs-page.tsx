@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -33,6 +34,7 @@ export function BlogsPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [publishedFilter, setPublishedFilter] = useState<"" | "true" | "false">("");
   const [page, setPage] = useState<number>(PAGINATION.DEFAULT_PAGE);
 
   useEffect(() => {
@@ -50,6 +52,7 @@ export function BlogsPage() {
       });
       if (search) params.set("search", search);
       if (categoryFilter) params.set("categoryId", categoryFilter);
+      if (publishedFilter) params.set("isPublished", publishedFilter);
       const result = await apiClientPaginated<BlogListItem>(
         `/api/admin/blogs?${params}`,
       );
@@ -59,7 +62,7 @@ export function BlogsPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, search, categoryFilter]);
+  }, [page, search, categoryFilter, publishedFilter]);
 
   useEffect(() => {
     void load();
@@ -121,6 +124,20 @@ export function BlogsPage() {
             ))}
           </Select>
         </ListFilterField>
+        <ListFilterField label="Status" htmlFor="blogPublishedFilter">
+          <Select
+            id="blogPublishedFilter"
+            value={publishedFilter}
+            onChange={(e) => {
+              setPage(1);
+              setPublishedFilter(e.target.value as "" | "true" | "false");
+            }}
+          >
+            <option value="">All statuses</option>
+            <option value="true">Published</option>
+            <option value="false">Hidden</option>
+          </Select>
+        </ListFilterField>
       </ListFiltersCard>
 
       <Card>
@@ -145,7 +162,8 @@ export function BlogsPage() {
                     <TH>Title</TH>
                     <TH>Category</TH>
                     <TH>Author</TH>
-                    <TH>Published</TH>
+                    <TH>Status</TH>
+                    <TH>Date</TH>
                     <TH className="w-24 text-right">Actions</TH>
                   </TR>
                 </THead>
@@ -155,6 +173,11 @@ export function BlogsPage() {
                       <TD className="font-medium">{blog.titleEn}</TD>
                       <TD>{blog.category.nameEn}</TD>
                       <TD>{blog.authorName}</TD>
+                      <TD>
+                        <Badge variant={blog.isPublished ? "success" : "error"}>
+                          {blog.isPublished ? "Published" : "Hidden"}
+                        </Badge>
+                      </TD>
                       <TD>
                         {new Date(blog.publishedAt).toLocaleDateString()}
                       </TD>

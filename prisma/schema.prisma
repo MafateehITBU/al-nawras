@@ -161,6 +161,7 @@ model Blog {
   id                     String       @id @default(cuid())
   authorName             String
   publishedAt            DateTime
+  isPublished            Boolean      @default(true)
   readingTimeMinutes     Int
   titleEn                String
   titleAr                String
@@ -180,6 +181,7 @@ model Blog {
 
   @@index([categoryId])
   @@index([publishedAt])
+  @@index([isPublished])
   @@map("blogs")
 }
 

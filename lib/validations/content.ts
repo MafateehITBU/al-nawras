@@ -102,6 +102,7 @@ export const listBlogCategoriesQuerySchema = paginationQuerySchema;
 export const createBlogSchema = z.object({
   authorName: z.string().trim().min(1).max(200),
   publishedAt: z.coerce.date(),
+  isPublished: z.boolean().default(true),
   titleEn: z.string().trim().min(1),
   titleAr: z.string().trim().min(1),
   contentEn: z.string().trim().min(1),
@@ -119,6 +120,10 @@ export const updateBlogSchema = createBlogSchema.partial();
 
 export const listBlogsQuerySchema = paginationQuerySchema.extend({
   categoryId: z.string().trim().optional(),
+  isPublished: z
+    .enum(["true", "false"])
+    .optional()
+    .transform((value) => (value === undefined ? undefined : value === "true")),
 });
 
 export const publicBlogListQuerySchema = z.object({

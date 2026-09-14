@@ -43,7 +43,7 @@ export type PublicBlogDetail = Prisma.BlogGetPayload<{
 export type RelatedBlogSummary = PublicBlogListItem;
 
 function publishedBlogWhere(now = new Date()): Prisma.BlogWhereInput {
-  return { publishedAt: { lte: now } };
+  return { isPublished: true, publishedAt: { lte: now } };
 }
 
 function buildBlogSearchWhere(search: string): Prisma.BlogWhereInput {
@@ -61,11 +61,12 @@ function buildBlogSearchWhere(search: string): Prisma.BlogWhereInput {
 }
 
 export async function listBlogs(query: ListBlogsQuery) {
-  const { page, limit, search, sortBy, sortOrder, categoryId } = query;
+  const { page, limit, search, sortBy, sortOrder, categoryId, isPublished } = query;
   const skip = (page - 1) * limit;
 
   const where: Prisma.BlogWhereInput = {
     ...(categoryId && { categoryId }),
+    ...(isPublished !== undefined && { isPublished }),
     ...(search && buildBlogSearchWhere(search)),
   };
 
@@ -137,6 +138,7 @@ export async function createBlog(input: CreateBlogInput) {
     data: {
       authorName: input.authorName,
       publishedAt: input.publishedAt,
+      isPublished: input.isPublished,
       readingTimeMinutes,
       titleEn: input.titleEn,
       titleAr: input.titleAr,
@@ -180,6 +182,7 @@ export async function updateBlog(id: string, input: UpdateBlogInput) {
     data: {
       ...(input.authorName !== undefined && { authorName: input.authorName }),
       ...(input.publishedAt !== undefined && { publishedAt: input.publishedAt }),
+      ...(input.isPublished !== undefined && { isPublished: input.isPublished }),
       ...(readingTimeMinutes !== undefined && { readingTimeMinutes }),
       ...(input.titleEn !== undefined && { titleEn: input.titleEn }),
       ...(input.titleAr !== undefined && { titleAr: input.titleAr }),
