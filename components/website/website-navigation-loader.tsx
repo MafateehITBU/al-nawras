@@ -38,7 +38,7 @@ export function WebsiteNavigationLoader({ logoUrl }: { logoUrl?: string | null }
           width={NAVBAR_LOGO_WIDTH}
           height={NAVBAR_LOGO_HEIGHT}
           decoding="async"
-          className="block h-12 w-auto max-w-[min(90vw,22rem)] sm:h-14"
+          className="block h-20 w-auto max-w-[min(92vw,36rem)] sm:h-24 lg:h-28"
         />
         <div className="website-nav-loader-spinner" aria-hidden />
       </div>

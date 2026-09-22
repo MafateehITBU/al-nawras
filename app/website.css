@@ -405,8 +405,8 @@
 
 /* Navigation loading overlay */
 .website-nav-loader-spinner {
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 2px solid var(--website-border);
   border-top-color: var(--website-primary);
   border-radius: 50%;

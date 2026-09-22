@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 const LOADER_TIMEOUT_MS = 15000;
+const LOADER_MIN_VISIBLE_MS = 1000;
 
 export function WebsiteNavigationProvider({
   children,
@@ -19,22 +20,50 @@ export function WebsiteNavigationProvider({
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const shownAtRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    setLoading(false);
-    resetBodyScrollLock();
-
+  function clearTimers() {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+  }
+
+  useEffect(() => {
+    if (!shownAtRef.current) {
+      setLoading(false);
+      resetBodyScrollLock();
+      return;
+    }
+
+    const remaining = Math.max(
+      0,
+      LOADER_MIN_VISIBLE_MS - (Date.now() - shownAtRef.current),
+    );
+
+    hideTimeoutRef.current = setTimeout(() => {
+      setLoading(false);
+      shownAtRef.current = null;
+      resetBodyScrollLock();
+      clearTimers();
+    }, remaining);
+
+    return () => {
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+        hideTimeoutRef.current = null;
+      }
+    };
   }, [pathname]);
 
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+      clearTimers();
     };
   }, []);
 
@@ -67,6 +96,11 @@ export function WebsiteNavigationProvider({
       }
 
       event.preventDefault();
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+        hideTimeoutRef.current = null;
+      }
+      shownAtRef.current = Date.now();
       setLoading(true);
 
       if (timeoutRef.current) {
@@ -75,6 +109,7 @@ export function WebsiteNavigationProvider({
 
       timeoutRef.current = setTimeout(() => {
         setLoading(false);
+        shownAtRef.current = null;
         timeoutRef.current = null;
       }, LOADER_TIMEOUT_MS);
 

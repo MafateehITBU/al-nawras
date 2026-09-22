@@ -441,8 +441,8 @@ Override via `SEED_SUPER_ADMIN_EMAIL` and `SEED_SUPER_ADMIN_PASSWORD` env vars.
 - [x] Respects `prefers-reduced-motion`
 - [x] **Navigation loading overlay** (replaces page fade/slide transitions):
   - `WebsiteNavigationProvider` intercepts internal website link clicks (`lib/website/internal-link.ts`)
-  - Shows **`WebsiteNavigationLoader`** — full-screen centered CMS/navbar logo + CSS spinner (`website-nav-loader-spinner`)
-  - Hides when `pathname` changes; 15s safety timeout; body scroll locked while visible
+  - Shows **`WebsiteNavigationLoader`** — full-screen centered CMS/navbar logo (larger: `h-20` / `sm:h-24` / `lg:h-28`) + CSS spinner (`website-nav-loader-spinner`)
+  - Hides when `pathname` changes, after a **1s minimum** so the logo is visible on fast navigations; 15s safety timeout; body scroll locked while visible
   - Same-path query changes (blog pagination, search, category) skip the overlay so the page can update without the 15s wait
   - No View Transitions API / no page enter-exit animation on route change
 - [x] CSS in `app/website.css`: reveal variants, stagger keyframes, nav loader spinner
