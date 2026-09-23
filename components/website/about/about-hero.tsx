@@ -1,4 +1,5 @@
 import { PageBreadcrumb } from "@/components/website/page-breadcrumb";
+import { PageHeroBackground } from "@/components/website/page-hero-background";
 import { getAboutPageContent } from "@/lib/i18n/about-page-content";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import type { SupportedLocale } from "@/lib/i18n/config";
@@ -10,10 +11,10 @@ export function AboutHero({ locale }: { locale: SupportedLocale }) {
 
   return (
     <section
-      className="relative overflow-hidden bg-website-text bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/images/about-hero-bg.png')" }}
+      className="relative overflow-hidden bg-website-text"
       aria-labelledby="about-hero-title"
     >
+      <PageHeroBackground src="/images/about-hero-bg.png" />
       <div className="absolute inset-0 bg-website-text/55" aria-hidden="true" />
       <div className="website-container relative py-16 sm:py-20 lg:py-24">
         <PageBreadcrumb locale={locale} currentLabel={dictionary.nav.about} />

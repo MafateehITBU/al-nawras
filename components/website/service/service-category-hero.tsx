@@ -44,9 +44,8 @@ export function ServiceCategoryHero({
         alt=""
         fill
         priority
-        quality={100}
         sizes="100vw"
-        className="category-hero-image object-cover object-center"
+        className="object-cover object-center"
       />
 
       {/* Flat dark layer so text stays readable; background still shows through */}

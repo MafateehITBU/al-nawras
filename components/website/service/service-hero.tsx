@@ -1,3 +1,4 @@
+import { PageHeroBackground } from "@/components/website/page-hero-background";
 import { ServiceBreadcrumb } from "@/components/website/service/service-breadcrumb";
 import { pickLocalizedField } from "@/lib/i18n/content";
 import type { SupportedLocale } from "@/lib/i18n/config";
@@ -21,10 +22,10 @@ export function ServiceHero({
 
   return (
     <section
-      className="relative overflow-hidden bg-website-text bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/images/service-hero-bg.png')" }}
+      className="relative overflow-hidden bg-website-text"
       aria-labelledby="service-hero-title"
     >
+      <PageHeroBackground src="/images/service-hero-bg.png" />
       <div
         className="absolute inset-0 bg-gradient-to-r from-website-text/92 via-website-text/75 to-website-text/45 rtl:bg-gradient-to-l"
         aria-hidden="true"
