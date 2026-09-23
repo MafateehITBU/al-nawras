@@ -29,6 +29,11 @@ export function buildWebsiteMetadata({
   return {
     title: pageTitle,
     description,
+    icons: {
+      icon: [{ url: "/images/favicon.png", type: "image/png" }],
+      shortcut: "/images/favicon.png",
+      apple: [{ url: "/images/favicon.png", type: "image/png" }],
+    },
     alternates: {
       canonical: canonicalUrl,
       languages: {

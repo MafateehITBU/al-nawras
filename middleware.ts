@@ -11,6 +11,11 @@ export function middleware(request: NextRequest) {
     pathname.startsWith("/admin") ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
+    pathname === "/icon" ||
+    pathname.startsWith("/icon/") ||
+    pathname === "/apple-icon" ||
+    pathname.startsWith("/apple-icon") ||
+    pathname === "/favicon.ico" ||
     PUBLIC_FILE.test(pathname)
   ) {
     return NextResponse.next();

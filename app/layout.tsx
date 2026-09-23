@@ -14,6 +14,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const favicon = [{ url: "/images/favicon.png", type: "image/png" }];
+
 export const metadata: Metadata = {
   title: {
     default: APP_NAME,
@@ -23,6 +25,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "http://localhost:3000",
   ),
+  icons: {
+    icon: favicon,
+    shortcut: "/images/favicon.png",
+    apple: favicon,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
