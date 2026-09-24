@@ -150,7 +150,7 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
         { label: "Years of experience", value: "30+" },
       ],
       readMoreCta: "Read more",
-      portfolioUrl: "https://awwad-portf.vercel.app/en",
+      portfolioUrl: "https://portfolio.aipmcae.com/en",
       imageAlt: "Awwad Al Zboon, Founder of Alnawras Intellectual Property",
     },
     firmExpertise: {
@@ -280,7 +280,7 @@ const aboutPageContent: Record<SupportedLocale, AboutPageContent> = {
         { label: "سنوات الخبرة", value: "30+" },
       ],
       readMoreCta: "اقرأ المزيد",
-      portfolioUrl: "https://awwad-portf.vercel.app/ar",
+      portfolioUrl: "https://portfolio.aipmcae.com/ar",
       imageAlt: "عواد الزبون، مؤسس النورس للملكية الفكرية",
     },
     firmExpertise: {
