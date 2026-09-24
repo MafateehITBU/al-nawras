@@ -29,6 +29,11 @@ export interface WebsiteDictionary {
     noServiceCategories: string;
     readMore: string;
   };
+  notFound: {
+    title: string;
+    description: string;
+    backHome: string;
+  };
   cookies: {
     message: string;
     accept: string;
@@ -67,6 +72,12 @@ const dictionaries: Record<SupportedLocale, WebsiteDictionary> = {
       noServiceCategories: "No service categories available.",
       readMore: "Read more",
     },
+    notFound: {
+      title: "Page not found",
+      description:
+        "This page does not exist, or the link you followed is incorrect.",
+      backHome: "Return to home",
+    },
     cookies: {
       message:
         "We use cookies to remember your cookie preferences and to show the right office contact details for your region.",
@@ -102,6 +113,11 @@ const dictionaries: Record<SupportedLocale, WebsiteDictionary> = {
       noServicesInCategory: "لا توجد خدمات في هذه الفئة بعد.",
       noServiceCategories: "لا توجد فئات خدمات متاحة.",
       readMore: "اقرأ المزيد",
+    },
+    notFound: {
+      title: "الصفحة غير موجودة",
+      description: "هذه الصفحة غير موجودة، أو أن الرابط الذي اتبعته غير صحيح.",
+      backHome: "العودة إلى الرئيسية",
     },
     cookies: {
       message:
