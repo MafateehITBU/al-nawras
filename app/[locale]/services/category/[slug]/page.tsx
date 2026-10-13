@@ -1,6 +1,7 @@
 import { ServiceCategoryPage } from "@/components/website/service/service-category-page";
 import { isSupportedLocale } from "@/lib/i18n/config";
 import { pickLocalizedField } from "@/lib/i18n/content";
+import { redirectToLocaleHome } from "@/lib/i18n/redirect-home";
 import { buildWebsiteMetadata } from "@/lib/seo/metadata";
 import { getPublicServiceCategoryPageData } from "@/lib/services/service.service";
 import { excerptPlainText } from "@/lib/utils/text";
@@ -48,7 +49,7 @@ export default async function ServiceCategoryRoutePage({
   try {
     category = await getPublicServiceCategoryPageData(slug);
   } catch {
-    notFound();
+    redirectToLocaleHome(localeParam);
   }
 
   return <ServiceCategoryPage locale={localeParam} category={category} />;

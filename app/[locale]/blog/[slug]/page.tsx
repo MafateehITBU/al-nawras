@@ -1,6 +1,7 @@
 import { BlogDetailsPage } from "@/components/website/blog/blog-details-page";
 import { isSupportedLocale } from "@/lib/i18n/config";
 import { pickLocalizedField } from "@/lib/i18n/content";
+import { redirectToLocaleHome } from "@/lib/i18n/redirect-home";
 import { buildWebsiteMetadata } from "@/lib/seo/metadata";
 import { getPublicBlogPageData } from "@/lib/services/blog.service";
 import { excerptPlainText } from "@/lib/utils/text";
@@ -46,7 +47,7 @@ export default async function BlogDetailRoute({
   try {
     data = await getPublicBlogPageData(slug);
   } catch {
-    notFound();
+    redirectToLocaleHome(localeParam);
   }
 
   return <BlogDetailsPage locale={localeParam} data={data} />;

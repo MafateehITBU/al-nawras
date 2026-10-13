@@ -4,6 +4,14 @@ const DEFAULT_LOCALE = "en";
 const SUPPORTED_LOCALES = new Set(["en", "ar"]);
 const PUBLIC_FILE = /\.(?!html)[^.]+$/;
 
+function nextWithPathname(request: NextRequest) {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", request.nextUrl.pathname);
+  return NextResponse.next({
+    request: { headers: requestHeaders },
+  });
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -18,13 +26,13 @@ export function middleware(request: NextRequest) {
     pathname === "/favicon.ico" ||
     PUBLIC_FILE.test(pathname)
   ) {
-    return NextResponse.next();
+    return nextWithPathname(request);
   }
 
   const firstSegment = pathname.split("/").filter(Boolean)[0];
 
   if (firstSegment && SUPPORTED_LOCALES.has(firstSegment)) {
-    return NextResponse.next();
+    return nextWithPathname(request);
   }
 
   const url = request.nextUrl.clone();

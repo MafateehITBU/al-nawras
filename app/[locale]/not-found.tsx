@@ -1,5 +1,5 @@
-import { WebsiteNotFoundPage } from "@/components/website/not-found-page";
+import { redirectToLocaleHomeFromPath } from "@/lib/i18n/redirect-home";
 
-export default function LocaleNotFound() {
-  return <WebsiteNotFoundPage />;
+export default async function LocaleNotFound() {
+  await redirectToLocaleHomeFromPath();
 }

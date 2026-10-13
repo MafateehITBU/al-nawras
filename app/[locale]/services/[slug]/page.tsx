@@ -1,6 +1,7 @@
 import { ServiceDetailsPage } from "@/components/website/service/service-details-page";
 import { isSupportedLocale } from "@/lib/i18n/config";
 import { pickLocalizedField } from "@/lib/i18n/content";
+import { redirectToLocaleHome } from "@/lib/i18n/redirect-home";
 import { buildWebsiteMetadata } from "@/lib/seo/metadata";
 import { getPublicServicePageData } from "@/lib/services/service.service";
 import { excerptPlainText } from "@/lib/utils/text";
@@ -46,7 +47,7 @@ export default async function ServiceDetailPage({
   try {
     data = await getPublicServicePageData(slug);
   } catch {
-    notFound();
+    redirectToLocaleHome(localeParam);
   }
 
   return <ServiceDetailsPage locale={localeParam} data={data} />;
