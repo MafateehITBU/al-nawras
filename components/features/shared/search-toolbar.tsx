@@ -45,12 +45,22 @@ export function SearchToolbar({
   }
 
   return (
-    <div className="relative w-full">
+    <form
+      className="relative w-full"
+      autoComplete="off"
+      onSubmit={(event) => event.preventDefault()}
+    >
       <Search
         className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-dashboard-text-muted"
         aria-hidden
       />
       <Input
+        type="search"
+        name="dashboard-list-search"
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
         value={draft}
         onChange={(event) => setDraft(event.target.value)}
         placeholder={placeholder}
@@ -67,6 +77,6 @@ export function SearchToolbar({
           <X className="size-4" />
         </button>
       ) : null}
-    </div>
+    </form>
   );
 }
