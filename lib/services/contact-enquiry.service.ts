@@ -1,4 +1,5 @@
 import { NotFoundError } from "@/lib/api/errors";
+import { notifyAdminsOfContactEnquiry } from "@/lib/email/contact-enquiry-notification";
 import prisma from "@/lib/db/prisma";
 import type {
   CreateContactEnquiryInput,
@@ -69,7 +70,7 @@ async function ensureServiceExists(serviceId: string) {
 export async function createContactEnquiry(input: CreateContactEnquiryInput) {
   await ensureServiceExists(input.serviceId);
 
-  return prisma.contactEnquiry.create({
+  const enquiry = await prisma.contactEnquiry.create({
     data: {
       name: input.name,
       email: input.email,
@@ -81,6 +82,12 @@ export async function createContactEnquiry(input: CreateContactEnquiryInput) {
     },
     include: enquiryInclude,
   });
+
+  void notifyAdminsOfContactEnquiry(enquiry).catch((error) => {
+    console.error("[email] Contact enquiry notification failed", error);
+  });
+
+  return enquiry;
 }
 
 export async function updateContactEnquiry(

@@ -1,5 +1,14 @@
 import { z } from "zod";
 
+const booleanFromEnv = z
+  .union([z.boolean(), z.enum(["true", "false", "1", "0"])])
+  .optional()
+  .transform((value) => {
+    if (value === undefined) return false;
+    if (typeof value === "boolean") return value;
+    return value === "true" || value === "1";
+  });
+
 const envSchema = z.object({
   DATABASE_URL: z.string().min(1),
   DIRECT_URL: z.string().min(1),
@@ -8,6 +17,12 @@ const envSchema = z.object({
   CLOUDINARY_API_SECRET: z.string().optional(),
   AUTH_SECRET: z.string().min(1),
   NEXT_PUBLIC_APP_URL: z.string().url(),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.coerce.number().int().positive().optional(),
+  SMTP_SECURE: booleanFromEnv,
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  SMTP_FROM: z.string().optional(),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
